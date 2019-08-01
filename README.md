@@ -22,9 +22,9 @@
 </div>
 
 # Sleek
-This is a fully functional version of the MIT License Sleek Dashboard. Developed with Visual Studio 2017 and ASP.NET Core 2, it implements every feature provided by the template.
+This is a fully functional version of the MIT Licensed Sleek Dashboard. Developed with Visual Studio 2017 and ASP.NET Core 2, it implements every feature provided by the template.
 
-##Latest Release
+# Latest Release
 Users can sign in and controls are kept in context with their credentials. (Admin, Manager or Ordinary User)
 
 ## Important
@@ -87,7 +87,7 @@ All you need do is clone or unzip the project to a local folder and then open it
 
 At present, we officially try to support the following browsers:
 
-<img src="/one/one/admin/assets/img/github/chrome.png" width="64" height="64"> <img src="/one/one/admin/assets/img/github/firefox.png" width="64" height="64"> <img src="/one/one/admin/assets/img/github/edge.png" width="64" height="64"> <img src="/one/one/admin/assets/img/github/safari.png" width="64" height="64"> <img src="/one/one/admin/assets/img/github/opera.png" width="64" height="64">
+<img src="/sleek/sleek/wwwroot/assets/img/github/chrome.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/firefox.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/edge.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/safari.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/opera.png" width="64" height="64">
 
 ## Reporting Issues
 
