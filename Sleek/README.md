@@ -1,6 +1,6 @@
 ﻿<div align="center">
 
-# <a href="https://pcdmz.com/" target="_blank" rel="noopener noreferrer">Sleek (ASP.NET Core)</a>
+# <a href="https://pcdmz.com/" target="_blank" rel="noopener noreferrer">Sleek MVC (ASP.NET Core)</a>
 
 </div>
 
