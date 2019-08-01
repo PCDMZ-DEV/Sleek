@@ -24,7 +24,7 @@
 # Sleek
 This is a fully functional version of the MIT Licensed Sleek Dashboard. Developed with Visual Studio 2017 and ASP.NET Core 2, it implements every feature provided by the template.
 
-##Latest Release
+#Latest Release
 Users can sign in and controls are kept in context with their credentials. (Admin, Manager or Ordinary User)
 
 ## Important
