@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Maps (Google)";
+    Layout = Site.Layout;
+}
+
+@section CSS {
+
+}
+
+@section Scripts {
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCn8TFXGg17HAUcNpkwtxxyT9Io9B_NcM" defer></script>
+}
+
+<div class="content">
+    <div class="row" id="google-map">
+        <div class="col-lg-6">
+            <div class="card card-default">
+                <div class="card-header card-header-border-bottom">
+                    <h2>Basic Demo</h2>
+                </div>
+                <div class="card-body">
+                    <div id="basicMap" class="map-container"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-default">
+                <div class="card-header card-header-border-bottom">
+                    <h2>Map Marker</h2>
+                </div>
+                <div class="card-body">
+                    <div id="mapMarker" class="map-container"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-default">
+                <div class="card-header card-header-border-bottom">
+                    <h2>Polygonal Map</h2>
+                </div>
+                <div class="card-body">
+                    <div id="polygonalMap" class="map-container"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-default">
+                <div class="card-header card-header-border-bottom">
+                    <h2>Routes Map</h2>
+                </div>
+                <div class="card-body">
+                    <div id="polylineMap" class="map-container"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card card-default">
+                <div class="card-header card-header-border-bottom">
+                    <h2>Multiple Marker Map</h2>
+                </div>
+                <div class="card-body">
+                    <div id="multiMarkerMap" class="map-container"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card card-default">
+                <div class="card-header card-header-border-bottom">
+                    <h2>Styled Map</h2>
+                </div>
+                <div class="card-body">
+                    <div id="styleMap" class="map-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

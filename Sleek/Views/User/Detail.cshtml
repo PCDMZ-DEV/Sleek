@@ -1,0 +1,57 @@
+﻿@model Sleek.Models.User
+
+@{ 
+    ViewBag.Title = "User (Edit)";
+}
+
+@section CSS {
+
+}
+
+@section Scripts {
+    <script src="~/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/assets/plugins/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="card card-default">
+                <div class="card card-header border-bottom">
+                    <h2>User Detail</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="#">
+                        <h class="mb-4 mt-0 text-center">User Detail</h>
+                        <div class="form-group">
+                            <input asp-for="UsrFirst" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrFirst)">
+                            <span asp-validation-for="UsrFirst" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="UsrLast" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrLast)">
+                            <span asp-validation-for="UsrLast" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="UsrName" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrName)">
+                            <span asp-validation-for="UsrName" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="UsrEmail" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrEmail)">
+                            <span asp-validation-for="UsrEmail" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <textarea asp-for="UsrNote" class="form-control pb_height-110" placeholder="@Html.DisplayNameFor(model => model.UsrNote)"></textarea>
+                            <span asp-validation-for="UsrNote" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <button asp-controller="User" asp-action="Save" asp-route-id="@Model.UsrId" class="btn btn-success btn-lg">Save</button>
+                            <button asp-controller="User" asp-action="Close" class="btn btn-danger btn-lg">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

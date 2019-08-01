@@ -1,0 +1,150 @@
+﻿@model IEnumerable<Sleek.Models.User>
+@{
+    ViewBag.Title = "Profile";
+}
+
+@section CSS {
+
+}
+
+@section Scripts {
+    <script src="~/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/assets/plugins/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<div class="content">
+    <div class="bg-white border rounded">
+        <div class="row no-gutters">
+            <div class="col-lg-4 col-xl-3">
+                <div class="profile-content-left pt-5 pb-3 px-3 px-xl-5">
+                    <div class="card text-center widget-profile px-0 border-0">
+                        <div class="card-img mx-auto rounded-circle">
+                            <img src="~/assets/img/user/user.png" alt="user image">
+                            <i class="mdi mdi-pencil mdi-24px mdi-dark"></i>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="py-2 text-dark">@(User.FindFirst("full").Value)</h4>
+                            <p>@(User.FindFirst("email").Value)</p>
+                            <a class="btn btn-primary btn-pill btn-lg my-4" href="#">Follow</a>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between ">
+                        <div class="text-center pb-4">
+                            <h6 class="text-dark pb-2">1503</h6>
+                            <p>Friends</p>
+                        </div>
+                        <div class="text-center pb-4">
+                            <h6 class="text-dark pb-2">2905</h6>
+                            <p>Followers</p>
+                        </div>
+                        <div class="text-center pb-4">
+                            <h6 class="text-dark pb-2">1200</h6>
+                            <p>Following</p>
+                        </div>
+                    </div>
+                    <hr class="w-100">
+                    <div class="contact-info pt-4">
+                        <h5 class="text-dark mb-1">Contact Information<i class="mdi mdi-pencil mdi-18px ml-3"></i></h5>
+
+                        <p class="text-dark font-weight-medium pt-4 mb-2">Full Name</p>
+                        <p>@(User.FindFirst("Full").Value)</p>
+                        <p class="text-dark font-weight-medium pt-4 mb-2">E-Mail Address</p>
+                        <p>@(User.FindFirst("Email").Value)</p>
+                        <p class="text-dark font-weight-medium pt-4 mb-2">Role</p>
+                        <p>@(User.FindFirst("Role").Value)</p>
+                        <p class="text-dark font-weight-medium pt-4 mb-2">Social Profile</p>
+                        <p class="pb-3 social-button">
+                            <a href="@(User.FindFirst("Facebook").Value)" class="mb-1 btn btn-outline btn-facebook rounded-circle">
+                                <i class="mdi mdi-facebook"></i>
+                            </a>
+                            <a href="@(User.FindFirst("Linkedin").Value)" class="mb-1 btn btn-outline btn-linkedin rounded-circle">
+                                <i class="mdi mdi-linkedin"></i>
+                            </a>
+                            <a href="@(User.FindFirst("Skype").Value)" class="mb-1 btn btn-outline btn-skype rounded-circle">
+                                <i class="mdi mdi-skype"></i>
+                            </a>
+                            <a href="@(User.FindFirst("Twitter").Value)" class="mb-1 btn btn-outline btn-twitter rounded-circle">
+                                <i class="mdi mdi-twitter"></i>
+                            </a>
+                            <a href="@(User.FindFirst("Xing").Value)" class="mb-1 btn btn-outline btn-skype rounded-circle">
+                                <i class="mdi mdi-xing"></i>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-xl-9">
+                <div class="profile-content-right py-5">
+                    <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
+
+                        @if (User.FindFirst("Role").Value == "Admin") {
+
+                            <!-- Users -->
+                            <li class="nav-item">
+                                <a class="nav-link active" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="true">Users</a>
+                            </li>
+
+                            <!-- Profile -->
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                            </li>
+
+                            <!-- Settings -->
+                            <li class="nav-item">
+                                <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+                            </li>
+
+                        } else {
+
+                            <!-- Profile -->
+                            <li class="nav-item">
+                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                            </li>
+
+                            <!-- Settings -->
+                            <li class="nav-item">
+                                <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+                            </li>
+
+                        }
+
+                    </ul>
+                    <div class="tab-content px-3 px-xl-5" id="myTabContent">
+
+                        @if (User.FindFirst("Role").Value == "Admin") {
+
+                            <!-- Users -->
+                            <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+                                <partial name="_Users" />
+                            </div>
+
+                            <!-- Profile -->
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <partial name="_Profile" />
+                            </div>
+
+                            <!-- Settings -->
+                            <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                                <partial name="_Settings" />
+                            </div>
+
+                        } else {
+
+                            <!-- Profile -->
+                            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <partial name="_Profile" />
+                            </div>
+
+                            <!-- Settings -->
+                            <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                                <partial name="_Settings" />
+                            </div>
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
