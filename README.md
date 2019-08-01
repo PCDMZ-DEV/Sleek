@@ -87,7 +87,7 @@ All you need do is clone or unzip the project to a local folder and then open it
 
 At present, we officially try to support the following browsers:
 
-<img src="/sleek/sleek/assets/img/github/chrome.png" width="64" height="64"> <img src="/sleek/sleek/assets/img/github/firefox.png" width="64" height="64"> <img src="/sleek/sleek/assets/img/github/edge.png" width="64" height="64"> <img src="/sleek/sleek/assets/img/github/safari.png" width="64" height="64"> <img src="/sleek/sleek/assets/img/github/opera.png" width="64" height="64">
+<img src="/sleek/sleek/wwwroot/assets/img/github/chrome.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/firefox.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/edge.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/safari.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/opera.png" width="64" height="64">
 
 ## Reporting Issues
 
