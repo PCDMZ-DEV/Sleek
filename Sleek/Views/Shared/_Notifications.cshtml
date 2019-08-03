@@ -1,5 +1,5 @@
 ﻿<li class="dropdown-header">@(String.Format("You have {0} notifications", ViewBag.NotificationCount))</li>
-
+@{int Count = 0;}
 @foreach (var item in ViewBag.Notifications) {
     <li>
         <a href="#">
@@ -18,6 +18,10 @@
             <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline mr-1"></i> @(item.ActDate.ToString("hh:mm tt"))</span>
         </a>
     </li>
+    Count = Count + 1;
+    if (Count >= 10) {
+        break;
+    }
 }
 
 <li class="dropdown-footer">

@@ -56,7 +56,10 @@ namespace Sleek.Controllers {
         public async Task<IActionResult> Activity(string sortOrder, string currentFilter, string searchString, int? pageNumber) {
 
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["TypeSortParm"] = String.IsNullOrEmpty(sortOrder) ? "type_desc" : "";
+            ViewData["ID"] = sortOrder == "ID" ? "ID_D" : "ID";
+            ViewData["Date"] = sortOrder == "Date" ? "Date_D" : "Date";
+            ViewData["Description"] = sortOrder == "Description" ? "Description_D" : "Description";
+            ViewData["Type"] = sortOrder == "Type" ? "Type_D" : "Type";
 
             if (searchString != null) {
                 pageNumber = 1;
@@ -71,15 +74,33 @@ namespace Sleek.Controllers {
                 activity = activity.Where(a => a.ActDescription.Contains(searchString) || a.ActType.Contains(searchString));
             }
             switch (sortOrder) {
-                case "type_desc":
+                case "Type":
+                    activity = activity.OrderBy(a => a.ActType);
+                    break;
+                case "Type_D":
                     activity = activity.OrderByDescending(a => a.ActType);
                     break;
+                case "Date":
+                    activity = activity.OrderBy(a => a.ActDate);
+                    break;
+                case "Date_D":
+                    activity = activity.OrderByDescending(a => a.ActDate);
+                    break;
+                case "Description":
+                    activity = activity.OrderBy(a => a.ActDescription);
+                    break;
+                case "Description_D":
+                    activity = activity.OrderByDescending(a => a.ActDescription);
+                    break;
+                case "ID":
+                    activity = activity.OrderBy(a => a.ActId);
+                    break;
                 default:
-                    activity = activity.OrderBy(a => a.ActType);
+                    activity = activity.OrderByDescending(a => a.ActId);
                     break;
             }
 
-            int pageSize = 12;
+            int pageSize = 10;
             return View(await PaginatedList<Activity>.CreateAsync(activity.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
