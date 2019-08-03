@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Customization";
+    Layout = Site.Layout;
+}
+
+@section CSS {
+
+}
+
+@section Scripts {
+
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-default text-dark">
+                <div class="card-header">
+                    <h1>Model View Controller</h1>
+                </div>
+                <div class="card-body pt-4">
+                    <h2 class="mt-2 mb-2">File Structure</h2>
+                    <p>Within the project you'll find the following directories and files:</p>
+
+                    <pre class="border-0 mt-3">
+|Connected Services
+|Dependencies
+|Properties
+|wwwroot/
+|--- assets/
+| |--- css/ (CSS files)
+| |--- img/ (All images)
+| |--- js/ (All images)
+| |--- options/ (for theme option files)
+| |--- plugins/ (for all necessary plugins)
+| |--- scss/ (SCSS files)
+|Classes/
+|Controllers/
+|Models/
+|Views/
+|appsettings.json
+|Program.cs
+|README.md
+|Startup.cs
+</pre>
+                    <h2 class="mt-5 mb-2">Adding Database Content</h2>
+                    <p>There are a few rules of thumb ...</p>
+
+                    <h3 class="mt-4 mb-2">i. Models</h3>
+                    <p>
+                        If the field isn't on the form, then it cannot be in the Model or you may overwrite data with blank content. You can handle this
+                        by providing hidden fields for those not displayed on the form but in most cases it makes better sense to have a view model
+                        custom tailored to the form.
+                    </p>
+
+                    <h3 class="mt-4 mb-2">ii. Views</h3>
+                    <p>
+                        Don't use client-side code if it will break the site if turned off. More an more customers require that their site will work even
+                        if client-side scripting is disabled. We used unobtrusive validation and a small amount of AJAX to provide notification menus.
+                        If client-side scripting is disabled, validation will still occur server-side and notifications can be read via the main menu.
+                    </p>
+
+                    <h3 class="mt-4 mb-2">iii. Controllers</h3>
+                    <p>
+                        Always use Entity Framework. By abstracting your queries with LINQ you avoid SQL syntax that will no doubt be database vendor specific.
+                        As written, you can switch between Microsoft, Oracle, MySQL and Postgress by simply providing an approporate connection string.
+                    </p>
+
+                    <div class="mt-5">
+                        <a class="btn btn-square btn-primary float-left" href="/quick-start.html">
+                            <i class="mdi mdi-chevron-left"></i> Quick Start
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

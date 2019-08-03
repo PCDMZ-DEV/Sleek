@@ -42,6 +42,11 @@ namespace Sleek.Controllers {
             return View();
         }
 
+        // Model View Controller
+        public IActionResult Model_View_Controller() {
+            return View();
+        }
+
         #endregion
 
         #region "Header Variations"
