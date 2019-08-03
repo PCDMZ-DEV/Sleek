@@ -1,0 +1,25 @@
+﻿<li class="dropdown-header">@(String.Format("You have {0} notifications", ViewBag.NotificationCount))</li>
+
+@foreach (var item in ViewBag.Notifications) {
+    <li>
+        <a href="#">
+            @switch (@item.ActType) {
+                case "Info":
+                    <i class="mdi mdi-information-outline mr-1"></i>
+                    break;
+                case "Warn":
+                    <i class="mdi mdi-exclamation mr-1"></i>
+                    break;
+                case "Error":
+                    <i class="mdi mdi-triangle-outline mr-1"></i>
+                    break;
+            }
+            @item.ActDescription
+            <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline mr-1"></i> @(item.ActDate.ToString("hh:mm tt"))</span>
+        </a>
+    </li>
+}
+
+<li class="dropdown-footer">
+    <a class="text-center" href="#"> View All </a>
+</li>
