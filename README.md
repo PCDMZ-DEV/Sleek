@@ -17,7 +17,7 @@
 
 <div align="center">
 
-![Product Gif](/wwwroot/assets/img/github/sleek.gif)
+![Product Gif](/Sleek/wwwroot/assets/img/github/sleek.gif)
 
 </div>
 
