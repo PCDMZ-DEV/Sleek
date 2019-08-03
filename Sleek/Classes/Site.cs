@@ -1,6 +1,8 @@
 ﻿using Sleek.Models;
+using System;
 
 namespace Sleek.Classes {
+
     public class Site {
 
         #region "Website Settings"
@@ -27,6 +29,28 @@ namespace Sleek.Classes {
         public static string Mode = "Login";
         public static string Message = "";
         public static string ConnectionString = "Server=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|Sleek.mdf;Database=Sleek;";
+
+        #endregion
+
+        #region "Methods and Events"
+
+        public static bool Log(MainContext Context, int CustomerID, int UserID, string Description, string Type) {
+            bool ReturnValue = true;
+            try {
+                Activity activity = new Activity();
+                activity.ActDate = DateTime.Now;
+                activity.ActCusid = CustomerID;
+                activity.ActUsrid = UserID;
+                activity.ActDescription = Description;
+                activity.ActType = Type;
+                Context.Update(activity);
+                Context.SaveChanges();
+            } catch (Exception ex) {
+                Site.Message = ex.Message;
+                ReturnValue = false;
+            }
+            return ReturnValue;
+        }
 
         #endregion
 

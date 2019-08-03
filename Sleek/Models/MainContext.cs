@@ -11,6 +11,7 @@ namespace Sleek.Models {
             Configuration = configuration;
         }
 
+        public virtual DbSet<Activity> Activity { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<User> User { get; set; }
 
@@ -22,6 +23,33 @@ namespace Sleek.Models {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
+
+            modelBuilder.Entity<Activity>(entity => {
+                entity.HasKey(e => e.ActId);
+
+                entity.Property(e => e.ActId).HasColumnName("act_id");
+
+                entity.Property(e => e.ActDate)
+                    .HasColumnName("act_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ActCusid).HasColumnName("act_cusid");
+
+                entity.Property(e => e.ActUsrid).HasColumnName("act_usrid");
+
+                entity.Property(e => e.ActDescription)
+                    .IsRequired()
+                    .HasColumnName("act_description")
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ActType)
+                    .IsRequired()
+                    .HasColumnName("act_type")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+            });
 
             modelBuilder.Entity<Status>(entity => {
                 entity.HasKey(e => e.StaId);
@@ -43,66 +71,6 @@ namespace Sleek.Models {
                 entity.Property(e => e.StaTimestamp)
                     .HasColumnName("sta_timestamp")
                     .IsRowVersion();
-            });
-
-            modelBuilder.Entity<User>(entity => {
-                entity.HasKey(e => e.UsrId);
-
-                entity.Property(e => e.UsrId).HasColumnName("usr_id");
-
-                entity.Property(e => e.UsrEmail)
-                    .HasColumnName("usr_email")
-                    .HasMaxLength(160)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UsrFirst)
-                    .HasColumnName("usr_first")
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UsrLast)
-                    .HasColumnName("usr_last")
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UsrName)
-                    .HasColumnName("usr_name")
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UsrNote)
-                    .HasColumnName("usr_note")
-                    .HasMaxLength(300)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UsrPassword)
-                    .HasColumnName("usr_password")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UsrRole)
-                    .HasColumnName("usr_role")
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UsrStaid).HasColumnName("usr_staid");
-
-                entity.Property(e => e.UsrTimestamp)
-                    .HasColumnName("usr_timestamp")
-                    .IsRowVersion();
-
-                entity.Property(e => e.UsrTitle)
-                    .HasColumnName("usr_title")
-                    .HasMaxLength(30);
-
-                entity.Property(e => e.UsrToken)
-                    .HasColumnName("usr_token")
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UsrTokendate)
-                    .HasColumnName("usr_tokendate")
-                    .HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Request>(entity => {
@@ -173,6 +141,65 @@ namespace Sleek.Models {
                     .HasColumnName("req_zip")
                     .HasMaxLength(5)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<User>(entity => {
+                entity.HasKey(e => e.UsrId);
+
+                entity.Property(e => e.UsrId).HasColumnName("usr_id");
+
+                entity.Property(e => e.UsrCusid).HasColumnName("usr_cusid");
+
+                entity.Property(e => e.UsrEmail)
+                    .HasColumnName("usr_email")
+                    .HasMaxLength(160)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsrFirst)
+                    .HasColumnName("usr_first")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsrLast)
+                    .HasColumnName("usr_last")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsrName)
+                    .HasColumnName("usr_name")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsrNote)
+                    .HasColumnName("usr_note")
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsrPassword)
+                    .HasColumnName("usr_password")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsrRole)
+                    .HasColumnName("usr_role")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsrStaid).HasColumnName("usr_staid");
+
+                entity.Property(e => e.UsrTitle)
+                    .HasColumnName("usr_title")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.UsrToken)
+                    .HasColumnName("usr_token")
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsrTokendate)
+                    .HasColumnName("usr_tokendate")
+                    .HasColumnType("datetime");
+
             });
 
         }

@@ -22,6 +22,10 @@ namespace Sleek.Controllers {
             return View();
         }
 
+        public IActionResult Analytics() {
+            return View();
+        }
+
         public IActionResult Privacy() {
             return View();
         }

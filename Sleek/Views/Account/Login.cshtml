@@ -61,24 +61,24 @@
                         @if (Site.Message == "") {
                             <p class="text-success mb-3">Please enter your E-Mail Address and Password</p>
                         } else {
-                            <p class="text-success mb-3">@Site.Message</p>
+                            <p class="text-danger mb-3">@Site.Message</p>
                         }
-                        <form asp-action="#">
+                        <form asp-action="#" autocomplete="on">
                             <div class="row">
                                 <div class="form-group col-md-12 mb-4">
-                                    <input asp-for="LgnEmail" type="email" class="form-control input-lg" id="email" aria-describedby="emailHelp" placeholder="@Html.DisplayNameFor(model => model.LgnEmail)">
-                                    <span asp-validation-for="LgnEmail" class="text-danger small"></span>
+                                    <input asp-for="Username" type="email" class="form-control input-lg" id="email" placeholder="@Html.DisplayNameFor(model => model.Username)" autocomplete="on">
+                                    <span asp-validation-for="Username" class="text-danger small"></span>
                                 </div>
                                 <div class="form-group col-md-12 ">
-                                    <input asp-for="LgnPassword" type="password" class="form-control input-lg" id="password" placeholder="@Html.DisplayNameFor(model => model.LgnPassword)">
-                                    <span asp-validation-for="LgnPassword" class="text-danger small"></span>
+                                    <input asp-for="Password" type="password" class="form-control input-lg" id="password" placeholder="@Html.DisplayNameFor(model => model.Password)" autocomplete="on">
+                                    <span asp-validation-for="Password" class="text-danger small"></span>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="d-flex my-2 justify-content-between">
                                         <div class="d-inline-block mr-3">
                                             <label class="control control-checkbox">
                                                 Remember me
-                                                <input type="checkbox" />
+                                                <input asp-for="Rememberme" type="checkbox" />
                                                 <div class="control-indicator"></div>
                                             </label>
                                         </div>

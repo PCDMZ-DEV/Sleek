@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Sleek.Classes;
 using Sleek.Models;
@@ -133,10 +132,12 @@ namespace Sleek.Controllers {
         public async Task<IActionResult> Login([FromForm]Login model) {
             Site.Message = "";
             if (ModelState.IsValid) {
-                User user = Context.User.SingleOrDefault(u => u.UsrEmail == model.LgnEmail);
+                User user = Context.User.SingleOrDefault(u => u.UsrEmail == model.Username);
                 if (user != null) {
-                    if (user.UsrPassword == model.LgnPassword) {
+                    if (user.UsrPassword == model.Password) {
+
                         var claims = new List<Claim> {
+                                new Claim("cusid", user.UsrCusid.ToString()),
                                 new Claim("usrid", user.UsrId.ToString()),
                                 new Claim("full", string.Format("{0} {1}", user.UsrFirst, user.UsrLast)),
                                 new Claim("first", user.UsrFirst),
@@ -148,14 +149,20 @@ namespace Sleek.Controllers {
                                 new Claim("skype", ""),
                                 new Claim("xing", ""),
                                 new Claim("role", user.UsrRole),
-                                new Claim(ClaimTypes.Email, model.LgnEmail)
+                                new Claim(ClaimTypes.Email, model.Username)
                             };
 
                         var userIdentity = new ClaimsIdentity(claims, "login");
                         ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                        Site.Mode = "Purchase";
+                        await HttpContext.SignInAsync(
+                            CookieAuthenticationDefaults.AuthenticationScheme,
+                            principal,
+                            new AuthenticationProperties {
+                                IsPersistent = true
+                            });
+                        Site.Log(Context, user.UsrCusid, user.UsrId, "Signed In", "Info");
                         return RedirectToAction("Index", "Home");
+
                     } else {
                         Site.Message = "Password does not match our records";
                     }
@@ -163,8 +170,15 @@ namespace Sleek.Controllers {
                     Site.Message = "E-Mail Address not found.";
                 }
             }
-            Site.Mode = "Login";
             return View("Login", model);
+        }
+
+        // Logout (Get)
+        public async Task<IActionResult> Logout() {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            var activity = new Activity();
+            Site.Log(Context, Convert.ToInt32(User.FindFirst("cusid").Value), Convert.ToInt32(User.FindFirst("usrid").Value), "Signed Out", "Info");
+            return RedirectToAction("Login", "Account");
         }
 
         #endregion

@@ -71,25 +71,24 @@ namespace Sleek.Controllers {
 
         // New (Get)
         public IActionResult New() {
-            ViewBag.Message = "Success";
             return View("Detail", new User());
         }
 
         // Edit (Get)
         public async Task<IActionResult> Edit(int? id) {
+            Site.Message = "";
             var result = new User();
-            String message = "Success";
             try {
                 if (id == null) {
                     return NotFound();
                 }
                 result = await _context.User.FindAsync(id);
                 if (result == null) {
-                    throw new Exception("Record not found. It may have been deleted by another Administrator.");
+                    throw new Exception("Record not found. It may have been deleted by another user.");
                 }
             } catch (Exception ex) {
-                message = ex.Message;
-                _logger.LogError(ex, message);
+                Site.Message = ex.Message;
+                _logger.LogError(ex, Site.Message);
             }
             return View("Detail", result);
         }
@@ -99,18 +98,22 @@ namespace Sleek.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(int id, User user) {
             Site.Message = "";
+            string Activity = "";
             try {
                 if (ModelState.IsValid) {
                     if (id == 0) {
                         _context.Add(user);
+                        Activity = "Added User";
                     } else {
                         if (id != user.UsrId) {
                             throw new Exception("Record ID exception. Manual navigation prohibited.");
                         }
+                        Activity = "Updated User";
                         _context.Update(user);
                     }
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Profile));
+                    Site.Log(_context, user.UsrCusid, user.UsrId, String.Format("{0}: {1}", Activity, user.UsrId), "Warn");
+                    return RedirectToAction("Profile");
                 }
             } catch (Exception ex) {
                 Site.Message = ex.Message;
@@ -119,11 +122,11 @@ namespace Sleek.Controllers {
             return View("Detail", user);
         }
 
-        // Delete (If needed use an Ajax POST and pass the Anti-Forgery Token in the BeforeSend event.)
+        // Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id) {
-            String message = "Success";
+            Site.Message = "";
             try {
                 var user = await _context.User.FindAsync(id);
                 if (user == null) {
@@ -132,12 +135,10 @@ namespace Sleek.Controllers {
                 _context.User.Remove(user);
                 await _context.SaveChangesAsync();
             } catch (Exception ex) {
-                message = ex.Message;
-                _logger.LogError(ex, message);
-            } finally {
-                ViewBag.Message = message;
+                Site.Message = ex.Message;
+                _logger.LogError(ex, Site.Message);
             }
-            return RedirectToAction(nameof(Profile));
+            return RedirectToAction("Profile");
         }
 
         // Close
