@@ -17,19 +17,19 @@
 
 <div align="center">
 
-![Product Gif](/admin/assets/images/sleek.gif)
+![Product Gif](/Sleek/wwwroot/assets/img/github/sleek.gif)
 
 </div>
 
 # Sleek
-This is a fully functional version of the MIT Licensed Sleek Dashboard. Developed with Visual Studio 2017 and ASP.NET Core 2, it implements every feature provided by the template.
+This will be a fully functional version of the MIT Licensed Sleek Dashboard. Developed with Visual Studio 2017 and ASP.NET Core 2, it will eventually implement every feature provided by the template.
 
 # Latest Release
-Users can sign in and controls are kept in context with their credentials. (Admin, Manager or Ordinary User)
+Users can sign in and controls are kept in context with their credentials. (Admin, Manager or Ordinary User). Basic user management (via the Administrator Profile) is partially enabled as is the notifications menu. The plan is to finish up Registration, Password Recovery and User Management before moving on to the more interesting features. On registration, both a Customer Record and an Administrative user record are established. After that, each Customer is responsible for managing their own Users.
 
 ## Important
 
-This solution is a new work in progress and will be getting updates for several more days. Feel free to look it over, but many parts of it are still incomplete.
+This solution is a new work in progress and will be getting updates for several more weeks. Feel free to look it over, but many parts of it are still incomplete.
 
 ## Known Issues
 
@@ -87,7 +87,7 @@ All you need do is clone or unzip the project to a local folder and then open it
 
 At present, we officially try to support the following browsers:
 
-<img src="/sleek/sleek/wwwroot/assets/img/github/chrome.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/firefox.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/edge.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/safari.png" width="64" height="64"> <img src="/sleek/sleek/wwwroot/assets/img/github/opera.png" width="64" height="64">
+<img src="/Sleek/wwwroot/assets/img/github/chrome.png" width="64" height="64"> <img src="/Sleek/wwwroot/assets/img/github/firefox.png" width="64" height="64"> <img src="/Sleek/wwwroot/assets/img/github/edge.png" width="64" height="64"> <img src="/Sleek/wwwroot/assets/img/github/safari.png" width="64" height="64"> <img src="/Sleek/wwwroot/assets/img/github/opera.png" width="64" height="64">
 
 ## Reporting Issues
 
