@@ -12,6 +12,9 @@ namespace Sleek.Models {
         }
 
         public virtual DbSet<Activity> Activity { get; set; }
+        public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<User> User { get; set; }
 
@@ -49,6 +52,152 @@ namespace Sleek.Models {
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
+            });
+
+            modelBuilder.Entity<Customer>(entity => {
+                entity.HasKey(e => e.CusId);
+
+                entity.Property(e => e.CusId).HasColumnName("cus_id");
+
+                entity.Property(e => e.CusAddress1)
+                    .HasColumnName("cus_address1")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusAddress2)
+                    .HasColumnName("cus_address2")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusCity)
+                    .HasColumnName("cus_city")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusCompany)
+                    .HasColumnName("cus_company")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusEmail)
+                    .HasColumnName("cus_email")
+                    .HasMaxLength(160)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusFax)
+                    .HasColumnName("cus_fax")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusFirst)
+                    .HasColumnName("cus_first")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusLast)
+                    .HasColumnName("cus_last")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusNote)
+                    .HasColumnName("cus_note")
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusNumber)
+                    .HasColumnName("cus_number")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusPassword)
+                    .HasColumnName("cus_password")
+                    .HasMaxLength(256)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusPhone)
+                    .HasColumnName("cus_phone")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusStaid).HasColumnName("cus_staid");
+
+                entity.Property(e => e.CusState)
+                    .HasColumnName("cus_state")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusZip)
+                    .HasColumnName("cus_zip")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CusZip4)
+                    .HasColumnName("cus_zip4")
+                    .HasMaxLength(4)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Order>(entity => {
+                entity.HasKey(e => e.OrdId);
+
+                entity.Property(e => e.OrdId).HasColumnName("ord_id");
+
+                entity.Property(e => e.OrdComments)
+                    .HasColumnName("ord_comments")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OrdCusid).HasColumnName("ord_cusid");
+
+                entity.Property(e => e.OrdDate)
+                    .HasColumnName("ord_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.OrdProid).HasColumnName("ord_proid");
+
+                entity.Property(e => e.OrdStaid).HasColumnName("ord_staid");
+
+                entity.Property(e => e.OrdSubject)
+                    .HasColumnName("ord_subject")
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OrdUsrid).HasColumnName("ord_usrid");
+            });
+
+            modelBuilder.Entity<Project>(entity => {
+                entity.HasKey(e => e.ProId);
+
+                entity.Property(e => e.ProId).HasColumnName("pro_id");
+
+                entity.Property(e => e.ProCusid).HasColumnName("pro_cusid");
+
+                entity.Property(e => e.ProDate)
+                    .HasColumnName("pro_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ProDescription)
+                    .HasColumnName("pro_description")
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProLocalpath)
+                    .HasColumnName("pro_localpath")
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProRemotepath)
+                    .HasColumnName("pro_remotepath")
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProSourcepath)
+                    .HasColumnName("pro_sourcepath")
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProStaid).HasColumnName("pro_staid");
+
+                entity.Property(e => e.ProUsrid).HasColumnName("pro_usrid");
             });
 
             modelBuilder.Entity<Status>(entity => {

@@ -50,7 +50,8 @@
                     <p>
                         If the field isn't on the form, then it cannot be in the Model or you may overwrite data with blank content. You can handle this
                         by providing hidden fields for those not displayed on the form but in most cases it makes better sense to have a view model
-                        custom tailored to the form.
+                        custom tailored to the form. Be aware than your Database Administrator (DBA) may have added fields for auditing purposes. These fields
+                        are normally updated by trigger and should either be excluded or appropriately annotated to prevent update conflicts.
                     </p>
 
                     <h3 class="mt-4 mb-2">ii. Views</h3>

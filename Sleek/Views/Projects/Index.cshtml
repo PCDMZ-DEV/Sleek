@@ -1,0 +1,66 @@
+﻿@model PaginatedList<Sleek.Models.Project>
+
+@{
+    ViewBag.Title = "Activity";
+}
+
+@section CSS {
+
+}
+
+@section Scripts {
+
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card card-default">
+
+                <div class="card-header card-header-border-bottom">
+                    <h2>Projects</h2>
+                </div>
+
+                <div class="card-body">
+
+                    <form class="form-inline" asp-action="Index" method="get">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control" type="text" name="SearchString" id="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search String" />
+                                <div class="input-group-append">
+                                    <input type="submit" value="Search" class="btn btn-default btn-success" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["ID"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">ID</a></th>
+                                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["Date"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Date</a></th>
+                                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["Description"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Description</a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model) {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.ProId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ProDate)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ProDescription)</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @{
+                        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                    }
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default @prevDisabled">Previous</a>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default @nextDisabled">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
