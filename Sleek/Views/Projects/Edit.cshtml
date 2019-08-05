@@ -1,0 +1,73 @@
+﻿@model Sleek.Models.Project
+
+@{
+    ViewBag.Title = "Project";
+}
+
+@section CSS {
+    <link rel="stylesheet" href="~/assets/plugins/jquery-datetimepicker/jquery.datetimepicker.css" />
+}
+
+@section Scripts {
+    <script src="~/assets/plugins/jquery-datetimepicker/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/assets/plugins/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-12 col-lg-6 mx-auto">
+            <form asp-action="#">
+
+                <div class="card card-default">
+
+                    <div class="card-header card-header-border-bottom">
+                        <h2>Project</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <input asp-for="ProId" type="hidden" />
+                        <input asp-for="ProCusid" type="hidden" />
+                        <div class="form-group">
+                            <label asp-for="ProDate">@Html.DisplayNameFor(model => model.ProDate)</label>
+                            <input asp-for="ProDate" type="text" class="form-control" id="datetimepicker" placeholder="@Html.DisplayNameFor(model => model.ProDate)">
+                            <span asp-validation-for="ProDate" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ProLocalpath">@Html.DisplayNameFor(model => model.ProLocalpath)</label>
+                            <input asp-for="ProLocalpath" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProLocalpath)">
+                            <span asp-validation-for="ProLocalpath" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ProRemotepath">@Html.DisplayNameFor(model => model.ProRemotepath)</label>
+                            <input asp-for="ProRemotepath" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProRemotepath)">
+                            <span asp-validation-for="ProRemotepath" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ProSourcepath">@Html.DisplayNameFor(model => model.ProSourcepath)</label>
+                            <input asp-for="ProSourcepath" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProSourcepath)">
+                            <span asp-validation-for="ProSourcepath" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ProDescription">@Html.DisplayNameFor(model => model.ProDescription)</label>
+                            <textarea asp-for="ProDescription" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProDescription)"></textarea>
+                            <span asp-validation-for="ProDescription" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <select asp-for="ProStaid" class="form-control" asp-items="@(new SelectList(ViewBag.ProStatus, "StaId", "StaDescription"))" placeholder="@Html.DisplayNameFor(model => model.ProStaid)"></select>
+                            <span asp-validation-for="ProStaid" class="text-danger small"></span>
+                        </div>
+
+                    </div> <!-- Card Body -->
+                </div> <!-- Card -->
+                <div class="form-group float-right">
+                    <button asp-action="Save" asp-route-id="@Model.ProId" class="btn btn-success btn-lg px-4 mr-2">Save</button>
+                    <button asp-action="Delete" asp-route-id="@Model.ProId" class="btn btn-danger btn-lg px-4 mr-2">Delete</button>
+                    <button asp-action="Close" class="btn btn-secondary btn-lg px-4">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

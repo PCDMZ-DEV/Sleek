@@ -1,10 +1,17 @@
-﻿using System;
+﻿#region "Usings"
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+#endregion
 
 namespace Sleek.Models {
 
     public partial class Customer {
+
+        #region Table Attributes"
 
         [Key]
         [Display(Name = "ID")]
@@ -37,7 +44,7 @@ namespace Sleek.Models {
         [Display(Name = "Zip")]
         public string CusZip { get; set; }
 
-        [Display(Name = "ID")]
+        [Display(Name = "Zip 4")]
         public string CusZip4 { get; set; }
 
         [Display(Name = "Phone")]
@@ -55,8 +62,24 @@ namespace Sleek.Models {
         [Display(Name = "Note")]
         public string CusNote { get; set; }
 
-        [Display(Name = "ID")]
+        [Display(Name = "Status")]
+        [ForeignKey("Status")]
         public int? CusStaid { get; set; }
+
+        #endregion
+
+        #region "Navigation Properties"
+
+        [Display(Name = "Status")]
+        public Status Status { get; set; }
+
+        [Display(Name = "Projects")]
+        public ICollection<Project> Projects { get; set; }
+
+        [Display(Name = "Orders")]
+        public ICollection<Order> Orders { get; set; }
+
+        #endregion
 
     }
 

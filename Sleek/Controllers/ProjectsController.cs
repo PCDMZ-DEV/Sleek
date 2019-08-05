@@ -36,7 +36,7 @@ namespace Sleek.Controllers {
 
         #endregion
 
-        #region "Controller Methods and Events"
+        #region "Controller Actions""
 
         // Index (Get)
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber) {
@@ -54,33 +54,179 @@ namespace Sleek.Controllers {
 
             ViewData["CurrentFilter"] = searchString;
 
-            var project = from p in Context.Project select p;
+            var projects = from p in Context.Project select p;
             if (!String.IsNullOrEmpty(searchString)) {
-                project = project.Where(a => a.ProDescription.Contains(searchString));
+                projects = projects.Where(a => a.ProDescription.Contains(searchString));
             }
             switch (sortOrder) {
                 case "Date":
-                    project = project.OrderBy(a => a.ProDate);
+                    projects = projects.OrderBy(a => a.ProDate);
                     break;
                 case "Date_D":
-                    project = project.OrderByDescending(a => a.ProDate);
+                    projects = projects.OrderByDescending(a => a.ProDate);
                     break;
                 case "Description":
-                    project = project.OrderBy(a => a.ProDescription);
+                    projects = projects.OrderBy(a => a.ProDescription);
                     break;
                 case "Description_D":
-                    project = project.OrderByDescending(a => a.ProDescription);
+                    projects = projects.OrderByDescending(a => a.ProDescription);
                     break;
-                case "ID":
-                    project = project.OrderBy(a => a.ProId);
+                case "ID_D":
+                    projects = projects.OrderByDescending(a => a.ProId);
                     break;
                 default:
-                    project = project.OrderByDescending(a => a.ProId);
+                    projects = projects.OrderBy(a => a.ProId);
                     break;
             }
 
             int pageSize = 10;
-            return View(await PaginatedList<Project>.CreateAsync(project.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return View(await PaginatedList<Project>.CreateAsync(projects.AsNoTracking(), pageNumber ?? 1, pageSize));
+        }
+
+        // New (Get)
+        public IActionResult New() {
+            var project = new Project {
+                ProDate = DateTime.Now,
+                ProStaid = 10000
+            };
+
+            ViewBag.ProStatus = ((from Status in Context.Status select Status).ToList()).OrderBy(s => s.StaDescription);
+
+            return View("Edit", project);
+        }
+
+        // Edit (Get)
+        public async Task<IActionResult> Edit(int? id) {
+            Site.Message = "";
+            var result = new Project();
+            try {
+                if (id == null) {
+                    return NotFound();
+                }
+                result = await Context.Project.FindAsync(id);
+                if (result == null) {
+                    throw new Exception("Record not found. It may have been deleted by another user.");
+                }
+
+                ViewBag.ProStatus = ((from Status in Context.Status select Status).ToList()).OrderBy(s => s.StaDescription);
+
+            } catch (Exception ex) {
+                Site.Message = ex.Message;
+                Logger.LogError(ex, Site.Message);
+            }
+            return View("Edit", result);
+        }
+
+        // Save (Post)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Save(int id, Project project) {
+            Site.Message = "";
+            string Activity = "";
+            try {
+                if (ModelState.IsValid) {
+                    if (id == 0) {
+                        Context.Add(project);
+                        Activity = "Added Project";
+                    } else {
+                        if (id != project.ProId) {
+                            throw new Exception("Record ID exception. Manual navigation prohibited.");
+                        }
+                        Activity = "Updated Project";
+                        Context.Update(project);
+                    }
+                    await Context.SaveChangesAsync();
+                    Site.Log(Context, project.ProCusid, project.ProUsrid, String.Format("{0}: {1}", Activity, project.ProId), "Warn");
+                    return RedirectToAction("Index");
+                }
+            } catch (Exception ex) {
+                Site.Message = ex.Message;
+                Logger.LogError(ex, Site.Message);
+            }
+            return View("Edit", project);
+        }
+
+        // Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id) {
+            Site.Message = "";
+            try {
+                var project = await Context.Project.FindAsync(id);
+                if (project == null) {
+                    throw new Exception("Record not found. It may have been deleted by another Administrator.");
+                }
+                Context.Project.Remove(project);
+                await Context.SaveChangesAsync();
+            } catch (Exception ex) {
+                Site.Message = ex.Message;
+                Logger.LogError(ex, Site.Message);
+            }
+            return RedirectToAction("Index");
+        }
+
+        // Detail
+        public async Task<IActionResult> Detail(int id, string sortOrder, string currentFilter, string searchString, int? pageNumber) {
+            Site.Message = "";
+            var orders = from o in Context.Order select o;
+            try {
+
+                var project = await Context.Project.FindAsync(id);
+                var status = await Context.Status.FindAsync(project.ProStaid);
+
+                ViewData["Description"] = project.ProDescription;
+                ViewData["Local"] = Site.Nz(project.ProLocalpath, "Not Specified");
+                ViewData["Remote"] = Site.Nz(project.ProRemotepath, "Not Specified");
+                ViewData["Source"] = Site.Nz(project.ProSourcepath, "Not Specified");
+                ViewData["Status"] = status.StaDescription;
+
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["ID"] = sortOrder == "ID" ? "ID_D" : "ID";
+                ViewData["Date"] = sortOrder == "Date" ? "Date_D" : "Date";
+                ViewData["Subject"] = sortOrder == "Subject" ? "Subject_D" : "Subject";
+
+                if (searchString != null) {
+                    pageNumber = 1;
+                } else {
+                    searchString = currentFilter;
+                }
+
+                ViewData["CurrentFilter"] = searchString;
+
+                if (!String.IsNullOrEmpty(searchString)) {
+                    orders = orders.Where(o => o.OrdSubject.Contains(searchString) || o.OrdComments.Contains(searchString));
+                }
+
+                switch (sortOrder) {
+                    case "Date":
+                        orders = orders.OrderBy(o => o.OrdDate);
+                        break;
+                    case "Date_D":
+                        orders = orders.OrderByDescending(o => o.OrdDate);
+                        break;
+                    case "Description":
+                        orders = orders.OrderBy(o => o.OrdSubject);
+                        break;
+                    case "Description_D":
+                        orders = orders.OrderByDescending(o => o.OrdSubject);
+                        break;
+                    case "ID":
+                        orders = orders.OrderBy(o => o.OrdId);
+                        break;
+                    default:
+                        orders = orders.OrderByDescending(o => o.OrdId);
+                        break;
+                }
+
+
+            } catch (Exception ex) {
+                Site.Message = ex.Message;
+                Logger.LogError(ex, Site.Message);
+            }
+
+            int pageSize = 10;
+            return View(await PaginatedList<Order>.CreateAsync(orders.AsNoTracking(), pageNumber ?? 1, pageSize));
+
         }
 
         // Close

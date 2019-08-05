@@ -1,0 +1,63 @@
+﻿@model Sleek.Models.Order
+
+@{
+    ViewBag.Title = "Work Order";
+}
+
+@section CSS {
+    <link rel="stylesheet" href="~/assets/plugins/jquery-datetimepicker/jquery.datetimepicker.css" />
+}
+
+@section Scripts {
+    <script src="~/assets/plugins/jquery-datetimepicker/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/assets/plugins/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-12 col-lg-6 mx-auto">
+            <form asp-action="#">
+
+                <div class="card card-default">
+
+                    <div class="card-header card-header-border-bottom">
+                        <h2>Work Order</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <input asp-for="OrdId" type="hidden" />
+                        <input asp-for="OrdCusid" type="hidden" />
+                        <div class="form-group">
+                            <label asp-for="OrdDate">@Html.DisplayNameFor(model => model.OrdDate)</label>
+                            <input asp-for="OrdDate" type="text" class="form-control" id="datetimepicker" placeholder="@Html.DisplayNameFor(model => model.OrdDate)">
+                            <span asp-validation-for="OrdDate" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OrdSubject">@Html.DisplayNameFor(model => model.OrdSubject)</label>
+                            <input asp-for="OrdSubject" class="form-control" placeholder="@Html.DisplayNameFor(model => model.OrdSubject)">
+                            <span asp-validation-for="OrdSubject" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OrdComments">@Html.DisplayNameFor(model => model.OrdComments)</label>
+                            <textarea asp-for="OrdComments" class="form-control" placeholder="@Html.DisplayNameFor(model => model.OrdComments)"></textarea>
+                            <span asp-validation-for="OrdComments" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <select asp-for="OrdStaid" class="form-control" asp-items="@(new SelectList(ViewBag.OrdStatus, "StaId", "StaDescription"))" placeholder="@Html.DisplayNameFor(model => model.OrdStaid)"></select>
+                            <span asp-validation-for="OrdStaid" class="text-danger small"></span>
+                        </div>
+
+                    </div> <!-- Card Body -->
+                </div> <!-- Card -->
+                <div class="form-group float-right">
+                    <button asp-action="Save" asp-route-id="@Model.OrdId" class="btn btn-success btn-lg px-4 mr-2">Save</button>
+                    <button asp-action="Delete" asp-route-id="@Model.OrdId" class="btn btn-danger btn-lg px-4 mr-2">Delete</button>
+                    <button asp-action="Close" class="btn btn-secondary btn-lg px-4">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

@@ -15,6 +15,8 @@
     <link href="~/assets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
     <link href="~/assets/plugins/toastr/toastr.min.css" rel="stylesheet" />
     <link id="sleek-css" rel="stylesheet" href="~/assets/css/sleek.css" />
+    @RenderSection("CSS", required: false)
+
     <link href="~/assets/img/favicon.png" rel="shortcut icon" />
 
     <!--
@@ -27,7 +29,6 @@
     <![endif]-->
 
     <script src="~/assets/plugins/nprogress/nprogress.js"></script>
-    @RenderSection("CSS", required: false)
 
 </head>
 

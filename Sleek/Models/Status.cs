@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region "Usings"
+
 using System.ComponentModel.DataAnnotations;
+
+#endregion
 
 namespace Sleek.Models {
 
     public partial class Status {
+
+        #region Table Attributes"
 
         [Key]
         [Display(Name = "ID")]
@@ -18,6 +22,21 @@ namespace Sleek.Models {
 
         [Display(Name = "Timestamp")]
         public byte[] StaTimestamp { get; set; }
+
+        #endregion
+
+        #region "Navigation Properties"
+
+        [Display(Name = "Customer")]
+        public Customer Customer { get; set; }
+
+        [Display(Name = "Project")]
+        public Project Project { get; set; }
+
+        [Display(Name = "Order")]
+        public Order Order { get; set; }
+
+        #endregion
 
     }
 

@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Project Detail";
+}
+
+@section CSS {
+
+}
+
+@section Scripts {
+
+}
+
+<div class="content">
+    <div class="bg-white border rounded">
+        <div class="row no-gutters">
+            <div class="col-lg-4 col-xl-3 pb-4">
+                <div class="profile-content-left pt-2 pb-3 px-3 px-xl-5">
+                    <div class="card text-center widget-profile px-0 border-0">
+                        <div class="card-body">
+                            <h4 class="py-2 text-dark">System Administrator</h4>
+                            <p class="mb-3">(Admin Group)</p>
+                            <p class="mb-4">admin@pcdmz.com</p>
+                            <p class="text-left">In production, this user would have been created during the registration process at the same time as the Customer Account.</p>
+                        </div>
+                    </div>
+                    <hr class="w-100">
+                    <div class="contact-info pt-4">
+                        <h5 class="text-dark mb-1">Project Information<i class="mdi mdi-pencil mdi-18px ml-3"></i></h5>
+                        <p class="text-dark font-weight-medium pt-4 mb-2">Project Description</p>
+                        <p>@ViewData["Description"]</p>
+                        <p class="text-dark font-weight-medium pt-4 mb-2">Local Path</p>
+                        <p>@ViewData["Local"]</p>
+                        <p class="text-dark font-weight-medium pt-4 mb-2">Remote Path</p>
+                        <p>@ViewData["Remote"]</p>
+                        <p class="text-dark font-weight-medium pt-4 mb-2">Source Control</p>
+                        <p>@ViewData["Source"]</p>
+                        <p class="text-dark font-weight-medium pt-4 mb-2">Status</p>
+                        <p>@ViewData["Status"]</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-xl-9">
+                <div class="profile-content-right py-5">
+                    <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
+
+                        <!-- Work Order -->
+                        <li class="nav-item">
+                            <a class="nav-link active" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="true">Work Orders</a>
+                        </li>
+
+                        <!-- Future Use -->
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Coming sooon!</a>
+                        </li>
+
+                        <!-- Future Use -->
+                        <li class="nav-item">
+                            <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Coming Soon!</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content px-3 px-xl-5" id="myTabContent">
+
+                        <!-- Work Order -->
+                        <div class="tab-pane fade show active" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                            <partial name="_Orders" />
+                        </div>
+
+                        <!-- Future Use -->
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <p class="lead mt-3">Future Use</p>
+                        </div>
+
+                        <!-- Future Use -->
+                        <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                            <p class="lead mt-3">Future Use</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
