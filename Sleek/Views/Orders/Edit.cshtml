@@ -29,9 +29,13 @@
                         <input asp-for="OrdId" type="hidden" />
                         <input asp-for="OrdCusid" type="hidden" />
                         <div class="form-group">
-                            <label asp-for="OrdDate">@Html.DisplayNameFor(model => model.OrdDate)</label>
-                            <input asp-for="OrdDate" type="text" class="form-control" id="datetimepicker" placeholder="@Html.DisplayNameFor(model => model.OrdDate)">
-                            <span asp-validation-for="OrdDate" class="text-danger small"></span>
+                            <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+                                <input asp-for="OrdDate" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" placeholder="@Html.DisplayNameFor(model => model.OrdDate)" />
+                                <span asp-validation-for="OrdDate" class="text-danger small"></span>
+                                <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label asp-for="OrdSubject">@Html.DisplayNameFor(model => model.OrdSubject)</label>
@@ -39,8 +43,13 @@
                             <span asp-validation-for="OrdSubject" class="text-danger small"></span>
                         </div>
                         <div class="form-group">
+                            <label asp-for="OrdDescription">@Html.DisplayNameFor(model => model.OrdDescription)</label>
+                            <textarea asp-for="OrdDescription" class="form-control" placeholder="@Html.DisplayNameFor(model => model.OrdDescription)" rows="3"></textarea>
+                            <span asp-validation-for="OrdDescription" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
                             <label asp-for="OrdComments">@Html.DisplayNameFor(model => model.OrdComments)</label>
-                            <textarea asp-for="OrdComments" class="form-control" placeholder="@Html.DisplayNameFor(model => model.OrdComments)"></textarea>
+                            <textarea asp-for="OrdComments" class="form-control" placeholder="@Html.DisplayNameFor(model => model.OrdComments)" rows="5"></textarea>
                             <span asp-validation-for="OrdComments" class="text-danger small"></span>
                         </div>
                         <div class="form-group">

@@ -34,6 +34,9 @@ namespace Sleek.Models {
         [Display(Name = "Subject")]
         public string OrdSubject { get; set; }
 
+        [Display(Name = "Description")]
+        public string OrdDescription { get; set; }
+
         [Display(Name = "Comments")]
         public string OrdComments { get; set; }
 

@@ -55,8 +55,19 @@ namespace Sleek.Controllers {
             Site.Message = "";
             var result = new Order();
             try {
+
                 result = await Context.Order.FindAsync(id);
+
                 ViewBag.OrdStatus = ((from Status in Context.Status select Status).ToList()).OrderBy(s => s.StaDescription);
+
+                ViewBag.Tools = new String[] { "Bold", "Italic", "Underline", "StrikeThrough",
+                "FontName", "FontSize", "FontColor", "BackgroundColor",
+                "LowerCase", "UpperCase", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList",
+                "Outdent", "Indent", "|",
+                "CreateLink", "Image", "|", "ClearFormat", "Print",
+                "SourceCode", "FullScreen", "|", "Undo", "Redo" };
+
             } catch (Exception ex) {
                 Site.Message = ex.Message;
                 Logger.LogError(ex, Site.Message);
@@ -84,7 +95,7 @@ namespace Sleek.Controllers {
                     }
                     await Context.SaveChangesAsync();
                     Site.Log(Context, order.OrdCusid, order.OrdUsrid, String.Format("{0}: {1}", Activity, order.OrdId), "Warn");
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Detail", "Projects");
                 }
             } catch (Exception ex) {
                 Site.Message = ex.Message;

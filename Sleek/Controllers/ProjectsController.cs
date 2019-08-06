@@ -210,11 +210,11 @@ namespace Sleek.Controllers {
                     case "Description_D":
                         orders = orders.OrderByDescending(o => o.OrdSubject);
                         break;
-                    case "ID":
-                        orders = orders.OrderBy(o => o.OrdId);
+                    case "ID_D":
+                        orders = orders.OrderByDescending(o => o.OrdId);
                         break;
                     default:
-                        orders = orders.OrderByDescending(o => o.OrdId);
+                        orders = orders.OrderBy(o => o.OrdId);
                         break;
                 }
 

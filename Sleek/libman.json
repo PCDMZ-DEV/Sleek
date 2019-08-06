@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "tempusdominus-bootstrap-4@5.1.2",
+      "destination": "wwwroot/assets/plugins/tempusdominus-bootstrap-4/"
+    },
+    {
+      "library": "font-awesome@5.9.0",
+      "destination": "wwwroot/assets/plugins/font-awesome/"
+    }
+  ]
+}

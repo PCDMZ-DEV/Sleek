@@ -158,6 +158,11 @@ namespace Sleek.Models {
 
                 entity.Property(e => e.OrdSubject)
                     .HasColumnName("ord_subject")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OrdDescription)
+                    .HasColumnName("ord_description")
                     .HasMaxLength(300)
                     .IsUnicode(false);
 
