@@ -66,6 +66,13 @@
                         Always use Entity Framework. By abstracting your queries with LINQ you avoid SQL syntax that will no doubt be database vendor specific.
                         As written, you can switch between Microsoft, Oracle, MySQL and Postgress by simply providing an approporate connection string.
                     </p>
+                    <h6 class="mt-4 mb-2 text-secondary">Message Queue</h6>
+                    <p>
+                        Every controller action is constructed in such a way that all exceptions are be appended to Site.Messages.
+                        The layout includes a bit of Razor code to render each message as a Bootstrap Dismissable Alert. Afterward the queue is cleared.
+                        Using this technique, there may be messages enqueued by a Controller Action, Database Handler or even by the User Interface itself.
+                        No messages are lost and because they're all handled in Try / Catch blocks, may include important information for trubleshooting purposes.
+                    </p>
 
                     <div class="mt-5">
                         <a class="btn btn-square btn-primary float-left" href="/quick-start.html">

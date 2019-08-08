@@ -1,4 +1,4 @@
-﻿#region "Imported Namespaces"
+﻿#region "Usings"
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

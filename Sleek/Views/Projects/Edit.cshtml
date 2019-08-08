@@ -76,11 +76,13 @@
                 <div class="form-group float-right">
                     <button asp-action="Save" asp-route-id="@Model.ProId" class="btn btn-success btn-lg px-4 mr-2">Save</button>
                     <button asp-action="Delete" asp-route-id="@Model.ProId" class="btn btn-danger btn-lg px-4 mr-2">Delete</button>
-                    <button asp-action="Close" asp-route-id="@Model.ProId"class="btn btn-secondary btn-lg px-4">Close</button>
+                    <a asp-controller="Projects" asp-action="Detail" asp-route-id="@Model.ProId" class="btn btn-secondary btn-lg px-4">Close</a>
                 </div>
+
                 <input asp-for="ProId" type="hidden" />
                 <input asp-for="ProCusid" type="hidden" />
                 <input asp-for="ProUsrid" type="hidden" />
+
             </form>
         </div>
     </div>

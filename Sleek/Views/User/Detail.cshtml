@@ -22,8 +22,6 @@
                         <h2>User Detail</h2>
                     </div>
                     <div class="card-body">
-                        <input asp-for="UsrId" type="hidden" />
-                        <input asp-for="UsrCusid" type="hidden" />
                         <div class="form-row">
                             <div class="col-sm-4 mb-3">
                                 <label asp-for="UsrFirst">@Html.DisplayNameFor(model => model.UsrFirst)</label>
@@ -79,6 +77,10 @@
                     <button asp-controller="User" asp-action="Delete" asp-route-id="@Model.UsrId" class="btn btn-danger btn-lg px-4 mr-2">Delete</button>
                     <button asp-controller="User" asp-action="Close" class="btn btn-secondary btn-lg px-4">Close</button>
                 </div>
+
+                <input asp-for="UsrId" type="hidden" />
+                <input asp-for="UsrCusid" type="hidden" />
+
             </form>
         </div>
     </div>

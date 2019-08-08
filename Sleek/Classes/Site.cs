@@ -12,6 +12,12 @@ namespace Sleek.Classes {
 
     public class Site {
 
+        #region "Variables and Constants"
+
+        public static Queue<String> Messages = new Queue<string>();
+
+        #endregion
+
         #region "Website Settings"
 
         public static string Title = "Sleek (MVC)";

@@ -1,4 +1,4 @@
-﻿#region "Imported Namespaces"
+﻿#region "Usings"
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

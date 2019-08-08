@@ -9,7 +9,7 @@
                     <input class="form-control" type="text" name="SearchString" id="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search String" />
                     <div class="input-group-append">
                         <button asp-action="Detail" class="btn btn-default btn-success mr-3">Search</button>
-                        <button asp-controller="Orders" asp-action="New" class="btn btn-default btn-secondary">New Work Order</button>
+                        <button asp-controller="Orders" asp-action="New" asp-route-id="" class="btn btn-default btn-secondary">New Work Order</button>
                     </div>
                 </div>
             </div>
@@ -45,5 +45,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> <!-- Row -->
 

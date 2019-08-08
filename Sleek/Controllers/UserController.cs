@@ -1,4 +1,4 @@
-﻿#region "Imported Namespaces"
+﻿#region "Usings"
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,6 @@ using Sleek.Classes;
 using Sleek.Models;
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #endregion
@@ -36,7 +35,7 @@ namespace Sleek.Controllers {
 
         #endregion
 
-        #region "Controller Methods and Events"
+        #region "Controller Actions"
 
         // Profile (Get)
         public async Task<IActionResult> Profile(string sortOrder, string currentFilter, string searchString, int? pageNumber) {
@@ -59,7 +58,7 @@ namespace Sleek.Controllers {
                 }
 
                 ViewData["CurrentFilter"] = searchString;
-               
+
                 if (!String.IsNullOrEmpty(searchString)) {
                     users = users.Where(u => u.UsrFirst.Contains(searchString) || u.UsrLast.Contains(searchString));
                 }
@@ -103,7 +102,16 @@ namespace Sleek.Controllers {
 
         // New (Get)
         public IActionResult New() {
-            return View("Detail", new User());
+            Site.Message = "";
+            User user = new User();
+            try {
+                user.UsrRole = "User";
+                user.UsrStaid = 10000;
+            } catch (Exception ex) {
+                Site.Message = ex.Message;
+                Logger.LogError(ex, Site.Message);
+            }
+            return View("Detail", user);
         }
 
         // Edit (Get)

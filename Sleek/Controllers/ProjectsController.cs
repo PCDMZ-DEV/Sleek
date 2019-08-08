@@ -1,4 +1,4 @@
-﻿#region "Imported Namespaces"
+﻿#region "Usings"
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -202,10 +202,10 @@ namespace Sleek.Controllers {
                     case "Date_D":
                         orders = orders.OrderByDescending(o => o.OrdDate);
                         break;
-                    case "Description":
+                    case "Subject":
                         orders = orders.OrderBy(o => o.OrdSubject);
                         break;
-                    case "Description_D":
+                    case "Subject_D":
                         orders = orders.OrderByDescending(o => o.OrdSubject);
                         break;
                     case "ID_D":
