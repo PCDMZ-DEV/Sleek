@@ -1,10 +1,16 @@
-﻿using System;
+﻿#region "Usings"
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
+#endregion
 
 namespace Sleek.Models {
 
     public partial class Request {
+
+        #region "Table Attributes"
 
         [Key]
         [Display(Name = "ID")]
@@ -60,8 +66,7 @@ namespace Sleek.Models {
         [Required(ErrorMessage = "{0} cannot be blank")]
         public string ReqContent { get; set; }
 
-        [Display(Name = "Time Stamp")]
-        public byte[] ReqTimestamp { get; set; }
+        #endregion
 
     }
 

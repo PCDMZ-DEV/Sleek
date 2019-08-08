@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Project Detail";
+    var project = (Project)ViewData["Project"];
 }
 
 @section CSS {
@@ -17,25 +18,25 @@
                 <div class="profile-content-left pt-2 pb-3 px-3 px-xl-5">
                     <div class="card text-center widget-profile px-0 border-0">
                         <div class="card-body">
-                            <h4 class="py-2 text-dark">System Administrator</h4>
-                            <p class="mb-3">(Admin Group)</p>
-                            <p class="mb-4">admin@pcdmz.com</p>
-                            <p class="text-left">In production, this user would have been created during the registration process at the same time as the Customer Account.</p>
+                            <h4 class="py-2 text-dark">@project.User.UsrFirst @project.User.UsrLast</h4>
+                            <p class="mb-3">@project.Customer.CusCompany</p>
+                            <p class="mb-4">@project.User.UsrRole</p>
+                            <p class="text-left">@project.User.UsrNote</p>
                         </div>
                     </div>
                     <hr class="w-100">
                     <div class="contact-info pt-4">
-                        <h5 class="text-dark mb-1">Project Information<i class="mdi mdi-pencil mdi-18px ml-3"></i></h5>
+                        <h5 class="text-dark mb-1">Project Information<a asp-action="Edit" asp-route-id="@project.ProId"class="btn"><i class="mdi mdi-pencil mdi-18px ml-3"></i></a></h5>
                         <p class="text-dark font-weight-medium pt-4 mb-2">Project Description</p>
-                        <p>@ViewData["Description"]</p>
+                        <p>@project.ProDescription</p>
                         <p class="text-dark font-weight-medium pt-4 mb-2">Local Path</p>
-                        <p>@ViewData["Local"]</p>
+                        <p>@project.ProLocalpath</p>
                         <p class="text-dark font-weight-medium pt-4 mb-2">Remote Path</p>
-                        <p>@ViewData["Remote"]</p>
+                        <p>@project.ProRemotepath</p>
                         <p class="text-dark font-weight-medium pt-4 mb-2">Source Control</p>
-                        <p>@ViewData["Source"]</p>
+                        <p>@project.ProSourcepath</p>
                         <p class="text-dark font-weight-medium pt-4 mb-2">Status</p>
-                        <p>@ViewData["Status"]</p>
+                        <p>@project.Status.StaDescription</p>
                     </div>
                 </div>
             </div>
@@ -50,7 +51,7 @@
 
                         <!-- Future Use -->
                         <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Coming sooon!</a>
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Coming soon!</a>
                         </li>
 
                         <!-- Future Use -->

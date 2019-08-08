@@ -124,8 +124,8 @@ namespace Sleek.Controllers {
         }
 
         // Close
-        public IActionResult Close() {
-            return RedirectToAction("Detail", "Projects");
+        public IActionResult Close(int id) {
+            return RedirectToAction("Detail", "Projects", new {id});
         }
 
         #endregion

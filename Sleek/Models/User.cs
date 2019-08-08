@@ -1,15 +1,23 @@
-﻿using System;
+﻿#region "Usings"
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+#endregion
 
 namespace Sleek.Models {
     public partial class User {
+
+        #region "Table Attributes"
 
         [Key]
         [Display(Name = "ID")]
         public int UsrId { get; set; }
 
         [Display(Name = "Customer")]
+        [ForeignKey("Customer")]
         public int UsrCusid { get; set; }
 
         [Display(Name = "First")]
@@ -43,7 +51,20 @@ namespace Sleek.Models {
         public DateTime? UsrTokendate { get; set; }
 
         [Display(Name = "Status")]
+        [ForeignKey("Status")]
         public int? UsrStaid { get; set; }
+
+        #endregion
+
+        #region "Navigation Properties"
+
+        [Display(Name = "Customer")]
+        public Customer Customer { get; set; }
+
+        [Display(Name = "Status")]
+        public Status Status { get; set; }
+
+        #endregion
 
     }
 

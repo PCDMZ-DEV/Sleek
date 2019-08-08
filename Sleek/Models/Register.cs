@@ -1,4 +1,4 @@
-﻿#region "Imported Namespaces"
+﻿#region "Usings"
 
 using System.ComponentModel.DataAnnotations;
 
@@ -7,6 +7,8 @@ using System.ComponentModel.DataAnnotations;
 namespace Sleek.Models {
 
     public partial class Register {
+
+        #region "View Attributes"
 
         [Display(Name = "First Name")]
         [Required(ErrorMessage = "{0} cannot be blank")]
@@ -24,6 +26,8 @@ namespace Sleek.Models {
         [Required(ErrorMessage = "{0} cannot be blank")]
         [DataType(DataType.Password)]
         public string RegPassword { get; set; }
+
+        #endregion
 
     } // Class
 

@@ -172,13 +172,11 @@ namespace Sleek.Controllers {
             try {
 
                 var project = await Context.Project.FindAsync(id);
-                var status = await Context.Status.FindAsync(project.ProStaid);
+                Context.Entry(project).Reference(c => c.Customer).Load();
+                Context.Entry(project).Reference(u => u.User).Load();
+                Context.Entry(project).Reference(s => s.Status).Load();
 
-                ViewData["Description"] = project.ProDescription;
-                ViewData["Local"] = Site.Nz(project.ProLocalpath, "Not Specified");
-                ViewData["Remote"] = Site.Nz(project.ProRemotepath, "Not Specified");
-                ViewData["Source"] = Site.Nz(project.ProSourcepath, "Not Specified");
-                ViewData["Status"] = status.StaDescription;
+                ViewData["Project"] = project;
 
                 ViewData["CurrentSort"] = sortOrder;
                 ViewData["ID"] = sortOrder == "ID" ? "ID_D" : "ID";

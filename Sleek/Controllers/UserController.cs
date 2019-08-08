@@ -21,8 +21,8 @@ namespace Sleek.Controllers {
         #region "Variables and Constants"
 
         // Services
-        private readonly MainContext _context;
-        private readonly ILogger<UserController> _logger;
+        private readonly MainContext Context;
+        private readonly ILogger<UserController> Logger;
 
         #endregion
 
@@ -30,8 +30,8 @@ namespace Sleek.Controllers {
 
         // Constructor
         public UserController(MainContext context, ILogger<UserController> logger) {
-            _context = context;
-            _logger = logger;
+            Context = context;
+            Logger = logger;
         }
 
         #endregion
@@ -41,32 +41,64 @@ namespace Sleek.Controllers {
         // Profile (Get)
         public async Task<IActionResult> Profile(string sortOrder, string currentFilter, string searchString, int? pageNumber) {
 
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["EmailSortParm"] = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
+            var users = from u in Context.User select u;
+            PaginatedList<User> result = null;
 
-            if (searchString != null) {
-                pageNumber = 1;
-            } else {
-                searchString = currentFilter;
+            try {
+
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["ID"] = sortOrder == "ID" ? "ID_D" : "ID";
+                ViewData["First"] = sortOrder == "First" ? "First_D" : "First";
+                ViewData["Last"] = sortOrder == "Last" ? "Last_D" : "Last";
+                ViewData["Email"] = sortOrder == "Email" ? "Email_D" : "Email";
+
+                if (searchString != null) {
+                    pageNumber = 1;
+                } else {
+                    searchString = currentFilter;
+                }
+
+                ViewData["CurrentFilter"] = searchString;
+               
+                if (!String.IsNullOrEmpty(searchString)) {
+                    users = users.Where(u => u.UsrFirst.Contains(searchString) || u.UsrLast.Contains(searchString));
+                }
+                switch (sortOrder) {
+                    case "First":
+                        users = users.OrderBy(a => a.UsrFirst);
+                        break;
+                    case "First_D":
+                        users = users.OrderByDescending(a => a.UsrFirst);
+                        break;
+                    case "Last":
+                        users = users.OrderBy(a => a.UsrLast);
+                        break;
+                    case "Last_D":
+                        users = users.OrderByDescending(a => a.UsrLast);
+                        break;
+                    case "Email":
+                        users = users.OrderBy(a => a.UsrEmail);
+                        break;
+                    case "Email_D":
+                        users = users.OrderByDescending(a => a.UsrEmail);
+                        break;
+                    case "ID_D":
+                        users = users.OrderByDescending(a => a.UsrId);
+                        break;
+                    default:
+                        users = users.OrderBy(a => a.UsrId);
+                        break;
+                }
+
+                int pageSize = 12;
+                result = await PaginatedList<User>.CreateAsync(users.AsNoTracking(), pageNumber ?? 1, pageSize);
+
+            } catch (Exception ex) {
+                Site.Message = ex.Message;
+                Logger.LogError(ex, Site.Message);
             }
 
-            ViewData["CurrentFilter"] = searchString;
-
-            var users = from u in _context.User select u;
-            if (!String.IsNullOrEmpty(searchString)) {
-                users = users.Where(u => u.UsrFirst.Contains(searchString) || u.UsrLast.Contains(searchString));
-            }
-            switch (sortOrder) {
-                case "email_desc":
-                    users = users.OrderByDescending(u => u.UsrEmail);
-                    break;
-                default:
-                    users = users.OrderBy(u => u.UsrEmail);
-                    break;
-            }
-
-            int pageSize = 12;
-            return View(await PaginatedList<User>.CreateAsync(users.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return View(result);
         }
 
         // New (Get)
@@ -78,18 +110,21 @@ namespace Sleek.Controllers {
         public async Task<IActionResult> Edit(int? id) {
             Site.Message = "";
             var result = new User();
+            var status = Enumerable.Empty<Status>();
             try {
                 if (id == null) {
-                    return NotFound();
+                    throw new Exception("Record ID missing. Manual navigation prohibited.");
                 }
-                result = await _context.User.FindAsync(id);
+                result = await Context.User.FindAsync(id);
                 if (result == null) {
                     throw new Exception("Record not found. It may have been deleted by another user.");
                 }
+                status = Context.Status.ToList().OrderBy(u => u.StaDescription);
             } catch (Exception ex) {
                 Site.Message = ex.Message;
-                _logger.LogError(ex, Site.Message);
+                Logger.LogError(ex, Site.Message);
             }
+            ViewBag.Status = status;
             return View("Detail", result);
         }
 
@@ -102,22 +137,22 @@ namespace Sleek.Controllers {
             try {
                 if (ModelState.IsValid) {
                     if (id == 0) {
-                        _context.Add(user);
+                        Context.Add(user);
                         Activity = "Added User";
                     } else {
                         if (id != user.UsrId) {
                             throw new Exception("Record ID exception. Manual navigation prohibited.");
                         }
                         Activity = "Updated User";
-                        _context.Update(user);
+                        Context.Update(user);
                     }
-                    await _context.SaveChangesAsync();
-                    Site.Log(_context, user.UsrCusid, user.UsrId, String.Format("{0}: {1}", Activity, user.UsrId), "Warn");
+                    await Context.SaveChangesAsync();
+                    Site.Log(Context, user.UsrCusid, user.UsrId, String.Format("{0}: {1}", Activity, user.UsrId), "Warn");
                     return RedirectToAction("Profile");
                 }
             } catch (Exception ex) {
                 Site.Message = ex.Message;
-                _logger.LogError(ex, Site.Message);
+                Logger.LogError(ex, Site.Message);
             }
             return View("Detail", user);
         }
@@ -128,15 +163,15 @@ namespace Sleek.Controllers {
         public async Task<IActionResult> Delete(int id) {
             Site.Message = "";
             try {
-                var user = await _context.User.FindAsync(id);
+                var user = await Context.User.FindAsync(id);
                 if (user == null) {
                     throw new Exception("Record not found. It may have been deleted by another Administrator.");
                 }
-                _context.User.Remove(user);
-                await _context.SaveChangesAsync();
+                Context.User.Remove(user);
+                await Context.SaveChangesAsync();
             } catch (Exception ex) {
                 Site.Message = ex.Message;
-                _logger.LogError(ex, Site.Message);
+                Logger.LogError(ex, Site.Message);
             }
             return RedirectToAction("Profile");
         }

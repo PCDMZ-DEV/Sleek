@@ -1,11 +1,17 @@
-﻿using System;
+﻿#region "Usings"
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
+#endregion
 
 namespace Sleek.Models {
 
     // Activity Log (System Table)
     public partial class Activity {
+
+        #region "Table Attributes"
 
         [Key]
         [Display(Name = "ID")]
@@ -25,6 +31,8 @@ namespace Sleek.Models {
 
         [Display(Name = "Type")]
         public string ActType { get; set; }
+
+        #endregion
 
     }
 

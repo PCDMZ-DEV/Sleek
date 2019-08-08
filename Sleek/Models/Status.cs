@@ -20,9 +20,6 @@ namespace Sleek.Models {
         [Display(Name = "Description")]
         public string StaDescription { get; set; }
 
-        [Display(Name = "Timestamp")]
-        public byte[] StaTimestamp { get; set; }
-
         #endregion
 
         #region "Navigation Properties"

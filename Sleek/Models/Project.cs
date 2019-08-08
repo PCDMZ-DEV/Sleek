@@ -26,22 +26,30 @@ namespace Sleek.Models {
         public int ProUsrid { get; set; }
 
         [Display(Name = "Date")]
+        [DataType(DataType.DateTime)]
+        [Required(ErrorMessage = "{0} cannot be blank")]
         public DateTime? ProDate { get; set; }
 
         [Display(Name = "Description")]
+        [StringLength(300)]
+        [Required(ErrorMessage = "{0} cannot be blank")]
         public string ProDescription { get; set; }
 
         [Display(Name = "Local Path")]
+        [StringLength(300)]
         public string ProLocalpath { get; set; }
 
         [Display(Name = "Remote Path")]
+        [StringLength(300)]
         public string ProRemotepath { get; set; }
 
         [Display(Name = "Source Path")]
+        [StringLength(300)]
         public string ProSourcepath { get; set; }
 
         [Display(Name = "Status")]
         [ForeignKey("Status")]
+        [Required(ErrorMessage = "{0} cannot be blank")]
         public int ProStaid { get; set; }
 
         #endregion

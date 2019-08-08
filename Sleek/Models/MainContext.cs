@@ -222,9 +222,6 @@ namespace Sleek.Models {
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StaTimestamp)
-                    .HasColumnName("sta_timestamp")
-                    .IsRowVersion();
             });
 
             modelBuilder.Entity<Request>(entity => {
@@ -281,10 +278,6 @@ namespace Sleek.Models {
                     .HasColumnName("req_subject")
                     .HasMaxLength(300)
                     .IsUnicode(false);
-
-                entity.Property(e => e.ReqTimestamp)
-                    .HasColumnName("req_timestamp")
-                    .IsRowVersion();
 
                 entity.Property(e => e.ReqType)
                     .HasColumnName("req_type")
