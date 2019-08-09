@@ -45,7 +45,8 @@ If you are developing and Enterprise scale application or working with a team of
 ## Current Features
 
 * Developed with ASP.NET Core 2.2.1 and Microsoft SQL Server 2016 (Windows or Linux)
-* Maintains compatibility with multiple database vendors by avoiding stored procedures and triggers (EF6 / LINQ)
+* Maintains compatibility with multiple database vendors by avoiding stored procedures and triggers (EF7 / LINQ)
+* Provides functional examples for relational data, one to many forms and implicit transaction processing
 * Supports claims-based authentication without the complexity of the built-in user tables
 
 ## Coming Soon
