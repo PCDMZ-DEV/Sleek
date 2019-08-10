@@ -17,8 +17,8 @@
 
 <div class="row justify-content-center">
     <div class="col-12 col-lg-5 mx-auto" id="form-container">
-        <div class="card pb-0">
-            <article class="card-body">
+        <div class="card card-default">
+            <article class="card-body pb-2">
                 <h4 class="card-title text-center">Project Detail</h4>
                 <div class="row text-center">
                     <div class="col-12">
@@ -83,7 +83,13 @@
                                 <div class="input-group">
                                     <button asp-controller="Projects" asp-action="Edit" asp-route-id="@project.ProId" class="btn btn-primary mr-2"><i class="mdi mdi-pencil"></i></button>
                                     <button asp-controller="Orders" asp-action="New" asp-route-id="@project.ProId" class="btn btn-success mr-2">New Work Order</button>
-                                    <a asp-action="Index" class="btn btn-secondary">Close</a>
+
+                                    @if (Site.Controller == null | Site.Action == null) {
+                                        <a asp-controller="Projects" asp-action="Index" class="btn btn-secondary">Close</a>
+                                    } else {
+                                        <a asp-controller="@Site.Controller" asp-action="@Site.Action" class="btn btn-secondary">Close</a>
+                                    }
+
                                 </div>
                             </div>
                         </form>

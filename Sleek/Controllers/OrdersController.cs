@@ -91,7 +91,7 @@ namespace Sleek.Controllers {
                     }
                     await Context.SaveChangesAsync();
                     Site.Log(Context, order.OrdCusid, order.OrdUsrid, String.Format("{0}: {1}", Activity, order.OrdId), "Warn");
-                    return RedirectToAction("Detail", "Projects");
+                    return RedirectToAction("Detail", "Projects", new { id = order.OrdProid });
                 }
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
@@ -116,11 +116,6 @@ namespace Sleek.Controllers {
                 Logger.LogError(ex, ex.Message);
             }
             return RedirectToAction("Detail", "Projects", new { id });
-        }
-
-        // Close
-        public IActionResult Close(int id) {
-            return RedirectToAction("Detail", "Projects", new {id});
         }
 
         #endregion

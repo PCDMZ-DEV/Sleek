@@ -36,6 +36,24 @@ namespace Sleek.Controllers {
         #region "Controller Actions"
 
         public IActionResult Index() {
+            try {
+
+                // Recent Orders (_Orders_Summary Filtered by Date Range)
+                var orders = from order in Context.Order select order;
+                orders = orders.OrderByDescending(order => order.OrdDate);
+                orders = orders.Include(o => o.Project).Include(o => o.Customer).Include(o => o.Status);
+                ViewData["Orders"] = orders;
+
+                // Set Calling Action
+                Site.Controller = "Home";
+                Site.Action = "Index";
+
+            } catch (Exception ex) {
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
+            }
+
+
             return View();
         }
 

@@ -16,6 +16,8 @@ namespace Sleek.Classes {
 
         public static Queue<String> Messages = new Queue<string>();
         public static String CurrentFilter = "";
+        public static string Controller = "";
+        public static string Action = "";
 
         #endregion
 

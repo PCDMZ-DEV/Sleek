@@ -1,0 +1,52 @@
+﻿@{
+    var orders = (IEnumerable<Order>)ViewData["Orders"];
+}
+<div class="card card-table-border-none" id="recent-orders">
+    <div class="card-header justify-content-between">
+        <h2>Recent Work Orders</h2>
+        @*<div class="date-range-report ">
+            <span></span>
+        </div>*@
+    </div>
+    <div class="card-body pt-0 pb-5">
+        <table class="table card-table table-responsive table-responsive-large" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Subject</th>
+                    <th class="d-none d-md-table-cell">Order Date</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in orders) {
+                    <tr>
+                        <td><a asp-controller="Orders" asp-action="Edit" asp-route-id="@item.OrdId" class="text-dark">@Html.DisplayFor(modelItem => item.OrdId)</a></td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrdSubject)<br /><span class="text-dark font-size-14">@String.Format("({0})", item.Project.ProDescription)</span>
+                        </td>
+                        <td class="d-none d-md-table-cell">@String.Format("{0:MM/dd hh:mm tt}", item.OrdDate)</td>
+                        <td>
+                            <span class="badge badge-success">@Html.DisplayFor(modelItem => item.Status.StaDescription)</span>
+                        </td>
+                        <td class="text-right">
+                            <div class="dropdown show d-inline-block widget-dropdown">
+                                <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
+                                    <li class="dropdown-item">
+                                        <a asp-controller="Orders" asp-action="Edit" asp-route-id="@item.OrdId">Work Order</a>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <a asp-controller="Projects" asp-action="Detail" asp-route-id="@item.OrdProid">Project</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

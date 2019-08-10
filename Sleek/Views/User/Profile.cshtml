@@ -53,8 +53,8 @@
                         <p>@(User.FindFirst("Email").Value)</p>
                         <p class="text-dark font-weight-medium pt-4 mb-2">Role</p>
                         <p>@(User.FindFirst("Role").Value)</p>
-                        <p class="text-dark font-weight-medium pt-4 mb-2">Social Profile</p>
-                        <p class="pb-3 social-button">
+                        <p class="text-dark font-weight-medium pt-4 mb-3">Social Profile</p>
+                        <p class="social-button">
                             <a href="@(User.FindFirst("Facebook").Value)" class="mb-1 btn btn-outline btn-facebook rounded-circle">
                                 <i class="mdi mdi-facebook"></i>
                             </a>
@@ -75,7 +75,7 @@
                 </div>
             </div>
             <div class="col-lg-8 col-xl-9">
-                <div class="profile-content-right py-5">
+                <div class="profile-content-right py-4">
                     <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
 
                         @if (User.FindFirst("Role").Value == "Admin") {

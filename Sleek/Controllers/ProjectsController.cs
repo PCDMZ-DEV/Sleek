@@ -41,46 +41,63 @@ namespace Sleek.Controllers {
         // Index (Get)
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber) {
 
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["ID"] = sortOrder == "ID" ? "ID_D" : "ID";
-            ViewData["Date"] = sortOrder == "Date" ? "Date_D" : "Date";
-            ViewData["Description"] = sortOrder == "Description" ? "Description_D" : "Description";
+            IQueryable<Project> projects = Enumerable.Empty<Project>().AsQueryable();
+            PaginatedList<Project> result = null;
 
-            if (searchString != null) {
-                pageNumber = 1;
-            } else {
-                searchString = currentFilter;
+            try {
+
+                // Clear Calling Action
+                Site.Controller = null;
+                Site.Action = null;
+
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["ID"] = sortOrder == "ID" ? "ID_D" : "ID";
+                ViewData["Date"] = sortOrder == "Date" ? "Date_D" : "Date";
+                ViewData["Description"] = sortOrder == "Description" ? "Description_D" : "Description";
+
+                if (searchString != null) {
+                    pageNumber = 1;
+                } else {
+                    searchString = currentFilter;
+                }
+
+                ViewData["CurrentFilter"] = searchString;
+
+                projects = from p in Context.Project select p;
+                if (!String.IsNullOrEmpty(searchString)) {
+                    projects = projects.Where(a => a.ProDescription.Contains(searchString));
+                }
+                switch (sortOrder) {
+                    case "Date":
+                        projects = projects.OrderBy(a => a.ProDate);
+                        break;
+                    case "Date_D":
+                        projects = projects.OrderByDescending(a => a.ProDate);
+                        break;
+                    case "Description":
+                        projects = projects.OrderBy(a => a.ProDescription);
+                        break;
+                    case "Description_D":
+                        projects = projects.OrderByDescending(a => a.ProDescription);
+                        break;
+                    case "ID_D":
+                        projects = projects.OrderByDescending(a => a.ProId);
+                        break;
+                    default:
+                        projects = projects.OrderBy(a => a.ProId);
+                        break;
+                }
+
+                int pageSize = 10;
+                result = await PaginatedList<Project>.CreateAsync(projects.AsNoTracking(), pageNumber ?? 1, pageSize);
+
+            } catch (Exception ex) {
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
 
-            ViewData["CurrentFilter"] = searchString;
+            return View(result);
 
-            var projects = from p in Context.Project select p;
-            if (!String.IsNullOrEmpty(searchString)) {
-                projects = projects.Where(a => a.ProDescription.Contains(searchString));
-            }
-            switch (sortOrder) {
-                case "Date":
-                    projects = projects.OrderBy(a => a.ProDate);
-                    break;
-                case "Date_D":
-                    projects = projects.OrderByDescending(a => a.ProDate);
-                    break;
-                case "Description":
-                    projects = projects.OrderBy(a => a.ProDescription);
-                    break;
-                case "Description_D":
-                    projects = projects.OrderByDescending(a => a.ProDescription);
-                    break;
-                case "ID_D":
-                    projects = projects.OrderByDescending(a => a.ProId);
-                    break;
-                default:
-                    projects = projects.OrderBy(a => a.ProId);
-                    break;
-            }
-
-            int pageSize = 10;
-            return View(await PaginatedList<Project>.CreateAsync(projects.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // New (Get)
@@ -99,22 +116,23 @@ namespace Sleek.Controllers {
 
         // Edit (Get)
         public async Task<IActionResult> Edit(int? id) {
-            Site.Message = "";
             var result = new Project();
             try {
+
                 if (id == null) {
-                    return NotFound();
+                    throw new ApplicationException("Record ID missing.");
                 }
+
                 result = await Context.Project.FindAsync(id);
                 if (result == null) {
-                    throw new Exception("Record not found. It may have been deleted by another user.");
+                    throw new ApplicationException("Record not found.");
                 }
 
                 ViewBag.ProStatus = ((from Status in Context.Status select Status).ToList()).OrderBy(s => s.StaDescription);
 
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
             return View("Edit", result);
         }
@@ -169,8 +187,7 @@ namespace Sleek.Controllers {
 
         // Detail
         public async Task<IActionResult> Detail(int id, string sortOrder, string currentFilter, string searchString, int? pageNumber) {
-            Site.Message = "";
-            var orders = from o in Context.Order select o;
+            IQueryable<Order> orders = Enumerable.Empty<Order>().AsQueryable();
             try {
 
                 var project = await Context.Project.FindAsync(id);
@@ -193,6 +210,7 @@ namespace Sleek.Controllers {
 
                 ViewData["CurrentFilter"] = searchString;
 
+                orders = from o in Context.Order select o;
                 if (!String.IsNullOrEmpty(searchString)) {
                     orders = orders.Where(o => o.OrdSubject.Contains(searchString) || o.OrdComments.Contains(searchString));
                 }
@@ -227,11 +245,6 @@ namespace Sleek.Controllers {
             int pageSize = 10;
             return View(await PaginatedList<Order>.CreateAsync(orders.AsNoTracking(), pageNumber ?? 1, pageSize));
 
-        }
-
-        // Close
-        public IActionResult Close() {
-            return RedirectToAction("Index");
         }
 
         #endregion
