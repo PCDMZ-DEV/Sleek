@@ -25,16 +25,20 @@
 This will be a fully functional version of the MIT Licensed Sleek Dashboard. Developed with Visual Studio 2017 and ASP.NET Core 2, it will eventually implement every feature provided by the template.
 
 # Latest Release
-Users can sign in and controls are kept in context with their credentials. (Admin, Manager or Ordinary User). Basic user management (via the Administrator Profile) is partially enabled as is the notifications menu. The plan is to finish up Registration, Password Recovery and User Management before moving on to the more interesting features. On registration, both a Customer Record and an Administrative user record are established. After that, each Customer is responsible for managing their own Users.
+Users can sign in and controls are kept in context with their credentials. (Admin, Manager or Ordinary User). Basic user management (via the Administrator Profile) is partially enabled as are Notifications and Activity History. Search via the built-in search bar is enabled for User Management and a new Project Manager has been partially implemented.
+
+Though simple in design, the Project Manager demonstrates the use of Relational data in views and the techniques needed to manage one to many forms in Entity Framework Core.
+
+The plan is to finish up Registration, Password Recovery and User Management before building out the more interesting features. On registration, both a Customer Record and an Administrative user record are established. After that, each Customer is responsible for managing their own Users.
 
 ## Important
 
-This solution is a new work in progress and will be getting updates for several more weeks. Feel free to look it over, but many parts of it are still incomplete.
+This solution is a continuing work in progress and will be getting regular updates for several more weeks. Feel free to look it over, but many parts of it are still incomplete.
 
 ## Known Issues
 
 * Registration and Password Recovery are unfinished and first on the list for completion.
-* The system is based on a Customer with multiple users. Customers are created during the registration process and can create an unlimited number of users for their account.
+* Paginated lists do not yet track their current page number. On returning from a detail form, you will return to page one.
 * Currently, there are no custom validation attributes. Several will be added as the project progresses. (Model validation)
 * The project is compatible with ASP.NET Core identity, but does not use the built-in tables for role management.
 
@@ -47,7 +51,7 @@ If you are developing and Enterprise scale application or working with a team of
 * Developed with ASP.NET Core 2.2.1 and Microsoft SQL Server 2016 (Windows or Linux)
 * Maintains compatibility with multiple database vendors by avoiding stored procedures and triggers (EF7 / LINQ)
 * Provides functional examples for relational data, one to many forms and implicit transaction processing
-* Supports claims-based authentication without the complexity of the built-in user tables
+* Supports claims-based authentication without use of of the built-in user tables
 
 ## Coming Soon
 
