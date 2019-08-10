@@ -2,6 +2,9 @@
 
 @{
     ViewBag.Title = "Activity";
+    ViewData["Controller"] = "Home";
+    ViewData["Action"] = "Activity";
+
 }
 
 @section CSS {
@@ -18,22 +21,11 @@
 
             <div class="card card-default">
 
-                <div class="card-header card-header-border-bottom">
-                    <h2>Notification History</h2>
-                </div>
-
                 <div class="card-body">
 
-                    <form class="form-inline" asp-action="Profile" method="get">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input class="form-control" type="text" name="SearchString" id="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search String" />
-                                <div class="input-group-append">
-                                    <input type="submit" value="Search" class="btn btn-default btn-success" />
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    <div class="d-flex float-left">
+                        <h3 class="mb-3">Activity History</h3>
+                    </div>
 
                     <table class="table table-striped">
                         <thead>

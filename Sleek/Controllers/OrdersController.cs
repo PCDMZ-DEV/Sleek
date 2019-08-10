@@ -39,47 +39,43 @@ namespace Sleek.Controllers {
         #region "Controller Actions""
 
         // New (Get)
-        public IActionResult New() {
-            var order = new Order {
-                OrdDate = DateTime.Now,
-                OrdStaid = 10000
-            };
-
-            ViewBag.OrdStatus = ((from Status in Context.Status select Status).ToList()).OrderBy(s => s.StaDescription);
-
+        public IActionResult New(int? id) {
+            Order order = new Order();
+            try {
+                order.OrdDate = DateTime.Now;
+                order.OrdProid = Convert.ToInt32(id);
+                order.OrdStaid = 10000;
+                ViewBag.OrdStatus = ((from Status in Context.Status select Status).ToList()).OrderBy(s => s.StaDescription);
+            } catch (Exception ex) {
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
+            }
             return View("Edit", order);
         }
 
         // Edit (Get)
         public async Task<IActionResult> Edit(int? id) {
-            Site.Message = "";
-            var result = new Order();
+            var order = new Order();
             try {
-
-                result = await Context.Order.FindAsync(id);
-
+                order = await Context.Order.FindAsync(id);
+                if (order == null) {
+                    throw new ApplicationException("Work Order not found");
+                }
+                Context.Entry(order).Reference(u => u.User).Load();
+                Context.Entry(order).Reference(p => p.Project).Load();
+                Context.Entry(order).Reference(s => s.Status).Load();
                 ViewBag.OrdStatus = ((from Status in Context.Status select Status).ToList()).OrderBy(s => s.StaDescription);
-
-                ViewBag.Tools = new String[] { "Bold", "Italic", "Underline", "StrikeThrough",
-                "FontName", "FontSize", "FontColor", "BackgroundColor",
-                "LowerCase", "UpperCase", "|",
-                "Formats", "Alignments", "OrderedList", "UnorderedList",
-                "Outdent", "Indent", "|",
-                "CreateLink", "Image", "|", "ClearFormat", "Print",
-                "SourceCode", "FullScreen", "|", "Undo", "Redo" };
-
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
-            return View("Edit", result);
+            return View("Edit", order);
         }
 
         // Save (Post)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(int id, Order order) {
-            Site.Message = "";
             string Activity = "";
             try {
                 if (ModelState.IsValid) {
@@ -98,8 +94,8 @@ namespace Sleek.Controllers {
                     return RedirectToAction("Detail", "Projects");
                 }
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
             return View("Edit", order);
         }
@@ -108,19 +104,18 @@ namespace Sleek.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id) {
-            Site.Message = "";
             try {
                 var order = await Context.Order.FindAsync(id);
                 if (order == null) {
-                    throw new Exception("Record not found. It may have been deleted by another Administrator.");
+                    throw new Exception("Work Order not found.");
                 }
                 Context.Order.Remove(order);
                 await Context.SaveChangesAsync();
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
-            return RedirectToAction("Detail", "Projects");
+            return RedirectToAction("Detail", "Projects", new { id });
         }
 
         // Close

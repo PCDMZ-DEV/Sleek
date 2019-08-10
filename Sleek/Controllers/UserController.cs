@@ -40,7 +40,7 @@ namespace Sleek.Controllers {
         // Profile (Get)
         public async Task<IActionResult> Profile(string sortOrder, string currentFilter, string searchString, int? pageNumber) {
 
-            var users = from u in Context.User select u;
+            IQueryable<User> users = Enumerable.Empty<User>().AsQueryable();
             PaginatedList<User> result = null;
 
             try {
@@ -59,6 +59,7 @@ namespace Sleek.Controllers {
 
                 ViewData["CurrentFilter"] = searchString;
 
+                users = from u in Context.User select u;
                 if (!String.IsNullOrEmpty(searchString)) {
                     users = users.Where(u => u.UsrFirst.Contains(searchString) || u.UsrLast.Contains(searchString));
                 }
@@ -93,8 +94,8 @@ namespace Sleek.Controllers {
                 result = await PaginatedList<User>.CreateAsync(users.AsNoTracking(), pageNumber ?? 1, pageSize);
 
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
 
             return View(result);
@@ -102,23 +103,21 @@ namespace Sleek.Controllers {
 
         // New (Get)
         public IActionResult New() {
-            Site.Message = "";
             User user = new User();
             try {
+                user.UsrCusid = Convert.ToInt32(User.FindFirst("Cusid"));
                 user.UsrRole = "User";
                 user.UsrStaid = 10000;
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
             return View("Detail", user);
         }
 
         // Edit (Get)
         public async Task<IActionResult> Edit(int? id) {
-            Site.Message = "";
             var result = new User();
-            var status = Enumerable.Empty<Status>();
             try {
                 if (id == null) {
                     throw new Exception("Record ID missing. Manual navigation prohibited.");
@@ -127,12 +126,11 @@ namespace Sleek.Controllers {
                 if (result == null) {
                     throw new Exception("Record not found. It may have been deleted by another user.");
                 }
-                status = Context.Status.ToList().OrderBy(u => u.StaDescription);
+                ViewBag.Status = Context.Status.ToList().OrderBy(u => u.StaDescription);
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
-            ViewBag.Status = status;
             return View("Detail", result);
         }
 
@@ -140,7 +138,6 @@ namespace Sleek.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(int id, User user) {
-            Site.Message = "";
             string Activity = "";
             try {
                 if (ModelState.IsValid) {
@@ -159,8 +156,8 @@ namespace Sleek.Controllers {
                     return RedirectToAction("Profile");
                 }
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
             return View("Detail", user);
         }
@@ -169,7 +166,6 @@ namespace Sleek.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id) {
-            Site.Message = "";
             try {
                 var user = await Context.User.FindAsync(id);
                 if (user == null) {
@@ -178,8 +174,8 @@ namespace Sleek.Controllers {
                 Context.User.Remove(user);
                 await Context.SaveChangesAsync();
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
             return RedirectToAction("Profile");
         }

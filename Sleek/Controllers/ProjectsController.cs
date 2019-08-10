@@ -87,6 +87,8 @@ namespace Sleek.Controllers {
         public IActionResult New() {
             var project = new Project {
                 ProDate = DateTime.Now,
+                ProCusid = Convert.ToInt32(User.FindFirst("Cusid").Value),
+                ProUsrid = Convert.ToInt32(User.FindFirst("Usrid").Value),
                 ProStaid = 10000
             };
 

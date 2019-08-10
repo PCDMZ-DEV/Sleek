@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Project Detail";
+    ViewData["Controller"] = "Projects";
+    ViewData["Action"] = "Detail";
     var project = (Project)ViewData["Project"];
 }
 
@@ -13,122 +15,83 @@
 
 }
 
-<div class="content">
-    <div class="bg-white border rounded">
-        <div class="row no-gutters">
-            <div class="col-lg-4 col-xl-3 pb-4">
-                <div class="profile-content-left pt-2 pb-3 px-3 px-xl-5">
-                    <div class="card text-center widget-profile px-0 border-0">
-                        <div class="card-body">
-                            <h4 class="py-2 text-dark">@project.User.UsrFirst @project.User.UsrLast</h4>
-                            <p class="mb-3">@project.Customer.CusCompany</p>
-                            <p class="mb-4">@project.User.UsrRole</p>
-                            <p class="text-left">@project.User.UsrNote</p>
-                        </div>
-                    </div>
-                    <hr class="w-100">
-                    <div class="contact-info pt-4">
-                        <h5 class="text-dark mb-1">Project Information<a asp-action="Edit" asp-route-id="@project.ProId" class="btn"><i class="mdi mdi-pencil mdi-18px ml-3"></i></a></h5>
-                        <p class="text-dark font-weight-medium pt-4 mb-2">Project Description</p>
-                        <p>@project.ProDescription</p>
-                        <p class="text-dark font-weight-medium pt-4 mb-2">Local Path</p>
-                        <p>@project.ProLocalpath</p>
-                        <p class="text-dark font-weight-medium pt-4 mb-2">Remote Path</p>
-                        <p>@project.ProRemotepath</p>
-                        <p class="text-dark font-weight-medium pt-4 mb-2">Source Control</p>
-                        <p>@project.ProSourcepath</p>
-                        <p class="text-dark font-weight-medium pt-4 mb-2">Status</p>
-                        <p>@project.Status.StaDescription</p>
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-5 mx-auto" id="form-container">
+        <div class="card pb-0">
+            <article class="card-body">
+                <h4 class="card-title text-center">Project Detail</h4>
+                <div class="row text-center">
+                    <div class="col-12">
+                        <p class="text-dark">@String.Format("{0:D}", project.ProDescription)</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-8 col-xl-9">
-                <div class="profile-content-right py-5">
-                    <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
+                <div class="row text-center mb-2">
+                    <div class="col-12">
+                        <p class="text-dark">@(String.Format("{0} {1}", project.User.UsrFirst, project.User.UsrLast))</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-8">
+                        <p class="text-dark"><span class="font-size-10">Description<br /></span>@project.ProDescription</p>
+                    </div>
+                    <div class="col-lg-4 col-4">
+                        <p class="text-dark"><span class="font-size-10">Status<br /></span>@project.Status.StaDescription</p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
 
-                        <!-- Work Order -->
-                        <li class="nav-item">
-                            <a class="nav-link active" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="true">Work Orders</a>
-                        </li>
+                        <div class="card mb-3">
 
-                        <!-- Future Use -->
-                        <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Coming soon!</a>
-                        </li>
+                            <div class="card-body p-0">
 
-                        <!-- Future Use -->
-                        <li class="nav-item">
-                            <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Coming Soon!</a>
-                        </li>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><a asp-action="Detail" asp-route-sortOrder="@ViewData["ID"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">ID</a></th>
+                                            <th><a asp-action="Detail" asp-route-sortOrder="@ViewData["Date"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Date</a></th>
+                                            <th><a asp-action="Detail" asp-route-sortOrder="@ViewData["Subject"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Subject</a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model) {
+                                            <tr>
+                                                <td><a asp-controller="Orders" asp-action="Edit" asp-route-id="@item.OrdId"> @Html.DisplayFor(modelItem => item.OrdId)</a></td>
+                                                <td>@Html.DisplayFor(modelItem => item.OrdDate)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.OrdSubject)</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                @if (Model.Count() == 0) {
+                                    <p class="text-size-14 my-3 ml-3">Click the New button to add your first Project</p>
+                                }
 
-                    </ul>
-                    <div class="tab-content px-3 px-xl-5" id="myTabContent">
+                                @{
+                                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                                }
 
-                        <!-- Work Order -->
-                        <div class="tab-pane fade show active" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                                <a asp-action="Profile" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default @prevDisabled">Previous</a>
+                                <a asp-action="Profile" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default @nextDisabled">Next</a>
 
-                            <div class="row my-5">
-                                <div class="col-12">
+                            </div>
+                        </div>
 
-                                    <form class="form-inline" asp-action="#" method="get">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <input class="form-control" type="text" name="SearchString" id="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search String" />
-                                                <div class="input-group-append">
-                                                    <button asp-action="Detail" class="btn btn-default btn-success mr-3">Search</button>
-                                                    <button asp-controller="Orders" asp-action="New" asp-route-id="@project.ProId" class="btn btn-default btn-secondary">New Work Order</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                    <div class="card">
-                                        <div class="card-body p-0">
-                                            <table class="table table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th><a asp-action="Detail" asp-route-sortOrder="@ViewData["ID"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">ID</a></th>
-                                                        <th><a asp-action="Detail" asp-route-sortOrder="@ViewData["Date"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Date</a></th>
-                                                        <th><a asp-action="Detail" asp-route-sortOrder="@ViewData["Subject"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Subject</a></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (var item in Model) {
-                                                        <tr>
-                                                            <td><a asp-controller="Orders" asp-action="Edit" asp-route-id="@item.OrdId"> @Html.DisplayFor(modelItem => item.OrdId)</a></td>
-                                                            <td>@Html.DisplayFor(modelItem => item.OrdDate)</td>
-                                                            <td>@Html.DisplayFor(modelItem => item.OrdSubject)</td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
-                                            @{
-                                                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-                                                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-                                            }
-
-                                            <a asp-action="Profile" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default @prevDisabled">Previous</a>
-                                            <a asp-action="Profile" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default @nextDisabled">Next</a>
-                                        </div>
-                                    </div>
+                        <form class="form-inline float-right" asp-action="#" method="get">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <button asp-controller="Projects" asp-action="Edit" asp-route-id="@project.ProId" class="btn btn-primary mr-2"><i class="mdi mdi-pencil"></i></button>
+                                    <button asp-controller="Orders" asp-action="New" asp-route-id="@project.ProId" class="btn btn-success mr-2">New Work Order</button>
+                                    <a asp-action="Index" class="btn btn-secondary">Close</a>
                                 </div>
-                            </div> <!-- Row -->
-
-                        </div>
-
-                        <!-- Future Use -->
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <p class="lead mt-3">Future Use</p>
-                        </div>
-
-                        <!-- Future Use -->
-                        <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                            <p class="lead mt-3">Future Use</p>
-                        </div>
+                            </div>
+                        </form>
 
                     </div>
                 </div>
-            </div>
-        </div>
+
+            </article>
+        </div> <!-- card -->
     </div>
 </div>

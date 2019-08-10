@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Sleek.Classes;
 using Sleek.Models;
 using System;
@@ -26,17 +27,19 @@ namespace Sleek.Controllers {
         // Variables
         private readonly MainContext Context;
         private readonly IConfiguration Configuration;
-        private readonly SmtpClient SmtpClient;
+        private SmtpClient SmtpClient;
+        private ILogger<AccountController> Logger;
 
         #endregion
 
         #region "Class Methods and Events"
 
         // Constructor
-        public AccountController(MainContext context, IConfiguration configuration, SmtpClient smtpclient) {
+        public AccountController(MainContext context, IConfiguration configuration, SmtpClient smtpclient, ILogger<AccountController> logger) {
             Context = context;
             Configuration = configuration;
             SmtpClient = smtpclient;
+            Logger = logger;
         }
 
         #endregion
@@ -51,7 +54,6 @@ namespace Sleek.Controllers {
         // Register (Get)
         [AllowAnonymous]
         public IActionResult Register() {
-            Site.Mode = "Register";
             return View("Register");
         }
 
@@ -60,8 +62,6 @@ namespace Sleek.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Register([FromForm]Register registration) {
-            String message = "Registration Failed";
-            Site.Mode = "Register";
             try {
                 if (ModelState.IsValid) {
                     var user = Context.User.Where(u => u.UsrEmail == registration.RegEmail).FirstOrDefault();
@@ -78,17 +78,15 @@ namespace Sleek.Controllers {
                         };
                         Context.Add(user);
                         Context.SaveChanges();
-                        message = "Success, Registration successful. Please respond to the confirmation message we just sent you. Unpon confirmation you can sign in to your account.";
-                        Site.Mode = "Login";
+                        throw new ApplicationException("Registration successful. Please respond to the confirmation message we just sent you. Unpon confirmation you can sign in to your account");
                     } else {
-                        message = "Warning, We already have that E-Mail address on file. Please sign in to your account.";
-                        Site.Mode = "Login";
+                        throw new ApplicationException("We already have that E-Mail address on file. Please sign in to your account");
                     }
                 }
             } catch (Exception ex) {
-                message = string.Format("{0}, {1}", "Error", ex.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
-            ViewBag.Message = message;
             return View("Register", registration);
         }
 
@@ -110,7 +108,6 @@ namespace Sleek.Controllers {
                 Site.Mode = "Login";
                 return RedirectToAction("Login", "Home");
             }
-            Site.Mode = "Recover";
             return View("Recover", model);
         }
 
@@ -121,7 +118,6 @@ namespace Sleek.Controllers {
                 return RedirectToAction("Index", "Account");
             }
             ViewData["ReturnUrl"] = returnUrl;
-            Site.Mode = "Login";
             return View("Login");
         }
 
@@ -130,55 +126,62 @@ namespace Sleek.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([FromForm]Login model) {
-            Site.Message = "";
-            if (ModelState.IsValid) {
-                User user = Context.User.SingleOrDefault(u => u.UsrEmail == model.Username);
-                if (user != null) {
-                    if (user.UsrPassword == model.Password) {
-
-                        var claims = new List<Claim> {
+            try {
+                if (ModelState.IsValid) {
+                    User user = Context.User.SingleOrDefault(u => u.UsrEmail == model.Username);
+                    if (user != null) {
+                        if (user.UsrPassword == model.Password) {
+                            var claims = new List<Claim> {
                                 new Claim("cusid", user.UsrCusid.ToString()),
                                 new Claim("usrid", user.UsrId.ToString()),
                                 new Claim("full", string.Format("{0} {1}", user.UsrFirst, user.UsrLast)),
                                 new Claim("first", user.UsrFirst),
                                 new Claim("last", user.UsrLast),
                                 new Claim("email", user.UsrEmail),
-                                new Claim("facebook", "https://www.facebook.com/peerfoods"),
-                                new Claim("linkedin", "https://www.linkedin.com/in/peerfoods"),
-                                new Claim("twitter", "https://twitter.com/peerfoods?lang=en"),
+                                new Claim("facebook", "https://www.facebook.com/pcdmz"),
+                                new Claim("linkedin", "https://www.linkedin.com/in/pcdmz"),
+                                new Claim("twitter", "https://twitter.com/pcdmz?lang=en"),
                                 new Claim("skype", ""),
                                 new Claim("xing", ""),
                                 new Claim("role", user.UsrRole),
                                 new Claim(ClaimTypes.Email, model.Username)
                             };
+                            var userIdentity = new ClaimsIdentity(claims, "login");
+                            ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+                            await HttpContext.SignInAsync(
+                                CookieAuthenticationDefaults.AuthenticationScheme,
+                                principal,
+                                new AuthenticationProperties {
+                                    IsPersistent = true
+                                });
+                            Site.Log(Context, user.UsrCusid, user.UsrId, "Signed In", "Info");
+                            return RedirectToAction("Index", "Home");
 
-                        var userIdentity = new ClaimsIdentity(claims, "login");
-                        ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-                        await HttpContext.SignInAsync(
-                            CookieAuthenticationDefaults.AuthenticationScheme,
-                            principal,
-                            new AuthenticationProperties {
-                                IsPersistent = true
-                            });
-                        Site.Log(Context, user.UsrCusid, user.UsrId, "Signed In", "Info");
-                        return RedirectToAction("Index", "Home");
-
+                        } else {
+                            throw new ArgumentException("Password does not match our records");
+                        }
                     } else {
-                        Site.Message = "Password does not match our records";
+                        throw new ArgumentException("E-Mail Address not found");
                     }
-                } else {
-                    Site.Message = "E-Mail Address not found.";
                 }
+            } catch (Exception ex) {
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
             return View("Login", model);
         }
 
         // Logout (Get)
         public async Task<IActionResult> Logout() {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            var activity = new Activity();
-            Site.Log(Context, Convert.ToInt32(User.FindFirst("cusid").Value), Convert.ToInt32(User.FindFirst("usrid").Value), "Signed Out", "Info");
-            return RedirectToAction("Login", "Account");
+            try {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                var activity = new Activity();
+                Site.Log(Context, Convert.ToInt32(User.FindFirst("cusid").Value), Convert.ToInt32(User.FindFirst("usrid").Value), "Signed Out", "Info");
+            } catch (Exception ex) {
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         #endregion

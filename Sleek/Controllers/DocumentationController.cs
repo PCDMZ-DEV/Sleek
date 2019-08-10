@@ -3,7 +3,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Sleek.Classes;
 
 #endregion
 
@@ -24,6 +23,8 @@ namespace Sleek.Controllers {
         }
 
         #endregion
+
+        #region "Controller Actions"
 
         #region "Getting Started"
 
@@ -107,6 +108,8 @@ namespace Sleek.Controllers {
         public IActionResult Sidebar_Right() {
             return View();
         }
+
+        #endregion
 
         #endregion
 

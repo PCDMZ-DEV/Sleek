@@ -15,6 +15,7 @@ namespace Sleek.Classes {
         #region "Variables and Constants"
 
         public static Queue<String> Messages = new Queue<string>();
+        public static String CurrentFilter = "";
 
         #endregion
 

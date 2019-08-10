@@ -14,78 +14,73 @@
     <script src="~/assets/plugins/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }
 
-<div class="content">
-    <div class="row">
-        <div class="col-12 col-lg-6 mx-auto">
-            <form asp-action="#">
-
-                <div class="card card-default">
-
-                    <div class="card-header card-header-border-bottom">
-                        <h2>Project (@Model.ProId)</h2>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="form-row">
-                            <div class="col-sm-6">
-                                <label asp-for="ProDate" class="text-dark font-weight-medium">@Html.DisplayNameFor(model => model.ProDate)</label>
-                                <div class="input-group" id="datetimepicker" data-target-input="nearest">
-                                    <input asp-for="ProDate" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" placeholder="@Html.DisplayNameFor(model => model.ProDate)" />
-                                    <span asp-validation-for="ProDate" class="text-danger small"></span>
-                                    <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-5 mx-auto" id="form-container">
+        <div class="card pb-0">
+            <article class="card-body pb-0">
+                <h4 class="card-title text-center">Project</h4>
+                <form asp-action="#">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm-6">
+                                    <label asp-for="ProDate">@Html.DisplayNameFor(model => model.ProDate)</label>
+                                    <div class="input-group" id="datetimepicker" data-target-input="nearest">
+                                        <input asp-for="ProDate" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" placeholder="@Html.DisplayNameFor(model => model.ProDate)" />
+                                        <span asp-validation-for="ProDate" class="text-danger small"></span>
+                                        <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-sm-6">
+                                    <label asp-for="ProStaid">@Html.DisplayNameFor(model => model.ProStaid)</label>
+                                    <select asp-for="ProStaid" class="form-control" asp-items="@(new SelectList(ViewBag.ProStatus, "StaId", "StaDescription"))" placeholder="@Html.DisplayNameFor(model => model.ProStaid)"></select>
+                                    <span asp-validation-for="ProStaid" class="text-danger small"></span>
+                                </div>
                             </div>
-                            <div class="col-sm-6">
-                                <label asp-for="ProStaid" class="text-dark font-weight-medium">@Html.DisplayNameFor(model => model.ProStaid)</label>
-                                <select asp-for="ProStaid" class="form-control" asp-items="@(new SelectList(ViewBag.ProStatus, "StaId", "StaDescription"))" placeholder="@Html.DisplayNameFor(model => model.ProStaid)"></select>
-                                <span asp-validation-for="ProStaid" class="text-danger small"></span>
+                            <div class="form-row">
+                                <div class="col-sm-12 mb-3">
+                                    <label asp-for="ProLocalpath">@Html.DisplayNameFor(model => model.ProLocalpath)</label>
+                                    <input asp-for="ProLocalpath" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProLocalpath)">
+                                    <span asp-validation-for="ProLocalpath" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-12 mb-3">
+                                    <label asp-for="ProRemotepath">@Html.DisplayNameFor(model => model.ProRemotepath)</label>
+                                    <input asp-for="ProRemotepath" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProRemotepath)">
+                                    <span asp-validation-for="ProRemotepath" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-12 mb-3">
+                                    <label asp-for="ProSourcepath">@Html.DisplayNameFor(model => model.ProSourcepath)</label>
+                                    <input asp-for="ProSourcepath" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProSourcepath)">
+                                    <span asp-validation-for="ProSourcepath" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-12 mb-3">
+                                    <label asp-for="ProDescription">@Html.DisplayNameFor(model => model.ProDescription)</label>
+                                    <textarea asp-for="ProDescription" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProDescription)" rows="6"></textarea>
+                                    <span asp-validation-for="ProDescription" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="form-group float-right">
+                                <button asp-action="Save" asp-route-id="@Model.ProId" class="btn btn-success mr-2">Save</button>
+                                <button asp-action="Delete" asp-route-id="@Model.ProId" class="btn btn-danger mr-2">Delete</button>
+                                <a asp-action="Index" class="btn btn-secondary">Close</a>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="col-sm-12 mb-3">
-                                <label asp-for="ProLocalpath" class="text-dark font-weight-medium">@Html.DisplayNameFor(model => model.ProLocalpath)</label>
-                                <input asp-for="ProLocalpath" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProLocalpath)">
-                                <span asp-validation-for="ProLocalpath" class="text-danger small"></span>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-sm-12 mb-3">
-                                <label asp-for="ProRemotepath" class="text-dark font-weight-medium">@Html.DisplayNameFor(model => model.ProRemotepath)</label>
-                                <input asp-for="ProRemotepath" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProRemotepath)">
-                                <span asp-validation-for="ProRemotepath" class="text-danger small"></span>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-sm-12 mb-3">
-                                <label asp-for="ProSourcepath" class="text-dark font-weight-medium">@Html.DisplayNameFor(model => model.ProSourcepath)</label>
-                                <input asp-for="ProSourcepath" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProSourcepath)">
-                                <span asp-validation-for="ProSourcepath" class="text-danger small"></span>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-sm-12 mb-3">
-                                <label asp-for="ProDescription" class="text-dark font-weight-medium">@Html.DisplayNameFor(model => model.ProDescription)</label>
-                                <textarea asp-for="ProDescription" class="form-control" placeholder="@Html.DisplayNameFor(model => model.ProDescription)"></textarea>
-                                <span asp-validation-for="ProDescription" class="text-danger small"></span>
-                            </div>
-                        </div>
-                    </div> <!-- Card Body -->
-                </div> <!-- Card -->
-                <div class="form-group float-right">
-                    <button asp-action="Save" asp-route-id="@Model.ProId" class="btn btn-success btn-lg px-4 mr-2">Save</button>
-                    <button asp-action="Delete" asp-route-id="@Model.ProId" class="btn btn-danger btn-lg px-4 mr-2">Delete</button>
-                    <a asp-controller="Projects" asp-action="Detail" asp-route-id="@Model.ProId" class="btn btn-secondary btn-lg px-4">Close</a>
-                </div>
 
-                <input asp-for="ProId" type="hidden" />
-                <input asp-for="ProCusid" type="hidden" />
-                <input asp-for="ProUsrid" type="hidden" />
+                        <input asp-for="ProId" type="hidden" />
+                        <input asp-for="ProCusid" type="hidden" />
+                        <input asp-for="ProUsrid" type="hidden" />
 
-            </form>
-        </div>
+                    </div>
+                </form>
+            </article>
+        </div> <!-- Card -->
     </div>
 </div>
-
-

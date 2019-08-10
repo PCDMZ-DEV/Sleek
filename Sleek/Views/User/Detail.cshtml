@@ -13,78 +13,76 @@
     <script src="~/assets/plugins/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }
 
-<div class="content">
-    <div class="row">
-        <div class="col-12 col-lg-6 mx-auto">
-            <form asp-action="#">
-                <div class="card card-default">
-                    <div class="card-header card-header-border-bottom">
-                        <h2>User Detail</h2>
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-5 mx-auto" id="form-container">
+        <div class="card pb-0">
+            <article class="card-body pb-0">
+                <h4 class="card-title text-center">User Detail</h4>
+                <div class="row">
+                    <div class="col-12">
+                        <form>
+                            <div class="form-row">
+                                <div class="col-sm-4 mb-3">
+                                    <label asp-for="UsrFirst">@Html.DisplayNameFor(model => model.UsrFirst)</label>
+                                    <input asp-for="UsrFirst" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrFirst)">
+                                    <span asp-validation-for="UsrFirst" class="text-danger small"></span>
+                                </div>
+                                <div class="col-sm-8 mb-3">
+                                    <label asp-for="UsrLast">@Html.DisplayNameFor(model => model.UsrLast)</label>
+                                    <input asp-for="UsrLast" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrLast)">
+                                    <span asp-validation-for="UsrLast" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-4 mb-3">
+                                    <label asp-for="UsrName">@Html.DisplayNameFor(model => model.UsrName)</label>
+                                    <input asp-for="UsrName" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrName)">
+                                    <span asp-validation-for="UsrName" class="text-danger small"></span>
+                                </div>
+                                <div class="col-sm-8 mb-3">
+                                    <label asp-for="UsrEmail">@Html.DisplayNameFor(model => model.UsrEmail)</label>
+                                    <input asp-for="UsrEmail" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrEmail)">
+                                    <span asp-validation-for="UsrEmail" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-12 mb-3">
+                                    <label asp-for="UsrNote">@Html.DisplayNameFor(model => model.UsrNote)</label>
+                                    <textarea asp-for="UsrNote" class="form-control pb_height-110" placeholder="@Html.DisplayNameFor(model => model.UsrNote)" rows="6"></textarea>
+                                    <span asp-validation-for="UsrNote" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-6 mb-3">
+                                    <label asp-for="UsrRole">@Html.DisplayNameFor(model => model.UsrRole)</label>
+                                    <select asp-for="UsrRole" class="form-control" placeholder="@Html.DisplayNameFor(model => model.UsrRole)">
+                                        <option value="Admin">Administrator</option>
+                                        <option value="Manager">Department Manager</option>
+                                        <option value="User">Standard User</option>
+                                    </select>
+                                    <span asp-validation-for="UsrName" class="text-danger small"></span>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label asp-for="UsrStaid">@Html.DisplayNameFor(model => model.UsrStaid)</label>
+                                    <select asp-for="UsrStaid" class="form-control" asp-items="@(new SelectList(ViewBag.Status, "StaId", "StaDescription"))" placeholder="@Html.DisplayNameFor(model => model.UsrStaid)"></select>
+                                    <span asp-validation-for="UsrEmail" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group float-right">
+                                <button asp-controller="User" asp-action="Save" asp-route-id="@Model.UsrId" class="btn btn-success mr-2">Save</button>
+                                <button asp-controller="User" asp-action="Delete" asp-route-id="@Model.UsrId" class="btn btn-danger mr-2">Delete</button>
+                                <button asp-controller="User" asp-action="Close" class="btn btn-secondary">Close</button>
+                            </div>
+
+                            <input asp-for="UsrId" type="hidden" />
+                            <input asp-for="UsrCusid" type="hidden" />
+
+                        </form>
+
                     </div>
-                    <div class="card-body">
-                        <div class="form-row">
-                            <div class="col-sm-4 mb-3">
-                                <label asp-for="UsrFirst">@Html.DisplayNameFor(model => model.UsrFirst)</label>
-                                <input asp-for="UsrFirst" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrFirst)">
-                                <span asp-validation-for="UsrFirst" class="text-danger small"></span>
-                            </div>
-                            <div class="col-sm-8 mb-3">
-                                <label asp-for="UsrLast">@Html.DisplayNameFor(model => model.UsrLast)</label>
-                                <input asp-for="UsrLast" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrLast)">
-                                <span asp-validation-for="UsrLast" class="text-danger small"></span>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-sm-4 mb-3">
-                                <label asp-for="UsrName">@Html.DisplayNameFor(model => model.UsrName)</label>
-                                <input asp-for="UsrName" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrName)">
-                                <span asp-validation-for="UsrName" class="text-danger small"></span>
-                            </div>
-                            <div class="col-sm-8 mb-3">
-                                <label asp-for="UsrEmail">@Html.DisplayNameFor(model => model.UsrEmail)</label>
-                                <input asp-for="UsrEmail" class="form-control pb_height-50 reverse" placeholder="@Html.DisplayNameFor(model => model.UsrEmail)">
-                                <span asp-validation-for="UsrEmail" class="text-danger small"></span>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-sm-12 mb-3">
-                                <label asp-for="UsrNote">@Html.DisplayNameFor(model => model.UsrNote)</label>
-                                <textarea asp-for="UsrNote" class="form-control pb_height-110" placeholder="@Html.DisplayNameFor(model => model.UsrNote)" rows="6"></textarea>
-                                <span asp-validation-for="UsrNote" class="text-danger small"></span>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-sm-6 mb-3">
-                                <label asp-for="UsrRole">@Html.DisplayNameFor(model => model.UsrRole)</label>
-                                <select asp-for="UsrRole" class="form-control" placeholder="@Html.DisplayNameFor(model => model.UsrRole)">
-                                    <option value="Admin">Administrator</option>
-                                    <option value="Manager">Department Manager</option>
-                                    <option value="User">Standard User</option>
-                                </select>
-                                <span asp-validation-for="UsrName" class="text-danger small"></span>
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label asp-for="UsrStaid">@Html.DisplayNameFor(model => model.UsrStaid)</label>
-                                <select asp-for="UsrStaid" class="form-control" asp-items="@(new SelectList(ViewBag.Status, "StaId", "StaDescription"))" placeholder="@Html.DisplayNameFor(model => model.UsrStaid)"></select>
-                                <span asp-validation-for="UsrEmail" class="text-danger small"></span>
-                            </div>
-                        </div>
-                    </div> <!-- Card Body -->
-                </div> <!-- Card -->
-                <p class="lead text-danger text-center my-3">@Site.Message</p>
-                <div class="form-group float-right">
-                    <button asp-controller="User" asp-action="Save" asp-route-id="@Model.UsrId" class="btn btn-success btn-lg px-4 mr-2">Save</button>
-                    <button asp-controller="User" asp-action="Delete" asp-route-id="@Model.UsrId" class="btn btn-danger btn-lg px-4 mr-2">Delete</button>
-                    <button asp-controller="User" asp-action="Close" class="btn btn-secondary btn-lg px-4">Close</button>
                 </div>
-
-                <input asp-for="UsrId" type="hidden" />
-                <input asp-for="UsrCusid" type="hidden" />
-
-            </form>
-        </div>
+            </article>
+        </div> <!-- Card -->
     </div>
 </div>
-
-
-

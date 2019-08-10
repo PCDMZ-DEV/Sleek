@@ -29,7 +29,6 @@ namespace Sleek.Controllers {
 
         // Index (Get)
         public IActionResult Index() {
-            Site.Layout = "_LayoutAdmin";
             return View();
         }
 

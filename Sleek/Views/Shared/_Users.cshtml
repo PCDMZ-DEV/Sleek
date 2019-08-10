@@ -3,23 +3,11 @@
 <div class="row my-5">
     <div class="col-12">
 
-        <form class="form-inline" asp-action="Profile" method="get">
-            <div class="form-group">
-                <div class="input-group">
-                    <input class="form-control" type="text" name="SearchString" id="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search String" />
-                    <div class="input-group-append">
-                        <input type="submit" value="Search" class="btn btn-default btn-success" />
-                    </div>
-                </div>
-            </div>
-        </form>
-
         <div class="card">
             <div class="card-body p-0">
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th><a asp-action="Profile" asp-route-sortOrder="@ViewData["ID"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">ID</a></th>
                             <th><a asp-action="Profile" asp-route-sortOrder="@ViewData["First"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">First</a></th>
                             <th><a asp-action="Profile" asp-route-sortOrder="@ViewData["ILastD"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Last</a></th>
                             <th><a asp-action="Profile" asp-route-sortOrder="@ViewData["Email"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">E-Mail</a></th>
@@ -28,10 +16,7 @@
                     <tbody>
                         @foreach (var item in Model) {
                             <tr>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.UsrId"> @Html.DisplayFor(modelItem => item.UsrId)</a>
-                                </td>
-                                <td>@Html.DisplayFor(modelItem => item.UsrFirst)</td>
+                                <td><a asp-action="Edit" asp-route-id="@item.UsrId">@Html.DisplayFor(modelItem => item.UsrFirst)</a></td>
                                 <td>@Html.DisplayFor(modelItem => item.UsrLast)</td>
                                 <td>@Html.DisplayFor(modelItem => item.UsrEmail)</td>
                             </tr>
