@@ -71,13 +71,19 @@ namespace Sleek.Models {
         #region "Navigation Properties"
 
         [Display(Name = "Status")]
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
+
+        [Display(Name = "Activities")]
+        public ICollection<Activity> Activities { get; set; }
 
         [Display(Name = "Projects")]
         public ICollection<Project> Projects { get; set; }
 
         [Display(Name = "Orders")]
         public ICollection<Order> Orders { get; set; }
+
+        [Display(Name = "Users")]
+        public ICollection<User> Users { get; set; }
 
         #endregion
 

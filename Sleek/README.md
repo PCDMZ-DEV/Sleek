@@ -25,11 +25,17 @@
 This will be a fully functional version of the MIT Licensed Sleek Dashboard. Developed with Visual Studio 2017 and ASP.NET Core 2, it will eventually implement every feature provided by the template.
 
 # Latest Release
-Users can sign in and controls are kept in context with their credentials. (Admin, Manager or Ordinary User). Basic user management (via the Administrator Profile) is partially enabled as are Notifications and Activity History. Search via the built-in search bar is enabled for User Management and a new Project Manager has been partially implemented.
+Users can sign in and controls are kept in context with their credentials. (Admin, Manager or Ordinary User). Basic user management (via the Administrator Profile) is 
+partially enabled as are Notifications and Activity History. Search via the built-in search bar is enabled for User Management and a new Project Manager has been partially
+implemented.
 
 Though simple in design, the Project Manager demonstrates the use of Relational data in views and the techniques needed to manage one to many forms in Entity Framework Core.
 
-The plan is to finish up Registration, Password Recovery and User Management before building out the more interesting features. On registration, both a Customer Record and an Administrative user record are established. After that, each Customer is responsible for managing their own Users.
+The Database migration script has been updated and now includes basic Seed data. You can login with admin@company.com, manager@company.com or user@company.com with a password
+of well, Password (Case sensitive). Administrators can manage users while Managers and Standard users cannot. Manager specific functionality will be coming soon.
+
+The plan is to finish up Registration, Password Recovery and User Management before building out the more interesting features. On registration, both a Customer Record and 
+an Administrative user record are established. After that, each Customer is responsible for managing their own Users.
 
 ## Important
 
@@ -38,6 +44,7 @@ This solution is a continuing work in progress and will be getting regular updat
 ## Known Issues
 
 * Registration and Password Recovery are unfinished and first on the list for completion.
+* User passwords are plain text and will not be hashed until the next release.
 * Paginated lists do not yet track their current page number. On returning from a detail form, you will return to page one.
 * Currently, there are no custom validation attributes. Several will be added as the project progresses. (Model validation)
 * The project is compatible with ASP.NET Core identity, but does not use the built-in tables for role management.

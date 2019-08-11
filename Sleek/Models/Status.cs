@@ -1,5 +1,6 @@
 ﻿#region "Usings"
 
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 #endregion
@@ -24,14 +25,17 @@ namespace Sleek.Models {
 
         #region "Navigation Properties"
 
-        [Display(Name = "Customer")]
-        public Customer Customer { get; set; }
+        [Display(Name = "Customers")]
+        public ICollection<Customer> Customers { get; set; }
 
-        [Display(Name = "Project")]
-        public Project Project { get; set; }
+        [Display(Name = "Projects")]
+        public ICollection<Project> Projects { get; set; }
 
-        [Display(Name = "Order")]
-        public Order Order { get; set; }
+        [Display(Name = "Orders")]
+        public ICollection<Order> Orders { get; set; }
+
+        [Display(Name = "Users")]
+        public ICollection<User> Users { get; set; }
 
         #endregion
 

@@ -9,23 +9,6 @@ namespace Sleek.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Activity",
-                columns: table => new
-                {
-                    act_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    act_date = table.Column<DateTime>(type: "datetime", nullable: true),
-                    act_cusid = table.Column<int>(nullable: false),
-                    act_usrid = table.Column<int>(nullable: false),
-                    act_description = table.Column<string>(unicode: false, maxLength: 300, nullable: false),
-                    act_type = table.Column<string>(unicode: false, maxLength: 20, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Activity", x => x.act_id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Request",
                 columns: table => new
                 {
@@ -103,7 +86,7 @@ namespace Sleek.Migrations
                 {
                     usr_id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    usr_cusid = table.Column<int>(nullable: false),
+                    usr_cusid = table.Column<int>(nullable: true),
                     usr_first = table.Column<string>(unicode: false, maxLength: 30, nullable: true),
                     usr_last = table.Column<string>(unicode: false, maxLength: 30, nullable: true),
                     usr_title = table.Column<string>(maxLength: 30, nullable: true),
@@ -124,7 +107,7 @@ namespace Sleek.Migrations
                         column: x => x.usr_cusid,
                         principalTable: "Customer",
                         principalColumn: "cus_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_User_Status_usr_staid",
                         column: x => x.usr_staid,
@@ -134,19 +117,49 @@ namespace Sleek.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Activity",
+                columns: table => new
+                {
+                    act_id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    act_date = table.Column<DateTime>(type: "datetime", nullable: true),
+                    act_cusid = table.Column<int>(nullable: true),
+                    act_usrid = table.Column<int>(nullable: true),
+                    act_description = table.Column<string>(unicode: false, maxLength: 300, nullable: false),
+                    act_type = table.Column<string>(unicode: false, maxLength: 20, nullable: false),
+                    UserUsrId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Activity", x => x.act_id);
+                    table.ForeignKey(
+                        name: "FK_Activity_Customer_act_cusid",
+                        column: x => x.act_cusid,
+                        principalTable: "Customer",
+                        principalColumn: "cus_id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Activity_User_UserUsrId",
+                        column: x => x.UserUsrId,
+                        principalTable: "User",
+                        principalColumn: "usr_id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Project",
                 columns: table => new
                 {
                     pro_id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    pro_cusid = table.Column<int>(nullable: false),
-                    pro_usrid = table.Column<int>(nullable: false),
+                    pro_cusid = table.Column<int>(nullable: true),
+                    pro_usrid = table.Column<int>(nullable: true),
                     pro_date = table.Column<DateTime>(type: "datetime", nullable: false),
                     pro_description = table.Column<string>(unicode: false, maxLength: 300, nullable: false),
                     pro_localpath = table.Column<string>(unicode: false, maxLength: 300, nullable: true),
                     pro_remotepath = table.Column<string>(unicode: false, maxLength: 300, nullable: true),
                     pro_sourcepath = table.Column<string>(unicode: false, maxLength: 300, nullable: true),
-                    pro_staid = table.Column<int>(nullable: false)
+                    pro_staid = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -156,19 +169,19 @@ namespace Sleek.Migrations
                         column: x => x.pro_cusid,
                         principalTable: "Customer",
                         principalColumn: "cus_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Project_Status_pro_staid",
                         column: x => x.pro_staid,
                         principalTable: "Status",
                         principalColumn: "sta_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Project_User_pro_usrid",
                         column: x => x.pro_usrid,
                         principalTable: "User",
                         principalColumn: "usr_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,14 +190,14 @@ namespace Sleek.Migrations
                 {
                     ord_id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ord_cusid = table.Column<int>(nullable: false),
-                    ord_usrid = table.Column<int>(nullable: false),
-                    ord_proid = table.Column<int>(nullable: false),
+                    ord_cusid = table.Column<int>(nullable: true),
+                    ord_usrid = table.Column<int>(nullable: true),
+                    ord_proid = table.Column<int>(nullable: true),
                     ord_date = table.Column<DateTime>(type: "datetime", nullable: true),
                     ord_subject = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
                     ord_description = table.Column<string>(unicode: false, maxLength: 300, nullable: true),
                     ord_comments = table.Column<string>(unicode: false, nullable: true),
-                    ord_staid = table.Column<int>(nullable: false)
+                    ord_staid = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -194,33 +207,81 @@ namespace Sleek.Migrations
                         column: x => x.ord_cusid,
                         principalTable: "Customer",
                         principalColumn: "cus_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Order_Project_ord_proid",
                         column: x => x.ord_proid,
                         principalTable: "Project",
                         principalColumn: "pro_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Order_Status_ord_staid",
                         column: x => x.ord_staid,
                         principalTable: "Status",
                         principalColumn: "sta_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Order_User_ord_usrid",
                         column: x => x.ord_usrid,
                         principalTable: "User",
                         principalColumn: "usr_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Status",
+                columns: new[] { "sta_id", "sta_code", "sta_description" },
+                values: new object[] { 10000, "Active", "Active" });
+
+            migrationBuilder.InsertData(
+                table: "Status",
+                columns: new[] { "sta_id", "sta_code", "sta_description" },
+                values: new object[] { 10001, "Inactive", "Inactive" });
+
+            migrationBuilder.InsertData(
+                table: "Customer",
+                columns: new[] { "cus_id", "cus_address1", "cus_address2", "cus_city", "cus_company", "cus_email", "cus_fax", "cus_first", "cus_last", "cus_note", "cus_number", "cus_password", "cus_phone", "cus_staid", "cus_state", "cus_zip", "cus_zip4" },
+                values: new object[] { 10000, "123 Main Street", "Suite 100", "Anytown", "Company One", "customer@companyone.com", "(800) 555-1212", "John", "Doe", "Seed Data", "A1013100", null, "(800) 555-1212", 10000, "CA", "12345", "1234" });
+
+            migrationBuilder.InsertData(
+                table: "Customer",
+                columns: new[] { "cus_id", "cus_address1", "cus_address2", "cus_city", "cus_company", "cus_email", "cus_fax", "cus_first", "cus_last", "cus_note", "cus_number", "cus_password", "cus_phone", "cus_staid", "cus_state", "cus_zip", "cus_zip4" },
+                values: new object[] { 10001, "231 Main Street", "Suite 200", "Anytown", "Company Two", "customer@companytwo.com", "(800) 555-1212", "Mary", "Doe", "Seed Data", "A2013100", null, "(800) 555-1212", 10000, "CA", "12345", "1234" });
+
+            migrationBuilder.InsertData(
+                table: "Customer",
+                columns: new[] { "cus_id", "cus_address1", "cus_address2", "cus_city", "cus_company", "cus_email", "cus_fax", "cus_first", "cus_last", "cus_note", "cus_number", "cus_password", "cus_phone", "cus_staid", "cus_state", "cus_zip", "cus_zip4" },
+                values: new object[] { 10002, "331 Main Street", "Suite 300", "Anytown", "Company Three", "customer@companythree.com", "(800) 555-1212", "Davis", "Doe", "Seed Data", "A3013100", null, "(800) 555-1212", 10000, "CA", "12345", "1234" });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "usr_id", "usr_cusid", "usr_email", "usr_first", "usr_last", "usr_name", "usr_note", "usr_password", "usr_role", "usr_staid", "usr_title", "usr_token", "usr_tokendate" },
+                values: new object[] { 10000, 10000, "admin@company.com", "Admin", "Account", "admin", "Default Administrator Account", "Password", "Admin", 10000, "Administrator", null, null });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "usr_id", "usr_cusid", "usr_email", "usr_first", "usr_last", "usr_name", "usr_note", "usr_password", "usr_role", "usr_staid", "usr_title", "usr_token", "usr_tokendate" },
+                values: new object[] { 10001, 10000, "manager@company.com", "Manager", "Account", "manager", "Default Managment Account", "Password", "Manager", 10000, "Manager", null, null });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "usr_id", "usr_cusid", "usr_email", "usr_first", "usr_last", "usr_name", "usr_note", "usr_password", "usr_role", "usr_staid", "usr_title", "usr_token", "usr_tokendate" },
+                values: new object[] { 10002, 10000, "user@company.com", "User", "Account", "user", "Default User Account", "Password", "User", 10000, "Associate", null, null });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Activity_act_cusid",
+                table: "Activity",
+                column: "act_cusid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Activity_UserUsrId",
+                table: "Activity",
+                column: "UserUsrId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customer_cus_staid",
                 table: "Customer",
-                column: "cus_staid",
-                unique: true,
-                filter: "[cus_staid] IS NOT NULL");
+                column: "cus_staid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_ord_cusid",
@@ -235,8 +296,7 @@ namespace Sleek.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Order_ord_staid",
                 table: "Order",
-                column: "ord_staid",
-                unique: true);
+                column: "ord_staid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_ord_usrid",
@@ -251,8 +311,7 @@ namespace Sleek.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Project_pro_staid",
                 table: "Project",
-                column: "pro_staid",
-                unique: true);
+                column: "pro_staid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Project_pro_usrid",

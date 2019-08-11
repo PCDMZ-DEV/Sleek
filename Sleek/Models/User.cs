@@ -18,7 +18,7 @@ namespace Sleek.Models {
 
         [Display(Name = "Customer")]
         [ForeignKey("Customer")]
-        public int UsrCusid { get; set; }
+        public int? UsrCusid { get; set; }
 
         [Display(Name = "First")]
         public string UsrFirst { get; set; }
@@ -62,7 +62,16 @@ namespace Sleek.Models {
         public Customer Customer { get; set; }
 
         [Display(Name = "Status")]
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
+
+        [Display(Name = "Activities")]
+        public ICollection<Activity> Activities { get; set; }
+
+        [Display(Name = "Projects")]
+        public ICollection<Project> Projects { get; set; }
+
+        [Display(Name = "Orders")]
+        public ICollection<Order> Orders { get; set; }
 
         #endregion
 

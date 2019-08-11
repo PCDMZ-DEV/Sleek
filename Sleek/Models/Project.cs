@@ -19,11 +19,11 @@ namespace Sleek.Models {
 
         [Display(Name = "Customer")]
         [ForeignKey("Customer")]
-        public int ProCusid { get; set; }
+        public int? ProCusid { get; set; }
 
         [Display(Name = "User")]
         [ForeignKey("User")]
-        public int ProUsrid { get; set; }
+        public int? ProUsrid { get; set; }
 
         [Display(Name = "Date")]
         [DataType(DataType.DateTime)]
@@ -49,23 +49,22 @@ namespace Sleek.Models {
 
         [Display(Name = "Status")]
         [ForeignKey("Status")]
-        [Required(ErrorMessage = "{0} cannot be blank")]
-        public int ProStaid { get; set; }
+        public int? ProStaid { get; set; }
 
         #endregion
 
         #region "Navigation Properties"
 
         [Display(Name = "Customer")]
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
         [Display(Name = "User")]
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         [Display(Name = "Status")]
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
 
-        [Display(Name = "Work Orders")]
+        [Display(Name = "Orders")]
         public ICollection<Order> Orders { get; set; }
 
         #endregion

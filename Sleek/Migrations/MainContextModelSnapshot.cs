@@ -26,7 +26,7 @@ namespace Sleek.Migrations
                         .HasColumnName("act_id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ActCusid")
+                    b.Property<int?>("ActCusid")
                         .HasColumnName("act_cusid");
 
                     b.Property<DateTime?>("ActDate")
@@ -45,10 +45,16 @@ namespace Sleek.Migrations
                         .HasMaxLength(20)
                         .IsUnicode(false);
 
-                    b.Property<int>("ActUsrid")
+                    b.Property<int?>("ActUsrid")
                         .HasColumnName("act_usrid");
 
+                    b.Property<int?>("UserUsrId");
+
                     b.HasKey("ActId");
+
+                    b.HasIndex("ActCusid");
+
+                    b.HasIndex("UserUsrId");
 
                     b.ToTable("Activity");
                 });
@@ -140,11 +146,68 @@ namespace Sleek.Migrations
 
                     b.HasKey("CusId");
 
-                    b.HasIndex("CusStaid")
-                        .IsUnique()
-                        .HasFilter("[cus_staid] IS NOT NULL");
+                    b.HasIndex("CusStaid");
 
                     b.ToTable("Customer");
+
+                    b.HasData(
+                        new
+                        {
+                            CusId = 10000,
+                            CusAddress1 = "123 Main Street",
+                            CusAddress2 = "Suite 100",
+                            CusCity = "Anytown",
+                            CusCompany = "Company One",
+                            CusEmail = "customer@companyone.com",
+                            CusFax = "(800) 555-1212",
+                            CusFirst = "John",
+                            CusLast = "Doe",
+                            CusNote = "Seed Data",
+                            CusNumber = "A1013100",
+                            CusPhone = "(800) 555-1212",
+                            CusStaid = 10000,
+                            CusState = "CA",
+                            CusZip = "12345",
+                            CusZip4 = "1234"
+                        },
+                        new
+                        {
+                            CusId = 10001,
+                            CusAddress1 = "231 Main Street",
+                            CusAddress2 = "Suite 200",
+                            CusCity = "Anytown",
+                            CusCompany = "Company Two",
+                            CusEmail = "customer@companytwo.com",
+                            CusFax = "(800) 555-1212",
+                            CusFirst = "Mary",
+                            CusLast = "Doe",
+                            CusNote = "Seed Data",
+                            CusNumber = "A2013100",
+                            CusPhone = "(800) 555-1212",
+                            CusStaid = 10000,
+                            CusState = "CA",
+                            CusZip = "12345",
+                            CusZip4 = "1234"
+                        },
+                        new
+                        {
+                            CusId = 10002,
+                            CusAddress1 = "331 Main Street",
+                            CusAddress2 = "Suite 300",
+                            CusCity = "Anytown",
+                            CusCompany = "Company Three",
+                            CusEmail = "customer@companythree.com",
+                            CusFax = "(800) 555-1212",
+                            CusFirst = "Davis",
+                            CusLast = "Doe",
+                            CusNote = "Seed Data",
+                            CusNumber = "A3013100",
+                            CusPhone = "(800) 555-1212",
+                            CusStaid = 10000,
+                            CusState = "CA",
+                            CusZip = "12345",
+                            CusZip4 = "1234"
+                        });
                 });
 
             modelBuilder.Entity("Sleek.Models.Order", b =>
@@ -158,7 +221,7 @@ namespace Sleek.Migrations
                         .HasColumnName("ord_comments")
                         .IsUnicode(false);
 
-                    b.Property<int>("OrdCusid")
+                    b.Property<int?>("OrdCusid")
                         .HasColumnName("ord_cusid");
 
                     b.Property<DateTime?>("OrdDate")
@@ -170,10 +233,10 @@ namespace Sleek.Migrations
                         .HasMaxLength(300)
                         .IsUnicode(false);
 
-                    b.Property<int>("OrdProid")
+                    b.Property<int?>("OrdProid")
                         .HasColumnName("ord_proid");
 
-                    b.Property<int>("OrdStaid")
+                    b.Property<int?>("OrdStaid")
                         .HasColumnName("ord_staid");
 
                     b.Property<string>("OrdSubject")
@@ -181,7 +244,7 @@ namespace Sleek.Migrations
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
-                    b.Property<int>("OrdUsrid")
+                    b.Property<int?>("OrdUsrid")
                         .HasColumnName("ord_usrid");
 
                     b.HasKey("OrdId");
@@ -190,8 +253,7 @@ namespace Sleek.Migrations
 
                     b.HasIndex("OrdProid");
 
-                    b.HasIndex("OrdStaid")
-                        .IsUnique();
+                    b.HasIndex("OrdStaid");
 
                     b.HasIndex("OrdUsrid");
 
@@ -205,7 +267,7 @@ namespace Sleek.Migrations
                         .HasColumnName("pro_id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ProCusid")
+                    b.Property<int?>("ProCusid")
                         .HasColumnName("pro_cusid");
 
                     b.Property<DateTime?>("ProDate")
@@ -234,18 +296,17 @@ namespace Sleek.Migrations
                         .HasMaxLength(300)
                         .IsUnicode(false);
 
-                    b.Property<int>("ProStaid")
+                    b.Property<int?>("ProStaid")
                         .HasColumnName("pro_staid");
 
-                    b.Property<int>("ProUsrid")
+                    b.Property<int?>("ProUsrid")
                         .HasColumnName("pro_usrid");
 
                     b.HasKey("ProId");
 
                     b.HasIndex("ProCusid");
 
-                    b.HasIndex("ProStaid")
-                        .IsUnique();
+                    b.HasIndex("ProStaid");
 
                     b.HasIndex("ProUsrid");
 
@@ -353,6 +414,20 @@ namespace Sleek.Migrations
                     b.HasKey("StaId");
 
                     b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            StaId = 10000,
+                            StaCode = "Active",
+                            StaDescription = "Active"
+                        },
+                        new
+                        {
+                            StaId = 10001,
+                            StaCode = "Inactive",
+                            StaDescription = "Inactive"
+                        });
                 });
 
             modelBuilder.Entity("Sleek.Models.User", b =>
@@ -362,7 +437,7 @@ namespace Sleek.Migrations
                         .HasColumnName("usr_id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("UsrCusid")
+                    b.Property<int?>("UsrCusid")
                         .HasColumnName("usr_cusid");
 
                     b.Property<string>("UsrEmail")
@@ -423,65 +498,112 @@ namespace Sleek.Migrations
                     b.HasIndex("UsrStaid");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            UsrId = 10000,
+                            UsrCusid = 10000,
+                            UsrEmail = "admin@company.com",
+                            UsrFirst = "Admin",
+                            UsrLast = "Account",
+                            UsrName = "admin",
+                            UsrNote = "Default Administrator Account",
+                            UsrPassword = "Password",
+                            UsrRole = "Admin",
+                            UsrStaid = 10000,
+                            UsrTitle = "Administrator"
+                        },
+                        new
+                        {
+                            UsrId = 10001,
+                            UsrCusid = 10000,
+                            UsrEmail = "manager@company.com",
+                            UsrFirst = "Manager",
+                            UsrLast = "Account",
+                            UsrName = "manager",
+                            UsrNote = "Default Managment Account",
+                            UsrPassword = "Password",
+                            UsrRole = "Manager",
+                            UsrStaid = 10000,
+                            UsrTitle = "Manager"
+                        },
+                        new
+                        {
+                            UsrId = 10002,
+                            UsrCusid = 10000,
+                            UsrEmail = "user@company.com",
+                            UsrFirst = "User",
+                            UsrLast = "Account",
+                            UsrName = "user",
+                            UsrNote = "Default User Account",
+                            UsrPassword = "Password",
+                            UsrRole = "User",
+                            UsrStaid = 10000,
+                            UsrTitle = "Associate"
+                        });
+                });
+
+            modelBuilder.Entity("Sleek.Models.Activity", b =>
+                {
+                    b.HasOne("Sleek.Models.Customer", "Customer")
+                        .WithMany("Activities")
+                        .HasForeignKey("ActCusid");
+
+                    b.HasOne("Sleek.Models.User", "User")
+                        .WithMany("Activities")
+                        .HasForeignKey("UserUsrId");
                 });
 
             modelBuilder.Entity("Sleek.Models.Customer", b =>
                 {
                     b.HasOne("Sleek.Models.Status", "Status")
-                        .WithOne("Customer")
-                        .HasForeignKey("Sleek.Models.Customer", "CusStaid");
+                        .WithMany("Customers")
+                        .HasForeignKey("CusStaid");
                 });
 
             modelBuilder.Entity("Sleek.Models.Order", b =>
                 {
                     b.HasOne("Sleek.Models.Customer", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("OrdCusid")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrdCusid");
 
                     b.HasOne("Sleek.Models.Project", "Project")
                         .WithMany("Orders")
-                        .HasForeignKey("OrdProid")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrdProid");
 
                     b.HasOne("Sleek.Models.Status", "Status")
-                        .WithOne("Order")
-                        .HasForeignKey("Sleek.Models.Order", "OrdStaid")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("Orders")
+                        .HasForeignKey("OrdStaid");
 
                     b.HasOne("Sleek.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("OrdUsrid")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("Orders")
+                        .HasForeignKey("OrdUsrid");
                 });
 
             modelBuilder.Entity("Sleek.Models.Project", b =>
                 {
                     b.HasOne("Sleek.Models.Customer", "Customer")
                         .WithMany("Projects")
-                        .HasForeignKey("ProCusid")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProCusid");
 
                     b.HasOne("Sleek.Models.Status", "Status")
-                        .WithOne("Project")
-                        .HasForeignKey("Sleek.Models.Project", "ProStaid")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("Projects")
+                        .HasForeignKey("ProStaid");
 
                     b.HasOne("Sleek.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("ProUsrid")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("Projects")
+                        .HasForeignKey("ProUsrid");
                 });
 
             modelBuilder.Entity("Sleek.Models.User", b =>
                 {
                     b.HasOne("Sleek.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("UsrCusid")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("Users")
+                        .HasForeignKey("UsrCusid");
 
                     b.HasOne("Sleek.Models.Status", "Status")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("UsrStaid");
                 });
 #pragma warning restore 612, 618

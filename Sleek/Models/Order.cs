@@ -18,15 +18,15 @@ namespace Sleek.Models {
 
         [Display(Name = "Customer")]
         [ForeignKey("Customer")]
-        public int OrdCusid { get; set; }
+        public int? OrdCusid { get; set; }
 
         [Display(Name = "User")]
         [ForeignKey("User")]
-        public int OrdUsrid { get; set; }
+        public int? OrdUsrid { get; set; }
 
         [Display(Name = "Project")]
         [ForeignKey("Project")]
-        public int OrdProid { get; set; }
+        public int? OrdProid { get; set; }
 
         [Display(Name = "Date")]
         public DateTime? OrdDate { get; set; }
@@ -42,23 +42,23 @@ namespace Sleek.Models {
 
         [Display(Name = "Status")]
         [ForeignKey("Status")]
-        public int OrdStaid { get; set; }
+        public int? OrdStaid { get; set; }
 
         #endregion
 
         #region "Navigation Properties"
 
         [Display(Name = "Customer")]
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
         [Display(Name = "User")]
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         [Display(Name = "Project")]
-        public Project Project { get; set; }
+        public virtual Project Project { get; set; }
 
         [Display(Name = "Status")]
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
 
         #endregion
 
