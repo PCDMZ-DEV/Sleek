@@ -31,8 +31,8 @@ implemented.
 
 Though simple in design, the Project Manager demonstrates the use of Relational data in views and the techniques needed to manage one to many forms in Entity Framework Core.
 
-The Database migration script has been updated and now includes basic Seed data. You can login with admin@company.com, manager@company.com or user@company.com with a password
-of well, Password (Case sensitive). Administrators can manage users while Managers and Standard users cannot. Manager specific functionality will be coming soon.
+The Database migration script has been updated and now includes basic Seed data. You can login with admin@companyone.com, manager@companyone.com or user@companyone.com with a 
+password of Testing123 (Case sensitive). Administrators can manage users while Managers and Standard users cannot. Manager specific functionality will be coming soon.
 
 The plan is to finish up Registration, Password Recovery and User Management before building out the more interesting features. On registration, both a Customer Record and 
 an Administrative user record are established. After that, each Customer is responsible for managing their own Users.
@@ -82,7 +82,8 @@ The project was built using Visual Studio Community 2017, ASP.NET Core 2.2.1 and
 
 ## Getting Started
 
-All you need do is clone or unzip the project to a local folder and then open it in Visual Studio. Launch the Nuget Package Management Console, run the Database Migration script and start coding.
+All you need do is clone or unzip the project to a local folder and then open it in Visual Studio. Launch the Nuget Package Management Console, run the 
+Database Migration Script (Update-Database) and start coding. For testing, you can login with admin@companyone.com with a password of Testing123.
 
 ## Built With
 
