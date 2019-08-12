@@ -504,12 +504,12 @@ namespace Sleek.Migrations
                         {
                             UsrId = 10000,
                             UsrCusid = 10000,
-                            UsrEmail = "admin@company.com",
+                            UsrEmail = "admin@companyone.com",
                             UsrFirst = "Admin",
                             UsrLast = "Account",
                             UsrName = "admin",
                             UsrNote = "Default Administrator Account",
-                            UsrPassword = "Password",
+                            UsrPassword = "Testing123",
                             UsrRole = "Admin",
                             UsrStaid = 10000,
                             UsrTitle = "Administrator"
@@ -518,12 +518,12 @@ namespace Sleek.Migrations
                         {
                             UsrId = 10001,
                             UsrCusid = 10000,
-                            UsrEmail = "manager@company.com",
+                            UsrEmail = "manager@companyone.com",
                             UsrFirst = "Manager",
                             UsrLast = "Account",
                             UsrName = "manager",
                             UsrNote = "Default Managment Account",
-                            UsrPassword = "Password",
+                            UsrPassword = "Testing123",
                             UsrRole = "Manager",
                             UsrStaid = 10000,
                             UsrTitle = "Manager"
@@ -532,12 +532,12 @@ namespace Sleek.Migrations
                         {
                             UsrId = 10002,
                             UsrCusid = 10000,
-                            UsrEmail = "user@company.com",
+                            UsrEmail = "user@companyone.com",
                             UsrFirst = "User",
                             UsrLast = "Account",
                             UsrName = "user",
                             UsrNote = "Default User Account",
-                            UsrPassword = "Password",
+                            UsrPassword = "Testing123",
                             UsrRole = "User",
                             UsrStaid = 10000,
                             UsrTitle = "Associate"

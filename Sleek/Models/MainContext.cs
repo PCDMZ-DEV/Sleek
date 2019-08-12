@@ -359,9 +359,9 @@ namespace Sleek.Models {
                 new Customer { CusId = 10002, CusNumber = "A3013100", CusCompany = "Company Three", CusAddress1 = "331 Main Street", CusAddress2 = "Suite 300", CusCity = "Anytown", CusState = "CA", CusZip = "12345", CusZip4 = "1234", CusFirst = "Davis", CusLast = "Doe", CusPhone = "(800) 555-1212", CusFax = "(800) 555-1212", CusEmail = "customer@companythree.com", CusNote = "Seed Data", CusStaid = 10000 });
 
             modelBuilder.Entity<User>().HasData(
-                new User { UsrId = 10000, UsrCusid = 10000, UsrFirst = "Admin", UsrLast = "Account", UsrTitle = "Administrator", UsrName = "admin", UsrEmail = "admin@company.com", UsrPassword = "Password", UsrRole = "Admin", UsrNote = "Default Administrator Account", UsrStaid = 10000 },
-                new User { UsrId = 10001, UsrCusid = 10000, UsrFirst = "Manager", UsrLast = "Account", UsrTitle = "Manager", UsrName = "manager", UsrEmail = "manager@company.com", UsrPassword = "Password", UsrRole = "Manager", UsrNote = "Default Managment Account", UsrStaid = 10000 },
-                new User { UsrId = 10002, UsrCusid = 10000, UsrFirst = "User", UsrLast = "Account", UsrTitle = "Associate", UsrName = "user", UsrEmail = "user@company.com", UsrPassword = "Password", UsrRole = "User", UsrNote = "Default User Account", UsrStaid = 10000 });
+                new User { UsrId = 10000, UsrCusid = 10000, UsrFirst = "Admin", UsrLast = "Account", UsrTitle = "Administrator", UsrName = "admin", UsrEmail = "admin@companyone.com", UsrPassword = "Testing123", UsrRole = "Admin", UsrNote = "Default Administrator Account", UsrStaid = 10000 },
+                new User { UsrId = 10001, UsrCusid = 10000, UsrFirst = "Manager", UsrLast = "Account", UsrTitle = "Manager", UsrName = "manager", UsrEmail = "manager@companyone.com", UsrPassword = "Testing123", UsrRole = "Manager", UsrNote = "Default Managment Account", UsrStaid = 10000 },
+                new User { UsrId = 10002, UsrCusid = 10000, UsrFirst = "User", UsrLast = "Account", UsrTitle = "Associate", UsrName = "user", UsrEmail = "user@companyone.com", UsrPassword = "Testing123", UsrRole = "User", UsrNote = "Default User Account", UsrStaid = 10000 });
 
         }
 

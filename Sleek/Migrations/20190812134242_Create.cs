@@ -2,16 +2,12 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Sleek.Migrations
-{
-    public partial class Create : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+namespace Sleek.Migrations {
+    public partial class Create : Migration {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.CreateTable(
                 name: "Request",
-                columns: table => new
-                {
+                columns: table => new {
                     req_id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     req_date = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
@@ -27,29 +23,25 @@ namespace Sleek.Migrations
                     req_subject = table.Column<string>(unicode: false, maxLength: 300, nullable: false),
                     req_content = table.Column<string>(unicode: false, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Requests", x => x.req_id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Status",
-                columns: table => new
-                {
+                columns: table => new {
                     sta_id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     sta_code = table.Column<string>(unicode: false, maxLength: 30, nullable: false),
                     sta_description = table.Column<string>(unicode: false, maxLength: 100, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Status", x => x.sta_id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Customer",
-                columns: table => new
-                {
+                columns: table => new {
                     cus_id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     cus_number = table.Column<string>(unicode: false, maxLength: 30, nullable: true),
@@ -69,8 +61,7 @@ namespace Sleek.Migrations
                     cus_note = table.Column<string>(unicode: false, maxLength: 300, nullable: true),
                     cus_staid = table.Column<int>(nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Customer", x => x.cus_id);
                     table.ForeignKey(
                         name: "FK_Customer_Status_cus_staid",
@@ -82,8 +73,7 @@ namespace Sleek.Migrations
 
             migrationBuilder.CreateTable(
                 name: "User",
-                columns: table => new
-                {
+                columns: table => new {
                     usr_id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     usr_cusid = table.Column<int>(nullable: true),
@@ -99,8 +89,7 @@ namespace Sleek.Migrations
                     usr_tokendate = table.Column<DateTime>(type: "datetime", nullable: true),
                     usr_staid = table.Column<int>(nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_User", x => x.usr_id);
                     table.ForeignKey(
                         name: "FK_User_Customer_usr_cusid",
@@ -118,8 +107,7 @@ namespace Sleek.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Activity",
-                columns: table => new
-                {
+                columns: table => new {
                     act_id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     act_date = table.Column<DateTime>(type: "datetime", nullable: true),
@@ -129,8 +117,7 @@ namespace Sleek.Migrations
                     act_type = table.Column<string>(unicode: false, maxLength: 20, nullable: false),
                     UserUsrId = table.Column<int>(nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Activity", x => x.act_id);
                     table.ForeignKey(
                         name: "FK_Activity_Customer_act_cusid",
@@ -148,8 +135,7 @@ namespace Sleek.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Project",
-                columns: table => new
-                {
+                columns: table => new {
                     pro_id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     pro_cusid = table.Column<int>(nullable: true),
@@ -161,8 +147,7 @@ namespace Sleek.Migrations
                     pro_sourcepath = table.Column<string>(unicode: false, maxLength: 300, nullable: true),
                     pro_staid = table.Column<int>(nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Project", x => x.pro_id);
                     table.ForeignKey(
                         name: "FK_Project_Customer_pro_cusid",
@@ -186,8 +171,7 @@ namespace Sleek.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Order",
-                columns: table => new
-                {
+                columns: table => new {
                     ord_id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ord_cusid = table.Column<int>(nullable: true),
@@ -199,8 +183,7 @@ namespace Sleek.Migrations
                     ord_comments = table.Column<string>(unicode: false, nullable: true),
                     ord_staid = table.Column<int>(nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Order", x => x.ord_id);
                     table.ForeignKey(
                         name: "FK_Order_Customer_ord_cusid",
@@ -256,17 +239,17 @@ namespace Sleek.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "usr_id", "usr_cusid", "usr_email", "usr_first", "usr_last", "usr_name", "usr_note", "usr_password", "usr_role", "usr_staid", "usr_title", "usr_token", "usr_tokendate" },
-                values: new object[] { 10000, 10000, "admin@company.com", "Admin", "Account", "admin", "Default Administrator Account", "Password", "Admin", 10000, "Administrator", null, null });
+                values: new object[] { 10000, 10000, "admin@companyone.com", "Admin", "Account", "admin", "Default Administrator Account", "Testing123", "Admin", 10000, "Administrator", null, null });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "usr_id", "usr_cusid", "usr_email", "usr_first", "usr_last", "usr_name", "usr_note", "usr_password", "usr_role", "usr_staid", "usr_title", "usr_token", "usr_tokendate" },
-                values: new object[] { 10001, 10000, "manager@company.com", "Manager", "Account", "manager", "Default Managment Account", "Password", "Manager", 10000, "Manager", null, null });
+                values: new object[] { 10001, 10000, "manager@companyone.com", "Manager", "Account", "manager", "Default Managment Account", "Testing123", "Manager", 10000, "Manager", null, null });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "usr_id", "usr_cusid", "usr_email", "usr_first", "usr_last", "usr_name", "usr_note", "usr_password", "usr_role", "usr_staid", "usr_title", "usr_token", "usr_tokendate" },
-                values: new object[] { 10002, 10000, "user@company.com", "User", "Account", "user", "Default User Account", "Password", "User", 10000, "Associate", null, null });
+                values: new object[] { 10002, 10000, "user@companyone.com", "User", "Account", "user", "Default User Account", "Testing123", "User", 10000, "Associate", null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Activity_act_cusid",
@@ -329,8 +312,7 @@ namespace Sleek.Migrations
                 column: "usr_staid");
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
                 name: "Activity");
 
