@@ -59,6 +59,7 @@ If you are developing and Enterprise scale application or working with a team of
 * Maintains compatibility with multiple database vendors by avoiding stored procedures and triggers (EF7 / LINQ)
 * Provides functional examples for relational data, one to many forms and implicit transaction processing
 * Supports claims-based authentication without use of of the built-in user tables
+* Demonstrates logging to SQL Server via Serilog and the ILogger Interface
 
 ## Coming Soon
 
