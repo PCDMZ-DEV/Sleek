@@ -154,7 +154,7 @@ namespace Sleek.Controllers {
                                 new AuthenticationProperties {
                                     IsPersistent = true
                                 });
-                            Site.Log(Context, user.UsrCusid, user.UsrId, "Signed In", "Info");
+                            Logger.LogWarning("User {user} signed in as {email}", user.UsrId, user.UsrEmail);
                             return RedirectToAction("Index", "Home");
 
                         } else {
@@ -174,9 +174,9 @@ namespace Sleek.Controllers {
         // Logout (Get)
         public async Task<IActionResult> Logout() {
             try {
+                var user = await Context.User.FindAsync(Convert.ToInt32(User.FindFirst("cusid").Value));
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                var activity = new Activity();
-                Site.Log(Context, Convert.ToInt32(User.FindFirst("cusid").Value), Convert.ToInt32(User.FindFirst("usrid").Value), "Signed Out", "Info");
+                Logger.LogWarning("User {user} signed out as {email}", user.UsrId, user.UsrEmail);
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
                 Logger.LogError(ex, ex.Message);

@@ -156,7 +156,7 @@ namespace Sleek.Controllers {
                         Context.Update(project);
                     }
                     await Context.SaveChangesAsync();
-                    Site.Log(Context, project.ProCusid, project.ProUsrid, String.Format("{0}: {1}", Activity, project.ProId), "Warn");
+                    Logger.LogWarning("User {user} created Project {project}", project.ProUsrid, project.ProId);
                     return RedirectToAction("Index");
                 }
             } catch (Exception ex) {
