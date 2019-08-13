@@ -93,7 +93,7 @@ namespace Sleek.Controllers {
 
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex.Message);
             }
 
             return View(result);
@@ -132,7 +132,7 @@ namespace Sleek.Controllers {
 
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex.Message);
             }
             return View("Edit", result);
         }

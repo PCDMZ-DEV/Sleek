@@ -85,7 +85,7 @@ namespace Sleek.Controllers {
                 }
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex.Message);
             }
             return View("Register", registration);
         }
@@ -166,7 +166,7 @@ namespace Sleek.Controllers {
                 }
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex.Message);
             }
             return View("Login", model);
         }
@@ -179,7 +179,7 @@ namespace Sleek.Controllers {
                 Site.Log(Context, Convert.ToInt32(User.FindFirst("cusid").Value), Convert.ToInt32(User.FindFirst("usrid").Value), "Signed Out", "Info");
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex.Message);
             }
             return RedirectToAction("Index", "Home");
         }

@@ -48,7 +48,7 @@ namespace Sleek.Controllers {
                 ViewBag.OrdStatus = ((from Status in Context.Status select Status).ToList()).OrderBy(s => s.StaDescription);
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex.Message);
             }
             return View("Edit", order);
         }
@@ -67,7 +67,7 @@ namespace Sleek.Controllers {
                 ViewBag.OrdStatus = ((from Status in Context.Status select Status).ToList()).OrderBy(s => s.StaDescription);
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex.Message);
             }
             return View("Edit", order);
         }
@@ -95,7 +95,7 @@ namespace Sleek.Controllers {
                 }
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex.Message);
             }
             return View("Edit", order);
         }
@@ -113,7 +113,7 @@ namespace Sleek.Controllers {
                 await Context.SaveChangesAsync();
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex.Message);
             }
             return RedirectToAction("Detail", "Projects", new { id });
         }
