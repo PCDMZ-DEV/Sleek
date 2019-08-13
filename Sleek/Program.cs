@@ -25,7 +25,7 @@ namespace Sleek {
             // Create Logger
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .MinimumLevel.Information()
+                .MinimumLevel.Warning()
                 .WriteTo.MSSqlServer(Configuration["Serilog:ConnectionString"], Configuration["Serilog:TableName"], autoCreateSqlTable: true)
                 .WriteTo.Console()
                 .CreateLogger();
