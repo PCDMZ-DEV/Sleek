@@ -1,43 +1,42 @@
-﻿@{
+﻿@model Register
+@{
     Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="@Site.Description">
 
-        <title>@Site.Title - Sign Up</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="@Site.Description">
 
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500" rel="stylesheet" />
-        <link href="https://cdn.materialdesignicons.com/3.0.39/css/materialdesignicons.min.css" rel="stylesheet" />
-        <link href="~/assets/plugins/nprogress/nprogress.css" rel="stylesheet" />
-        <link id="sleek-css" rel="stylesheet" href="~/assets/css/sleek.css" />
+    <title>@Site.Title - Sign Up</title>
 
-        <link href="~/assets/img/favicon.png" rel="shortcut icon" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500" rel="stylesheet" />
+    <link href="https://cdn.materialdesignicons.com/3.0.39/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/nprogress/nprogress.css" rel="stylesheet" />
+    <link id="sleek-css" rel="stylesheet" href="~/assets/css/sleek.css" />
 
-        <!--
-          HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
-        -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
+    <link href="~/assets/img/favicon.png" rel="shortcut icon" />
 
-        <script src="~/assets/plugins/nprogress/nprogress.js"></script>
+    <!--
+      HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+    -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-    </head>
+    <script src="~/assets/plugins/nprogress/nprogress.js"></script>
 
 </head>
 <body class="" id="body">
     <div class="container d-flex flex-column justify-content-between vh-100">
         <div class="row justify-content-center mt-5">
-            <div class="col-xl-5 col-lg-6 col-md-10">
+            <div class="col-12 col-lg-7">
                 <div class="card">
                     <div class="card-header bg-primary">
                         <div class="app-brand">
@@ -53,48 +52,117 @@
                             </a>
                         </div>
                     </div>
-                    <div class="card-body p-5">
-                        <h4 class="text-dark mb-5">Sign Up</h4>
-                        <form action="/" autocomplete="off">
-                            <div class="row">
-                                <div class="form-group col-md-12 mb-4">
-                                    <input type="text" class="form-control input-lg" id="name" aria-describedby="nameHelp" placeholder="Name">
-                                </div>
-                                <div class="form-group col-md-12 mb-4">
-                                    <input type="email" class="form-control input-lg" id="email" aria-describedby="emailHelp" placeholder="E-Mail Address" autocomplete="new-password">
-                                </div>
-                                <div class="form-group col-md-12 ">
-                                    <input type="password" class="form-control input-lg" id="password" placeholder="Password" autocomplete="new-password">
-                                </div>
-                                <div class="form-group col-md-12 ">
-                                    <input type="password" class="form-control input-lg" id="cpassword" placeholder="Confirm Password" autocomplete="new-password">
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="d-inline-block mr-3">
-                                        <label class="control control-checkbox">
-                                            <input type="checkbox" />
-                                            <div class="control-indicator"></div>
-                                            I Agree the terms and conditions
-                                        </label>
-
+                    <div class="card-body p-4">
+                        <h4 class="text-dark mb-4">Sign Up</h4>
+                        <form asp-for="#" autocomplete="off">
+                            <div class="form-row">
+                                <div class="col-12 col-lg-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="CusCompany"></label>
+                                        <input asp-for="CusCompany" class="form-control input-lg" placeholder="@Html.DisplayFor(x => x.CusCompany)">
+                                        <span asp-validation-for="CusCompany" class="text-danger small"></span>
                                     </div>
-                                    <button type="submit" class="btn btn-lg btn-primary btn-block mb-4">Sign Up</button>
-                                    <p>
-                                        Already have an account?
-                                        <a class="text-blue" href="/Account/Login">Sign in</a>
-                                    </p>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="CusPhone"></label>
+                                        <input asp-for="CusPhone" class="form-control input-lg" placeholder="@Html.DisplayFor(x => x.CusPhone)">
+                                        <span asp-validation-for="CusPhone" class="text-danger small"></span>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
+                            <div class="form-row">
+                                <div class="col-12 col-lg-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="CusFirst"></label>
+                                        <input asp-for="CusFirst" class="form-control input-lg" placeholder="@Html.DisplayFor(x => x.CusFirst)">
+                                        <span asp-validation-for="CusFirst" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="CusLast"></label>
+                                        <input asp-for="CusLast" class="form-control input-lg" placeholder="@Html.DisplayFor(x => x.CusLast)" autocomplete="new-password">
+                                        <span asp-validation-for="CusLast" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-12">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="CusAddress1"></label>
+                                        <input asp-for="CusAddress1" class="form-control input-lg" placeholder="@Html.DisplayFor(x => x.CusAddress1)">
+                                        <span asp-validation-for="CusAddress1" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="CusAddress2"></label>
+                                        <input asp-for="CusAddress2" class="form-control input-lg" placeholder="@Html.DisplayFor(x => x.CusAddress2)">
+                                        <span asp-validation-for="CusAddress2" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-12 col-lg-6">
+                                    <div class="form-group mb-6">
+                                        <label asp-for="CusCity"></label>
+                                        <input asp-for="CusCity" class="form-control input-lg" placeholder="@Html.DisplayFor(x => x.CusCity)">
+                                        <span asp-validation-for="CusCity" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="CusState"></label>
+                                        <input asp-for="CusState" class="form-control input-lg" placeholder="@Html.DisplayFor(x => x.CusState)">
+                                        <span asp-validation-for="CusState" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="CusZip"></label>
+                                        <input asp-for="CusZip" class="form-control input-lg" placeholder="@Html.DisplayFor(x => x.CusZip)">
+                                        <span asp-validation-for="CusZip" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-12">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="CusEmail"></label>
+                                        <input asp-for="CusEmail" class="form-control input-lg" placeholder="@Html.DisplayFor(x => x.CusEmail)">
+                                        <span asp-validation-for="CusEmail" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="d-inline-block mr-3">
+                                    <label class="control control-checkbox">
+                                        <input type="checkbox" />
+                                        <span class="control-indicator"></span>
+                                        I Agree the terms and conditions
+                                    </label>
 
+                                </div>
+                                <button asp-controller="Account" asp-action="Register" class="btn btn-lg btn-primary btn-block mb-4">Sign Up</button>
+                                <p>
+                                    Already have an account?
+                                    <a class="text-blue" href="/Account/Login">Sign in</a>
+                                </p>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="copyright pl-0">
-            <p class="text-center">&copy; @Site.Copyright</p>
-        </div>
     </div>
+    <div class="copyright pl-0">
+        <p class="text-center">&copy; @Site.Copyright</p>
+    </div>
+
+    <script src="~/assets/plugins/jquery/jquery.js"></script>
+    <script src="~/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/assets/plugins/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
 </body>
 </html>

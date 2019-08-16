@@ -22,15 +22,17 @@ namespace Sleek.Controllers {
         // Services
         private readonly MainContext Context;
         private readonly ILogger<UserController> Logger;
+        private IActivityLog ActivityLog;
 
         #endregion
 
         #region "Class Methods and Events"
 
         // Constructor
-        public UserController(MainContext context, ILogger<UserController> logger) {
+        public UserController(MainContext context, ILogger<UserController> logger, IActivityLog activitylog) {
             Context = context;
             Logger = logger;
+            ActivityLog = activitylog;
         }
 
         #endregion
@@ -134,7 +136,7 @@ namespace Sleek.Controllers {
             return View("Detail", result);
         }
 
-        // Save (Post) - NOT WORKING!
+        // Save (Post)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(int id, User user) {
@@ -152,7 +154,7 @@ namespace Sleek.Controllers {
                         Context.Update(user);
                     }
                     await Context.SaveChangesAsync();
-                    Site.Log(Context, user.UsrCusid, user.UsrId, String.Format("{0}: {1}", Activity, user.UsrId), "Warn");
+                    ActivityLog.Warning(String.Format("{0} ({1})", Activity, user.UsrId));
                     return RedirectToAction("Profile");
                 }
             } catch (Exception ex) {
@@ -175,7 +177,7 @@ namespace Sleek.Controllers {
                 await Context.SaveChangesAsync();
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
-                Logger.LogError(ex, ex.Message);
+                ActivityLog.Warning(String.Format("Deleted User ({0})", id));
             }
             return RedirectToAction("Profile");
         }

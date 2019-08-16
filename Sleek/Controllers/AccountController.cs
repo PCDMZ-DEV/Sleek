@@ -29,17 +29,19 @@ namespace Sleek.Controllers {
         private readonly IConfiguration Configuration;
         private SmtpClient SmtpClient;
         private ILogger<AccountController> Logger;
+        private IActivityLog ActivityLog;
 
         #endregion
 
         #region "Class Methods and Events"
 
         // Constructor
-        public AccountController(MainContext context, IConfiguration configuration, SmtpClient smtpclient, ILogger<AccountController> logger) {
+        public AccountController(MainContext context, IConfiguration configuration, SmtpClient smtpclient, ILogger<AccountController> logger, IActivityLog activitylog) {
             Context = context;
             Configuration = configuration;
             SmtpClient = smtpclient;
             Logger = logger;
+            ActivityLog = activitylog;
         }
 
         #endregion
@@ -64,20 +66,24 @@ namespace Sleek.Controllers {
         public IActionResult Register([FromForm]Register registration) {
             try {
                 if (ModelState.IsValid) {
-                    var user = Context.User.Where(u => u.UsrEmail == registration.RegEmail).FirstOrDefault();
-                    if (user == null) {
-                        user = new User {
-                            UsrFirst = registration.RegFirst,
-                            UsrLast = registration.RegLast,
-                            UsrEmail = registration.RegEmail,
-                            UsrPassword = registration.RegPassword,
-                            UsrStaid = 10000,
-                            UsrRole = "User",
-                            UsrToken = "",
-                            UsrTokendate = DateTime.Now
+                    var customer = Context.Customer.Where(u => u.CusEmail == registration.CusEmail).FirstOrDefault();
+                    if (customer == null) {
+                        customer = new Customer {
+                            CusCompany = registration.CusCompany,
+                            CusFirst = registration.CusFirst,
+                            CusLast = registration.CusLast,
+                            CusAddress1 = registration.CusAddress1,
+                            CusAddress2 = registration.CusAddress2,
+                            CusCity = registration.CusCity,
+                            CusState = registration.CusState,
+                            CusZip = registration.CusZip,
+                            CusPhone = registration.CusPhone,
+                            CusEmail = registration.CusEmail,
+                            CusStaid = 10009 // Pending
                         };
-                        Context.Add(user);
+                        Context.Add(customer);
                         Context.SaveChanges();
+                        ActivityLog.Warning(String.Format("New Registration ({0})", customer.CusId));
                         throw new ApplicationException("Registration successful. Please respond to the confirmation message we just sent you. Unpon confirmation you can sign in to your account");
                     } else {
                         throw new ApplicationException("We already have that E-Mail address on file. Please sign in to your account");
@@ -105,7 +111,7 @@ namespace Sleek.Controllers {
             if (ModelState.IsValid) {
                 var message = new MailMessage(Configuration["Smtp:From"], model.UsrEmail, "Password Recovery", "This method is incomplete. Store a token and expiration date in the user record, validate and send, and then authenticate if the response is prior to expiration.");
                 SmtpClient.Send(message);
-                Site.Mode = "Login";
+                ActivityLog.Warning("Password Recovery");
                 return RedirectToAction("Login", "Home");
             }
             return View("Recover", model);
@@ -154,7 +160,7 @@ namespace Sleek.Controllers {
                                 new AuthenticationProperties {
                                     IsPersistent = true
                                 });
-                            Logger.LogWarning("User {user} signed in as {email}", user.UsrId, user.UsrEmail);
+                            ActivityLog.Warning("Signed In");
                             return RedirectToAction("Index", "Home");
 
                         } else {
@@ -176,7 +182,7 @@ namespace Sleek.Controllers {
             try {
                 var user = await Context.User.FindAsync(Convert.ToInt32(User.FindFirst("cusid").Value));
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                Logger.LogWarning("User {user} signed out as {email}", user.UsrId, user.UsrEmail);
+                ActivityLog.Warning("Signed Out");
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
                 Logger.LogError(ex, ex.Message);

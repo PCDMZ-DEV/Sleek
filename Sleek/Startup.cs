@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Serilog;
+using Sleek.Classes;
 using Sleek.Models;
 using System;
 using System.Net;
@@ -79,6 +79,8 @@ namespace Sleek {
                 };
             });
 
+            services.AddHttpContextAccessor();
+            services.AddScoped<IActivityLog, ActivityLog>();
             services.AddDbContext<MainContext>(item => item.UseSqlServer(Configuration.GetConnectionString("MainContext")));
 
         }
@@ -95,7 +97,7 @@ namespace Sleek {
 
             app.UseAuthentication();
             app.UseStaticFiles();
-            app.UseCookiePolicy();            
+            app.UseCookiePolicy();  
 
             app.UseMvc(routes => {
                 routes.MapRoute(

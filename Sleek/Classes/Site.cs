@@ -59,13 +59,13 @@ namespace Sleek.Classes {
         /// <param name="Description">Content</param>
         /// <param name="Type">One of Info, Warn, Error or Message</param>
         /// <returns>Boolean true if successful</returns>
-        public static bool Log(MainContext Context, int? CustomerID, int? UserID, string Description, string Type) {
+        public static bool Log(MainContext Context, Object CustomerID, Object UserID, string Description, string Type) {
             bool ReturnValue = true;
             try {
                 Activity activity = new Activity {
                     ActDate = DateTime.Now,
-                    ActCusid = CustomerID,
-                    ActUsrid = UserID,
+                    ActCusid = (int)CustomerID,
+                    ActUsrid = (int)UserID,
                     ActDescription = Description,
                     ActType = Type
                 };

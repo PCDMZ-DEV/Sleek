@@ -8,7 +8,6 @@ using Sleek.Classes;
 using Sleek.Models;
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #endregion
@@ -23,15 +22,17 @@ namespace Sleek.Controllers {
         // Services
         private readonly MainContext Context;
         private readonly ILogger<ProjectsController> Logger;
+        private IActivityLog ActivityLog;
 
         #endregion
 
         #region "Class Methods and Events"
 
         // Constructor
-        public ProjectsController(MainContext context, ILogger<ProjectsController> logger) {
+        public ProjectsController(MainContext context, ILogger<ProjectsController> logger, IActivityLog activitylog) {
             Context = context;
             Logger = logger;
+            ActivityLog = activitylog;
         }
 
         #endregion
@@ -156,7 +157,7 @@ namespace Sleek.Controllers {
                         Context.Update(project);
                     }
                     await Context.SaveChangesAsync();
-                    Logger.LogWarning("User {user} created Project {project}", project.ProUsrid, project.ProId);
+                    ActivityLog.Warning(String.Format("{0} ({1})", Activity, project.ProId));
                     return RedirectToAction("Index");
                 }
             } catch (Exception ex) {
@@ -178,6 +179,7 @@ namespace Sleek.Controllers {
                 }
                 Context.Project.Remove(project);
                 await Context.SaveChangesAsync();
+                ActivityLog.Warning(String.Format("Deleted Project ({0})", id));
             } catch (Exception ex) {
                 Site.Message = ex.Message;
                 Logger.LogError(ex, Site.Message);
