@@ -10,7 +10,7 @@ using Sleek.Models;
 namespace Sleek.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20190812134242_Create")]
+    [Migration("20190817181605_Create")]
     partial class Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,13 +50,11 @@ namespace Sleek.Migrations
                     b.Property<int?>("ActUsrid")
                         .HasColumnName("act_usrid");
 
-                    b.Property<int?>("UserUsrId");
-
                     b.HasKey("ActId");
 
                     b.HasIndex("ActCusid");
 
-                    b.HasIndex("UserUsrId");
+                    b.HasIndex("ActUsrid");
 
                     b.ToTable("Activity");
                 });
@@ -219,12 +217,11 @@ namespace Sleek.Migrations
                         .HasColumnName("ord_id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CustomerCusId");
+
                     b.Property<string>("OrdComments")
                         .HasColumnName("ord_comments")
                         .IsUnicode(false);
-
-                    b.Property<int?>("OrdCusid")
-                        .HasColumnName("ord_cusid");
 
                     b.Property<DateTime?>("OrdDate")
                         .HasColumnName("ord_date")
@@ -246,18 +243,17 @@ namespace Sleek.Migrations
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
-                    b.Property<int?>("OrdUsrid")
-                        .HasColumnName("ord_usrid");
+                    b.Property<int?>("UserUsrId");
 
                     b.HasKey("OrdId");
 
-                    b.HasIndex("OrdCusid");
+                    b.HasIndex("CustomerCusId");
 
                     b.HasIndex("OrdProid");
 
                     b.HasIndex("OrdStaid");
 
-                    b.HasIndex("OrdUsrid");
+                    b.HasIndex("UserUsrId");
 
                     b.ToTable("Order");
                 });
@@ -554,7 +550,7 @@ namespace Sleek.Migrations
 
                     b.HasOne("Sleek.Models.User", "User")
                         .WithMany("Activities")
-                        .HasForeignKey("UserUsrId");
+                        .HasForeignKey("ActUsrid");
                 });
 
             modelBuilder.Entity("Sleek.Models.Customer", b =>
@@ -568,7 +564,7 @@ namespace Sleek.Migrations
                 {
                     b.HasOne("Sleek.Models.Customer", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("OrdCusid");
+                        .HasForeignKey("CustomerCusId");
 
                     b.HasOne("Sleek.Models.Project", "Project")
                         .WithMany("Orders")
@@ -580,7 +576,7 @@ namespace Sleek.Migrations
 
                     b.HasOne("Sleek.Models.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("OrdUsrid");
+                        .HasForeignKey("UserUsrId");
                 });
 
             modelBuilder.Entity("Sleek.Models.Project", b =>

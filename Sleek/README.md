@@ -111,6 +111,21 @@ If your problem or idea is not addressed yet, [open a new issue](https://github.
 
 If you have questions or need help integrating this project please [contact us](mailto:admin@pcdmz.com) instead of opening an issue.
 
+## Developer Notes
+
+* GitHub will provide syntax highlighting for the C-Sharp language if you use cs as the code block identifier
+* You can change the initial value for autoincremented columns by adding the following code to your Migration script
+
+```cs
+migrationBuilder.Sql("DBCC CHECKIDENT ('Activity', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('Customer', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('Order', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('Project', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('Request', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('Status', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('User', RESEED, 10000);");
+```
+
 ## Licensing
 
 - Copyright 2019 Karl Williams (https://pcdmz.com/)

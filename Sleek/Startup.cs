@@ -80,6 +80,7 @@ namespace Sleek {
             });
 
             services.AddHttpContextAccessor();
+            services.AddScoped<ISite, Site>();
             services.AddScoped<IActivityLog, ActivityLog>();
             services.AddDbContext<MainContext>(item => item.UseSqlServer(Configuration.GetConnectionString("MainContext")));
 

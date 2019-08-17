@@ -82,7 +82,7 @@ namespace Sleek.Classes {
                 Context.Update(activity);
                 Context.SaveChanges();
             } catch (Exception ex) {
-                Site.Message = ex.Message;
+                // Log Error
             }
         }
 

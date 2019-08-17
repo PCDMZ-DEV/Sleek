@@ -20,11 +20,6 @@
         <div class="card card-default">
             <article class="card-body pb-2">
                 <h4 class="card-title text-center">Project Detail</h4>
-                <div class="row text-center">
-                    <div class="col-12">
-                        <p class="text-dark">@String.Format("{0:D}", project.ProDescription)</p>
-                    </div>
-                </div>
                 <div class="row text-center mb-2">
                     <div class="col-12">
                         <p class="text-dark">@(String.Format("{0} {1}", project.User.UsrFirst, project.User.UsrLast))</p>
@@ -64,7 +59,7 @@
                                     </tbody>
                                 </table>
                                 @if (Model.Count() == 0) {
-                                    <p class="text-size-14 my-3 ml-3">Click the New button to add your first Project</p>
+                                    <p class="text-size-14 my-3 ml-3">Click the New button to add your first Work Order</p>
                                 }
 
                                 @{

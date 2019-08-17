@@ -26,6 +26,7 @@ namespace Sleek.Models {
         public int? ActCusid { get; set; }
 
         [Display(Name = "User")]
+        [ForeignKey("User")]
         public int? ActUsrid { get; set; }
 
         [Display(Name = "Description")]

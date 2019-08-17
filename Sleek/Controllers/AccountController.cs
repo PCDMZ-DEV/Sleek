@@ -30,18 +30,26 @@ namespace Sleek.Controllers {
         private SmtpClient SmtpClient;
         private ILogger<AccountController> Logger;
         private IActivityLog ActivityLog;
+        private ISite Site;
 
         #endregion
 
         #region "Class Methods and Events"
 
         // Constructor
-        public AccountController(MainContext context, IConfiguration configuration, SmtpClient smtpclient, ILogger<AccountController> logger, IActivityLog activitylog) {
+        public AccountController(
+                MainContext context, 
+                IConfiguration configuration, 
+                SmtpClient smtpclient, 
+                ILogger<AccountController> logger, 
+                IActivityLog activitylog,
+                ISite site) {
             Context = context;
             Configuration = configuration;
             SmtpClient = smtpclient;
             Logger = logger;
             ActivityLog = activitylog;
+            Site = site;
         }
 
         #endregion
@@ -99,7 +107,6 @@ namespace Sleek.Controllers {
         // Recover Password (Get)
         [AllowAnonymous]
         public IActionResult Recover() {
-            Site.Mode = "Recover";
             return PartialView("_Recover");
         }
 

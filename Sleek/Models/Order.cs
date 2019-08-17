@@ -16,14 +16,6 @@ namespace Sleek.Models {
         [Display(Name = "ID")]
         public int OrdId { get; set; }
 
-        [Display(Name = "Customer")]
-        [ForeignKey("Customer")]
-        public int? OrdCusid { get; set; }
-
-        [Display(Name = "User")]
-        [ForeignKey("User")]
-        public int? OrdUsrid { get; set; }
-
         [Display(Name = "Project")]
         [ForeignKey("Project")]
         public int? OrdProid { get; set; }

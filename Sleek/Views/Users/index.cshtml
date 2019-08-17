@@ -1,8 +1,8 @@
-﻿@model PaginatedList<Project>
+﻿@model PaginatedList<User>
 
 @{
-    ViewBag.Title = "Projects";
-    ViewData["Controller"] = "Projects";
+    ViewBag.Title = "Users";
+    ViewData["Controller"] = "User";
     ViewData["Action"] = "Index";
 }
 
@@ -23,11 +23,11 @@
                 <div class="card-body">
 
                     <div class="d-flex float-left">
-                        <h3 class="mb-3">Project Manager</h3>
+                        <h3 class="mb-3">User Manager</h3>
                     </div>
                     <form class="form-inline float-right" asp-action="#">
                         <div class="form-group mb-3 mt-0">
-                            <button asp-action="New" class="btn btn-sm btn-secondary">New Project</button>
+                            <button asp-action="New" class="btn btn-sm btn-secondary">New User</button>
                         </div>
                     </form>
 
@@ -35,26 +35,26 @@
                         <thead>
                             <tr>
                                 <th><a asp-action="Index" asp-route-sortOrder="@ViewData["ID"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">ID</a></th>
-                                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["Date"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Date</a></th>
-                                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["Description"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Description</a></th>
+                                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["First"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Date</a></th>
+                                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["Last"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Description</a></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model) {
                                 <tr>
-                                    <td><a asp-action="Detail" asp-route-id="@item.ProId">@Html.DisplayFor(modelItem => item.ProId)</a></td>
-                                    <td>@Html.DisplayFor(modelItem => item.ProDate)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.ProDescription)</td>
+                                    <td><a asp-action="Edit" asp-route-id="@item.UsrId">@Html.DisplayFor(modelItem => item.UsrId)</a></td>
+                                    <td>@Html.DisplayFor(modelItem => item.UsrFirst)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.UsrLast)</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
 
-
                     @{
                         var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
                         var nextDisabled = !Model.HasNextPage ? "disabled" : "";
                     }
+
                     <a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default @prevDisabled">Previous</a>
                     <a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default @nextDisabled">Next</a>
                 </div>

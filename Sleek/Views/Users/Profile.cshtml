@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Sleek.Models.User>
+﻿@model User
 @{
     ViewBag.Title = "Profile";
     ViewData["Controller"] = "User";
@@ -26,7 +26,7 @@
                         <div class="card-body">
                             <h4 class="py-2 text-dark">@(User.FindFirst("full").Value)</h4>
                             <p>@(User.FindFirst("email").Value)</p>
-                            <a asp-controller="User" asp-action="Edit" asp-route-id="@(Convert.ToInt32(User.FindFirst("usrid").Value))" class="btn btn-primary btn-pill btn-lg my-4">Update Profile</a>
+                            <a asp-controller="User" asp-action="Edit" asp-route-id="@(Convert.ToInt32(User.FindFirst("usrid").Value))" class="btn btn-primary btn-pill btn-lg my-4">Profile</a>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between ">
@@ -78,50 +78,32 @@
                 <div class="profile-content-right py-4">
                     <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
 
-                        @if (User.FindFirst("Role").Value == "Admin") {
+                        <!-- Profile -->
+                        <li class="nav-item">
+                            <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+                        </li>
 
-                            <!-- Users -->
-                            <li class="nav-item">
-                                <a class="nav-link active" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="true">Users</a>
-                            </li>
-
-                            <!-- Settings -->
-                            <li class="nav-item">
-                                <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
-                            </li>
-
-                        } else {
-
-                            <!-- Settings -->
-                            <li class="nav-item">
-                                <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
-                            </li>
-
-                        }
+                        <!-- Notes -->
+                        <li class="nav-item">
+                            <a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="false">Notes</a>
+                        </li>
 
                     </ul>
                     <div class="tab-content px-3 px-xl-5" id="myTabContent">
 
-                        @if (User.FindFirst("Role").Value == "Admin") {
-
-                            <!-- Users -->
-                            <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
-                                <partial name="_Users" />
+                        <!-- Profile -->
+                        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="row mt-3">
+                                <div class="col-12 col-lg-7">
+                                    <partial name="_Profile" />
+                                </div>
                             </div>
+                        </div>
 
-                            <!-- Settings -->
-                            <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                                <partial name="_Settings" />
-                            </div>
+                        <!-- Notes -->
+                        <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
 
-                        } else {
-
-                            <!-- Settings -->
-                            <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                                <partial name="_Settings" />
-                            </div>
-
-                        }
+                        </div>
 
                     </div>
                 </div>

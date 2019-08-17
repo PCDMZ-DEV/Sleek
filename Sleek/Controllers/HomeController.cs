@@ -21,14 +21,16 @@ namespace Sleek.Controllers {
 
         private MainContext Context;
         private ILogger<HomeController> Logger;
+        private ISite Site;
 
         #endregion
 
         #region "Class Methods and Events"
 
-        public HomeController(MainContext context, ILogger<HomeController> logger) {
+        public HomeController(MainContext context, ILogger<HomeController> logger, ISite site) {
             Context = context;
             Logger = logger;
+            Site = site;
         }
 
         #endregion

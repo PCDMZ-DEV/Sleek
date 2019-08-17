@@ -23,15 +23,19 @@ namespace Sleek.Controllers {
         // Services
         private readonly MainContext Context;
         private readonly ILogger<OrdersController> Logger;
+        private IActivityLog ActivityLog;
+        private ISite Site;
 
         #endregion
 
         #region "Class Methods and Events"
 
         // Constructor
-        public OrdersController(MainContext context, ILogger<OrdersController> logger) {
+        public OrdersController(MainContext context, ILogger<OrdersController> logger, IActivityLog activitylog, ISite site) {
             Context = context;
             Logger = logger;
+            ActivityLog = activitylog;
+            Site = site;
         }
 
         #endregion
@@ -90,7 +94,7 @@ namespace Sleek.Controllers {
                         Context.Update(order);
                     }
                     await Context.SaveChangesAsync();
-                    Site.Log(Context, order.OrdCusid, order.OrdUsrid, String.Format("{0}: {1}", Activity, order.OrdId), "Warn");
+                    ActivityLog.Warning(String.Format("{0} ({1})", Activity, order.OrdId));
                     return RedirectToAction("Detail", "Projects", new { id = order.OrdProid });
                 }
             } catch (Exception ex) {
@@ -111,6 +115,7 @@ namespace Sleek.Controllers {
                 }
                 Context.Order.Remove(order);
                 await Context.SaveChangesAsync();
+                ActivityLog.Warning(String.Format("Deleted Work Order ({0})", order.OrdId));
             } catch (Exception ex) {
                 Site.Messages.Enqueue(ex.Message);
                 Logger.LogError(ex, ex.Message);

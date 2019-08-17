@@ -15,43 +15,48 @@ using System.Threading.Tasks;
 namespace Sleek.Controllers {
 
     [Authorize]
-    public class UserController : Controller {
+    public class UsersController : Controller {
 
         #region "Variables and Constants"
 
         // Services
         private readonly MainContext Context;
-        private readonly ILogger<UserController> Logger;
+        private readonly ILogger<UsersController> Logger;
         private IActivityLog ActivityLog;
+        private ISite Site;
 
         #endregion
 
         #region "Class Methods and Events"
 
         // Constructor
-        public UserController(MainContext context, ILogger<UserController> logger, IActivityLog activitylog) {
+        public UsersController(MainContext context, ILogger<UsersController> logger, IActivityLog activitylog, ISite site) {
             Context = context;
             Logger = logger;
             ActivityLog = activitylog;
+            Site = site;
         }
 
         #endregion
 
         #region "Controller Actions"
 
-        // Profile (Get)
-        public async Task<IActionResult> Profile(string sortOrder, string currentFilter, string searchString, int? pageNumber) {
+        // Index (Get)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber) {
 
             IQueryable<User> users = Enumerable.Empty<User>().AsQueryable();
             PaginatedList<User> result = null;
 
             try {
 
+                // Clear Calling Action
+                Site.Controller = null;
+                Site.Action = null;
+
                 ViewData["CurrentSort"] = sortOrder;
                 ViewData["ID"] = sortOrder == "ID" ? "ID_D" : "ID";
                 ViewData["First"] = sortOrder == "First" ? "First_D" : "First";
                 ViewData["Last"] = sortOrder == "Last" ? "Last_D" : "Last";
-                ViewData["Email"] = sortOrder == "Email" ? "Email_D" : "Email";
 
                 if (searchString != null) {
                     pageNumber = 1;
@@ -63,7 +68,7 @@ namespace Sleek.Controllers {
 
                 users = from u in Context.User select u;
                 if (!String.IsNullOrEmpty(searchString)) {
-                    users = users.Where(u => u.UsrFirst.Contains(searchString) || u.UsrLast.Contains(searchString));
+                    users = users.Where(a => a.UsrFirst.Contains(searchString) || a.UsrLast.Contains(searchString) || a.UsrEmail.Contains(searchString));
                 }
                 switch (sortOrder) {
                     case "First":
@@ -78,12 +83,6 @@ namespace Sleek.Controllers {
                     case "Last_D":
                         users = users.OrderByDescending(a => a.UsrLast);
                         break;
-                    case "Email":
-                        users = users.OrderBy(a => a.UsrEmail);
-                        break;
-                    case "Email_D":
-                        users = users.OrderByDescending(a => a.UsrEmail);
-                        break;
                     case "ID_D":
                         users = users.OrderByDescending(a => a.UsrId);
                         break;
@@ -92,7 +91,7 @@ namespace Sleek.Controllers {
                         break;
                 }
 
-                int pageSize = 12;
+                int pageSize = 10;
                 result = await PaginatedList<User>.CreateAsync(users.AsNoTracking(), pageNumber ?? 1, pageSize);
 
             } catch (Exception ex) {
@@ -101,6 +100,7 @@ namespace Sleek.Controllers {
             }
 
             return View(result);
+
         }
 
         // New (Get)
@@ -179,12 +179,28 @@ namespace Sleek.Controllers {
                 Site.Messages.Enqueue(ex.Message);
                 ActivityLog.Warning(String.Format("Deleted User ({0})", id));
             }
-            return RedirectToAction("Profile");
+            return RedirectToAction("Index");
+        }
+
+        // Profile (Get)
+        public async Task<IActionResult> Profile() {
+            var result = new User();
+            try {
+                result = await Context.User.FindAsync(Site.User);
+                if (result == null) {
+                    throw new Exception("Record not found. It may have been deleted by another user.");
+                }
+                ViewBag.Status = Context.Status.ToList().OrderBy(u => u.StaDescription);
+            } catch (Exception ex) {
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
+            }
+            return View("Profile", result);
         }
 
         // Close
         public IActionResult Close() {
-            return RedirectToAction("Profile");
+            return RedirectToAction("Index");
         }
 
         #endregion

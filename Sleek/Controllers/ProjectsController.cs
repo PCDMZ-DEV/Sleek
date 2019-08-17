@@ -23,16 +23,18 @@ namespace Sleek.Controllers {
         private readonly MainContext Context;
         private readonly ILogger<ProjectsController> Logger;
         private IActivityLog ActivityLog;
+        private ISite Site;
 
         #endregion
 
         #region "Class Methods and Events"
 
         // Constructor
-        public ProjectsController(MainContext context, ILogger<ProjectsController> logger, IActivityLog activitylog) {
+        public ProjectsController(MainContext context, ILogger<ProjectsController> logger, IActivityLog activitylog, ISite site) {
             Context = context;
             Logger = logger;
             ActivityLog = activitylog;
+            Site = site;
         }
 
         #endregion
@@ -64,7 +66,7 @@ namespace Sleek.Controllers {
 
                 ViewData["CurrentFilter"] = searchString;
 
-                projects = from p in Context.Project select p;
+                projects = from p in Context.Project where p.ProUsrid == Convert.ToInt32(User.FindFirst("Usrid").Value) select p;
                 if (!String.IsNullOrEmpty(searchString)) {
                     projects = projects.Where(a => a.ProDescription.Contains(searchString));
                 }
@@ -142,7 +144,6 @@ namespace Sleek.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(int id, Project project) {
-            Site.Message = "";
             string Activity = "";
             try {
                 if (ModelState.IsValid) {
@@ -161,8 +162,8 @@ namespace Sleek.Controllers {
                     return RedirectToAction("Index");
                 }
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
             return View("Edit", project);
         }
@@ -171,7 +172,6 @@ namespace Sleek.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id) {
-            Site.Message = "";
             try {
                 var project = await Context.Project.FindAsync(id);
                 if (project == null) {
@@ -181,8 +181,8 @@ namespace Sleek.Controllers {
                 await Context.SaveChangesAsync();
                 ActivityLog.Warning(String.Format("Deleted Project ({0})", id));
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
             return RedirectToAction("Index");
         }
@@ -240,8 +240,8 @@ namespace Sleek.Controllers {
 
 
             } catch (Exception ex) {
-                Site.Message = ex.Message;
-                Logger.LogError(ex, Site.Message);
+                Site.Messages.Enqueue(ex.Message);
+                Logger.LogError(ex, ex.Message);
             }
 
             int pageSize = 10;

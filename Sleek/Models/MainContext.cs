@@ -146,8 +146,6 @@ namespace Sleek.Models {
                     .HasColumnName("ord_comments")
                     .IsUnicode(false);
 
-                entity.Property(e => e.OrdCusid).HasColumnName("ord_cusid");
-
                 entity.Property(e => e.OrdDate)
                     .HasColumnName("ord_date")
                     .HasColumnType("datetime");
@@ -165,8 +163,6 @@ namespace Sleek.Models {
                     .HasColumnName("ord_description")
                     .HasMaxLength(300)
                     .IsUnicode(false);
-
-                entity.Property(e => e.OrdUsrid).HasColumnName("ord_usrid");
             });
 
             modelBuilder.Entity<Project>(entity => {

@@ -681,14 +681,20 @@
                                     </li>
 
                                     <li>
-                                        <a href="/User/Profile">
+                                        <a href="/Users/Profile">
                                             <i class="mdi mdi-account"></i> My Profile
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="/Projects"> <i class="mdi mdi-diamond-stone"></i> Projects </a>
+                                        <a href="/Projects"> <i class="mdi mdi-diamond-stone"></i> Project Manager </a>
                                     </li>
+
+                                    @if (User.FindFirst("Role").Value == "Admin") {
+                                        <li>
+                                            <a href="/Users"> <i class="mdi mdi-account-box-multiple"></i> User Manager </a>
+                                        </li>
+                                    }
 
                                     <li class="dropdown-footer">
                                         <a href="/Account/Logout"> <i class="mdi mdi-logout"></i> Log Out </a>
