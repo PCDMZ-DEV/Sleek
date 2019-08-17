@@ -39,7 +39,7 @@ an Administrative user record are established. After that, each Customer is resp
 
 ## Important
 
-This solution is a continuing work in progress and will be getting regular updates for the foreseeble future. Feel free to look it over, but many parts of it are still incomplete.
+This solution is a continuing work in progress and will be getting regular updates for several more weeks. Feel free to look it over, but many parts of it are still incomplete.
 
 ## Known Issues
 
@@ -59,7 +59,6 @@ If you are developing and Enterprise scale application or working with a team of
 * Maintains compatibility with multiple database vendors by avoiding stored procedures and triggers (EF7 / LINQ)
 * Provides functional examples for relational data, one to many forms and implicit transaction processing
 * Supports claims-based authentication without use of of the built-in user tables
-* Demonstrates logging to SQL Server via Serilog and the ILogger Interface
 
 ## Coming Soon
 
@@ -111,6 +110,21 @@ If your problem or idea is not addressed yet, [open a new issue](https://github.
 ## Technical Support or Questions
 
 If you have questions or need help integrating this project please [contact us](mailto:admin@pcdmz.com) instead of opening an issue.
+
+## Developer Notes
+
+* GitHub will provide syntax highlighting for the C-Sharp language if you use cs as the code block identifier
+* You can change the initial value for autoincremented columns by adding the following code to your Migration script
+
+```cs
+migrationBuilder.Sql("DBCC CHECKIDENT ('Activity', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('Customer', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('Order', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('Project', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('Request', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('Status', RESEED, 10000);");
+migrationBuilder.Sql("DBCC CHECKIDENT ('User', RESEED, 10000);");
+```
 
 ## Licensing
 
