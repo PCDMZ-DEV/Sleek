@@ -114,7 +114,7 @@ If you have questions or need help integrating this project please [contact us](
 ## Developer Notes
 
 * GitHub will provide syntax highlighting for the C-Sharp language if you use cs as the code block identifier
-* You can change the initial value for autoincremented columns with the following code block in your Migration script
+* You can change the initial value for autoincremented columns by adding the following code to your Migration script
 
 ```cs
 migrationBuilder.Sql("DBCC CHECKIDENT ('Activity', RESEED, 10000);");
